@@ -1,0 +1,16 @@
+{
+  "name": "Palmus Music",
+  "short_name": "Palmus",
+  "description": "Palmus Music is a music streaming service. Listen to your favorite music, create playlists, and discover new music.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "icons": [
+    {
+      "src": "/logo500dark.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    }
+  ]
+}

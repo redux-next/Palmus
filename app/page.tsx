@@ -1,101 +1,139 @@
-import Image from "next/image";
+"use client"
+
+import { useEffect, useState } from "react"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { usePlayerStore } from '@/lib/playerStore'
+import { Skeleton } from "@/components/ui/skeleton"
+import Link from "next/link"
+
+type Song = {
+  id: number
+  name: string
+  ar: { id: number; name: string }[]
+  al: { picUrl: string; name: string }
+}
+
+type ChartSection = {
+  title: string
+  songs: Song[]
+  loading: boolean
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [charts, setCharts] = useState<ChartSection[]>([
+    { title: "Billboard Top 30", songs: [], loading: true },
+    { title: "UK Top 30", songs: [], loading: true },
+    { title: "Beatport Top 30", songs: [], loading: true },
+  ])
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  const { setCurrentSong } = usePlayerStore()
+  // 移除不需要的 store 方法
+
+  // 新增事件委派處理器
+  const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = (e.target as HTMLElement).closest("[data-song-id]")
+    if (!card) return
+    const songId = Number(card.getAttribute("data-song-id"))
+    const songName = card.getAttribute("data-song-name") || ""
+    const songArtists = card.getAttribute("data-song-artists") || ""
+    const albumName = card.getAttribute("data-album-name") || ""
+    const songCover = card.getAttribute("data-song-cover") || ""
+    
+    setCurrentSong({
+      id: songId,
+      name: songName,
+      artists: songArtists,
+      albumName,
+      cover: songCover
+    })
+  }
+
+  useEffect(() => {
+    const fetchCharts = async () => {
+      try {
+        // 使用新的代理 API 端點
+        const [billboardData, ukData, beatportData] = await Promise.all([
+          fetch('/api/playlist?id=60198&limit=50').then(res => res.json()),
+          fetch('/api/playlist?id=180106&limit=50').then(res => res.json()),
+          fetch('/api/playlist?id=3812895&limit=50').then(res => res.json())
+        ])
+
+        setCharts([
+          { title: "Billboard Top 30", songs: billboardData.songs || [], loading: false },
+          { title: "UK top 30", songs: ukData.songs || [], loading: false },
+          { title: "Beatport Top 30", songs: beatportData.songs || [], loading: false },
+        ])
+      } catch (error) {
+        console.error('Error fetching charts:', error)
+      }
+    }
+
+    fetchCharts()
+  }, [])
+
+  return (
+    <div className="space-y-8">
+      <h1 className="text-2xl font-bold">Discover</h1>
+      
+      {charts.map((chart, index) => (
+        <section key={index} className="space-y-4">
+          <h2 className="text-xl font-semibold">{chart.title}</h2>
+          <ScrollArea>
+            {chart.loading ? (
+              // 載入中的骨架屏
+              <div className="flex gap-4">
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <div key={i} className="shrink-0 w-[200px]">
+                    <Skeleton className="aspect-square rounded-xl" />
+                    <Skeleton className="h-4 w-3/4 mt-2" />
+                    <Skeleton className="h-3 w-1/2 mt-1" />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              // 於容器上使用事件委派
+              <div className="flex gap-4" onClick={handleContainerClick}>
+                {chart.songs.map((song) => (
+                  <div
+                    key={song.id}
+                    className="bg-card text-card-foreground p-4 rounded-2xl shadow border shrink-0 w-[200px] cursor-pointer hover:bg-accent/50 transition-colors"
+                    // 新增 data attributes
+                    data-song-id={song.id}
+                    data-song-name={song.name}
+                    data-song-artists={song.ar.map(artist => artist.name).join('/')}
+                    data-album-name={song.al.name}
+                    data-song-cover={song.al.picUrl}
+                  >
+                    <div className="aspect-square">
+                      <img
+                        src={song.al.picUrl + "?param=200y200"}
+                        alt={song.name}
+                        className="w-full h-full object-cover rounded-lg"
+                        loading="lazy"
+                      />
+                    </div>
+                    <h3 className="font-medium mt-2 truncate">{song.name}</h3>
+                    <p className="text-sm text-muted-foreground truncate">
+                      {song.ar.map((artist, index) => (
+                        <span key={artist.id}>
+                          {index > 0 && " / "}
+                          <Link
+                            href={`/artist/${artist.id}`}
+                            className="hover:underline hover:text-primary"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {artist.name}
+                          </Link>
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </ScrollArea>
+        </section>
+      ))}
     </div>
-  );
+  )
 }
