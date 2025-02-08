@@ -1,7 +1,7 @@
 "use client"
 
 import { Play, Pause, SkipBack, SkipForward, Heart } from 'lucide-react'
-// 移除 Repeat 和 RepeatOne import
+import { motion } from 'framer-motion'
 import { usePlayerStore } from '@/lib/playerStore'
 import { Marquee } from '@/components/ui/marquee'
 import { formatTime } from '@/components/ui/formatTime'
@@ -82,24 +82,26 @@ const MusicPlayer = () => {
           <span>{formatTime(duration)}</span>
         </div>
         <div className="flex justify-center space-x-3 mt-2">
-          <button className="p-2">
+          <motion.button className="p-2" whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.1 }}>
             <Visualizer />
-          </button>
-          <button className="p-2" onClick={playPreviousSong}>
+          </motion.button>
+          <motion.button className="p-2" onClick={playPreviousSong} whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.1 }}>
             <SkipBack />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             className="p-2"
             onClick={handlePlayPause}
+            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.1 }}
           >
             {isPlaying ? <Pause /> : <Play />}
-          </button>
-          <button className="p-2" onClick={playNextSong}>
+          </motion.button>
+          <motion.button className="p-2" onClick={playNextSong} whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.1 }}>
             <SkipForward />
-          </button>
-          <button className={`p-2 ${isLiked ? 'text-primary' : ''}`} onClick={handleLikeToggle}>
+          </motion.button>
+          <motion.button className={`p-2 ${isLiked ? 'text-primary' : ''}`} onClick={handleLikeToggle} whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.1 }}>
             <Heart fill={isLiked ? "currentColor" : "none"} />
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>

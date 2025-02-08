@@ -122,7 +122,9 @@ const FullScreenPlayer = ({ onClose }: { onClose: () => void }) => {
           >
             <div className="flex items-center space-x-6">
 
-              <motion.div className="p-2">
+              <motion.div className="p-2"
+                whileTap={{ scale: 0.8 }}
+              >
                 <Visualizer />
               </motion.div>
 
@@ -132,6 +134,7 @@ const FullScreenPlayer = ({ onClose }: { onClose: () => void }) => {
                 exit={{ scale: 0, opacity: 0 }}
                 className="p-2"
                 onClick={playPreviousSong}
+                whileTap={{ scale: 0.8 }}
               >
                 <SkipBack size={24} />
               </motion.button>
@@ -139,7 +142,8 @@ const FullScreenPlayer = ({ onClose }: { onClose: () => void }) => {
               <motion.button
                 layoutId="play-button"
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="h-14 w-14 rounded-full bg-primary text-background flex items-center justify-center"
+                className="h-14 w-14 rounded-[19px] bg-primary text-background flex items-center justify-center"
+                whileTap={{ scale: 0.8 }}
               >
                 {isPlaying ? <Pause size={24} /> : <Play size={24} />}
               </motion.button>
@@ -150,6 +154,7 @@ const FullScreenPlayer = ({ onClose }: { onClose: () => void }) => {
                 exit={{ scale: 0, opacity: 0 }}
                 className="p-2"
                 onClick={playNextSong}
+                whileTap={{ scale: 0.8 }}
               >
                 <SkipForward size={24} />
               </motion.button>
@@ -160,6 +165,7 @@ const FullScreenPlayer = ({ onClose }: { onClose: () => void }) => {
                 exit={{ scale: 0, opacity: 0 }}
                 className={`p-2 flex items-center justify-center ${isLiked ? 'text-primary' : ''}`}
                 onClick={handleLikeToggle}
+                whileTap={{ scale: 0.8 }}
               >
                 <Heart fill={isLiked ? "currentColor" : "none"} size={24} />
               </motion.button>
@@ -254,16 +260,18 @@ const BottomPlayer = () => {
           </div>
         </div>
         <motion.div layoutId="controls-container" className="flex items-center space-x-2 shrink-0">
-          <button
+          <motion.button
             className={`p-2 flex items-center justify-center ${isLiked ? 'text-primary' : ''}`}
             onClick={handleLikeToggle}
+            whileTap={{ scale: 0.8 }}
           >
             <Heart fill={isLiked ? "currentColor" : "none"} />
-          </button>
+          </motion.button>
           <motion.button
             layoutId="play-button"
             className="p-2 flex items-center justify-center"
             onClick={handlePlayPause}
+            whileTap={{ scale: 0.8 }}
           >
             {isPlaying ? <Pause size={24} /> : <Play size={24} />}
           </motion.button>
