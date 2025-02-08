@@ -112,6 +112,15 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.2);
+    color: hsl(var(--primary));
+  }
+  ::-moz-selection {
+    background-color: hsl(var(--primary) / 0.2);
+    color: hsl(var(--primary));
+  }
 }
 
 .scroll-hide {
