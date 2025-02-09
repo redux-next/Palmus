@@ -1,13 +1,13 @@
 "use client"
 
-import { Play, Pause, Heart, ChevronDown, SkipBack, SkipForward } from 'lucide-react'
+import { Play, Pause, Heart, ChevronDown, SkipBack, SkipForward, Volume2, Volume1, VolumeX } from 'lucide-react'
 import { usePlayerStore } from '@/lib/playerStore'
 import { Marquee } from '@/components/ui/marquee'
 import { formatTime } from '@/components/ui/formatTime'
 import { Progress } from "@/components/ui/Progress"
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
-import { Visualizer } from '@/components/ui/Visualizer'
+import { useState, useCallback } from 'react'
+import { Slider } from "@/components/ui/slider"
 
 interface AudioPlayerInterface {
   seek: (time: number) => void
@@ -26,6 +26,10 @@ const FullScreenPlayer = ({ onClose }: { onClose: () => void }) => {
   const isLiked = usePlayerStore((state) => currentSong ? state.isLikedSong(currentSong.id) : false)
   const addLikedSong = usePlayerStore((state) => state.addLikedSong)
   const removeLikedSong = usePlayerStore((state) => state.removeLikedSong)
+  const volume = usePlayerStore((state) => state.volume)
+  const isMuted = usePlayerStore((state) => state.isMuted)
+  const setVolume = usePlayerStore((state) => state.setVolume)
+  const [showVolumeSlider, setShowVolumeSlider] = useState(false)
 
   const handleLikeToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -48,6 +52,21 @@ const FullScreenPlayer = ({ onClose }: { onClose: () => void }) => {
     if (audioPlayer) {
       audioPlayer.seek(time)
     }
+  }
+
+  const handleVolumeChange = useCallback((value: number[]) => {
+    setVolume(value[0])
+  }, [setVolume])
+
+  const handleVolumeClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+    setShowVolumeSlider(prev => !prev) // 改為切換顯示/隱藏
+  }, [])
+
+  const getVolumeIcon = () => {
+    if (isMuted || volume === 0) return <VolumeX size={24} />
+    if (volume < 0.5) return <Volume1 size={24} />
+    return <Volume2 size={24} />
   }
 
   return (
@@ -121,12 +140,36 @@ const FullScreenPlayer = ({ onClose }: { onClose: () => void }) => {
             className="flex items-center justify-center w-full max-w-md mx-auto px-4" // Centering here
           >
             <div className="flex items-center space-x-6">
-
-              <motion.div className="p-2"
-                whileTap={{ scale: 0.8 }}
-              >
-                <Visualizer />
-              </motion.div>
+              <div className="relative flex items-center">
+                <motion.button
+                  className="p-2"
+                  onClick={handleVolumeClick}  // 移除 hover 事件
+                  whileTap={{ scale: 0.8 }}
+                >
+                  {getVolumeIcon()}
+                </motion.button>
+                <AnimatePresence>
+                  {showVolumeSlider && (
+                    <motion.div
+                      className="absolute bottom-full left-1/2 bg-background border rounded-lg px-4 py-1 w-32 h-8 shadow-lg flex items-center justify-center"
+                      initial={{ opacity: 0, y: 10, x: "-50%", filter: 'blur(5px)' }}
+                      animate={{ opacity: 1, y: 0, x: "-50%", filter: 'blur(0px)' }}
+                      exit={{ opacity: 0, y: 10, x: "-50%", filter: 'blur(5px)' }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Slider
+                        defaultValue={[1]}
+                        max={1}
+                        step={0.01}
+                        value={[isMuted ? 0 : volume]}
+                        onValueChange={handleVolumeChange}
+                        orientation="horizontal"
+                        className="w-full"
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               <motion.button
                 initial={{ scale: 0, opacity: 0 }}

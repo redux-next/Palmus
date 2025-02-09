@@ -65,6 +65,9 @@ const AudioPlayer = () => {
     setLyrics
   } = usePlayerStore()
 
+  const volume = usePlayerStore((state) => state.volume)
+  const isMuted = usePlayerStore((state) => state.isMuted)
+
   // Media Session 初始化
   const initializeMediaSession = useCallback(() => {
     if (!('mediaSession' in navigator) || !currentSong) return
@@ -491,6 +494,12 @@ const AudioPlayer = () => {
       extractColors(currentSong.cover)
     }
   }, [currentSong?.cover])
+
+  // 監聽音量變化
+  useEffect(() => {
+    if (!audioRef.current) return
+    audioRef.current.volume = isMuted ? 0 : volume
+  }, [volume, isMuted])
 
   return (
     <audio

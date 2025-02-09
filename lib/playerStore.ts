@@ -62,6 +62,10 @@ type PlayerStore = {
       cover: string;
     }>;
   } | null;
+  volume: number
+  isMuted: boolean
+  setVolume: (volume: number) => void
+  toggleMute: () => void
   setCurrentSong: (song: CurrentSong) => void
   setMusicUrl: (url: string) => void
   setIsPlaying: (state: boolean) => void
@@ -105,6 +109,10 @@ export const usePlayerStore = create<PlayerStore>()(
       isLoading: false,
       userInteracted: false,  // 新增初始狀態
       currentAlbum: null,
+      volume: 0.5,
+      isMuted: false,
+      setVolume: (volume) => set({ volume }),
+      toggleMute: () => set((state) => ({ isMuted: !state.isMuted })),
       setUserInteracted: (state) => set({ userInteracted: state }),
 
       setCurrentSong: async (song) => {

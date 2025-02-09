@@ -1,33 +1,36 @@
 "use client"
 
-import { Play, Pause, SkipBack, SkipForward, Heart } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { Play, Pause, SkipBack, SkipForward, Heart, Volume2, Volume1, VolumeX } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { usePlayerStore } from '@/lib/playerStore'
 import { Marquee } from '@/components/ui/marquee'
 import { formatTime } from '@/components/ui/formatTime'
 import { Progress } from "@/components/ui/Progress"
 import { LyricDisplay } from '@/components/ui/LyricDisplay'
-import { Visualizer } from './ui/Visualizer'
+import { Slider } from "@/components/ui/slider"
+import { useState, useCallback } from 'react'
+import { TooltipButton } from './ui/TooltipButton'
 
 const MusicPlayer = () => {
   const currentSong = usePlayerStore((state) => state.currentSong)
   const isPlaying = usePlayerStore((state) => state.isPlaying)
-  // 移除 isLooping
   const isLiked = usePlayerStore((state) => currentSong ? state.isLikedSong(currentSong.id) : false)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
-  // 移除 setIsLooping
   const addLikedSong = usePlayerStore((state) => state.addLikedSong)
   const removeLikedSong = usePlayerStore((state) => state.removeLikedSong)
   const currentTime = usePlayerStore((state) => state.currentTime)
   const duration = usePlayerStore((state) => state.duration)
   const playNextSong = usePlayerStore((state) => state.playNextSong)
   const playPreviousSong = usePlayerStore((state) => state.playPreviousSong)
+  const volume = usePlayerStore((state) => state.volume)
+  const isMuted = usePlayerStore((state) => state.isMuted)
+  const setVolume = usePlayerStore((state) => state.setVolume)
+  const toggleMute = usePlayerStore((state) => state.toggleMute)
+  const [showVolumeSlider, setShowVolumeSlider] = useState(false)
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying)
   }
-
-  // 移除 handleLoopToggle
 
   const handleLikeToggle = () => {
     if (!currentSong) return
@@ -48,6 +51,21 @@ const MusicPlayer = () => {
     if ((window as unknown as { audioPlayer?: { seek: (time: number) => void } }).audioPlayer) {
       (window as unknown as { audioPlayer: { seek: (time: number) => void } }).audioPlayer.seek(time)
     }
+  }
+
+  const handleVolumeChange = useCallback((value: number[]) => {
+    setVolume(value[0])
+  }, [setVolume])
+
+  const handleVolumeClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+    toggleMute()
+  }, [toggleMute])
+
+  const getVolumeIcon = () => {
+    if (isMuted || volume === 0) return <VolumeX />
+    if (volume < 0.5) return <Volume1 />
+    return <Volume2 />
   }
 
   if (!currentSong) return null
@@ -82,26 +100,81 @@ const MusicPlayer = () => {
           <span>{formatTime(duration)}</span>
         </div>
         <div className="flex justify-center space-x-3 mt-2">
-          <motion.button className="p-2" whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.1 }}>
-            <Visualizer />
-          </motion.button>
-          <motion.button className="p-2" onClick={playPreviousSong} whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.1 }}>
-            <SkipBack />
-          </motion.button>
-          <motion.button
-            className="p-2"
+          <div className="relative flex items-center">
+            <motion.button
+              className="p-2"
+              onClick={handleVolumeClick}
+              onMouseEnter={() => setShowVolumeSlider(true)}
+              onMouseLeave={() => setShowVolumeSlider(false)}
+              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.1 }}
+            >
+              {getVolumeIcon()}
+            </motion.button>
+            <AnimatePresence>
+              {showVolumeSlider && (
+                <motion.div
+                  className="absolute bottom-full left-1/2 bg-background border rounded-lg py-4 px-1 h-32 w-8 shadow-lg flex items-center justify-center"
+                  initial={{ 
+                    opacity: 0, 
+                    y: 10,
+                    x: "-50%",
+                    filter: 'blur(5px)',
+                   }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0,
+                    x: "-50%",
+                    filter: 'blur(0px)' 
+                  }}
+                  exit={{ 
+                    opacity: 0, 
+                    y: 10,
+                    x: "-50%",
+                    filter: 'blur(5px)'
+                  }}
+                  transition={{ duration: 0.2 }}
+                  onMouseEnter={() => setShowVolumeSlider(true)}
+                  onMouseLeave={() => setShowVolumeSlider(false)}
+                >
+                  <Slider
+                    defaultValue={[1]}
+                    max={1}
+                    step={0.01}
+                    value={[isMuted ? 0 : volume]}
+                    onValueChange={handleVolumeChange}
+                    orientation="vertical"
+                    className="h-full"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          
+          <TooltipButton
+            icon={<SkipBack />}
+            tooltip="Previous"
+            onClick={playPreviousSong}
+          />
+
+          <TooltipButton
+            icon={isPlaying ? <Pause /> : <Play />}
+            tooltip={isPlaying ? "Pause" : "Play"}
             onClick={handlePlayPause}
-            whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.1 }}
-          >
-            {isPlaying ? <Pause /> : <Play />}
-          </motion.button>
-          <motion.button className="p-2" onClick={playNextSong} whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.1 }}>
-            <SkipForward />
-          </motion.button>
-          <motion.button className={`p-2 ${isLiked ? 'text-primary' : ''}`} onClick={handleLikeToggle} whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.1 }}>
-            <Heart fill={isLiked ? "currentColor" : "none"} />
-          </motion.button>
+          />
+
+          <TooltipButton
+            icon={<SkipForward />}
+            tooltip="Next"
+            onClick={playNextSong}
+          />
+
+          <TooltipButton
+            icon={<Heart fill={isLiked ? "currentColor" : "none"} />}
+            tooltip={isLiked ? "Remove from Liked" : "Add to Liked"}
+            onClick={handleLikeToggle}
+            className={isLiked ? 'text-primary' : ''}
+          />
         </div>
       </div>
     </div>
