@@ -37,12 +37,12 @@ interface PaletteType {
   "chart-5": string;
 }
 
+// 在檔案頂端加入快取 (如果尚未定義)
+const paletteCache = new Map<string, { light: PaletteType; dark: PaletteType }>()
+
 const AudioPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null)
-  const audioContextRef = useRef<AudioContext | null>(null)
-  const analyserRef = useRef<AnalyserNode | null>(null)
-  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null)
-  const animationFrameRef = useRef<number | null>(null)
+  const lastUpdateRef = useRef(0)
   
   const { 
     currentSong, 
@@ -57,7 +57,6 @@ const AudioPlayer = () => {
     setCurrentLyricIndex,
     audioQuality,
     setMusicUrl,
-    setAnalyserData,
     playNextSong,
     playPreviousSong,
     likedSongs,
@@ -214,13 +213,14 @@ const AudioPlayer = () => {
     handlePlay()
   }, [isPlaying, isLoading, currentSong?.musicUrl])
 
-  // 時間更新處理
+  // 優化 handleTimeUpdate：使用 lastUpdateRef 限制頻繁更新
   const handleTimeUpdate = useCallback(() => {
     if (!audioRef.current) return
-
-    const currentTime = Number(audioRef.current.currentTime.toFixed(3))
-    setCurrentTime(currentTime)
-
+    const current = Number(audioRef.current.currentTime.toFixed(3))
+    if (Math.abs(current - lastUpdateRef.current) < 0.2) return // 每次間隔小於 200ms 則跳過
+    lastUpdateRef.current = current
+    setCurrentTime(current)
+    
     if (lyrics.length === 0) return
 
     let low = 0
@@ -229,17 +229,16 @@ const AudioPlayer = () => {
 
     while (low <= high) {
       const mid = Math.floor((low + high) / 2)
-      if (lyrics[mid].time <= currentTime) {
+      if (lyrics[mid].time <= current) {
         result = mid
         low = mid + 1
       } else {
         high = mid - 1
       }
     }
-
     if (result !== -1) {
       const nextLyric = lyrics[result + 1]
-      if (!nextLyric || currentTime < nextLyric.time) {
+      if (!nextLyric || current < nextLyric.time) {
         setCurrentLyricIndex(result)
       }
     }
@@ -278,61 +277,6 @@ const AudioPlayer = () => {
     }
   }, [handleSeek])
 
-  // 音頻分析器
-  useEffect(() => {
-    if (!audioRef.current) return
-
-    const audio = audioRef.current;
-
-    const initializeAudioContext = () => {
-      const AudioContextClass = window.AudioContext || 
-        (window as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      
-      if (!AudioContextClass) {
-        throw new Error('AudioContext not supported');
-      }
-      
-      audioContextRef.current = new AudioContextClass();
-      analyserRef.current = audioContextRef.current.createAnalyser()
-      analyserRef.current.fftSize = 512
-      sourceRef.current = audioContextRef.current.createMediaElementSource(audioRef.current!)
-      sourceRef.current.connect(analyserRef.current)
-      analyserRef.current.connect(audioContextRef.current.destination)
-    }
-
-    const updateAnalyser = () => {
-      if (!analyserRef.current) return
-      
-      const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount)
-      
-      const update = () => {
-        analyserRef.current!.getByteFrequencyData(dataArray)
-        setAnalyserData(new Uint8Array(dataArray))
-        animationFrameRef.current = requestAnimationFrame(update)
-      }
-      update()
-    }
-
-    const handlePlay = () => {
-      if (!audioContextRef.current) initializeAudioContext()
-      updateAnalyser()
-    }
-
-    const cleanup = () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      if (audioContextRef.current) {
-        void audioContextRef.current.close();
-      }
-    };
-
-    audio.addEventListener('play', handlePlay)
-    return () => {
-      audio.removeEventListener('play', handlePlay)
-      cleanup();
-    }
-  }, [setAnalyserData])
 
   // 元數據加載
   const handleLoadedMetadata = useCallback(() => {
@@ -375,9 +319,16 @@ const AudioPlayer = () => {
     }
   }, [currentSong, audioQuality, setIsLoading, setMusicUrl, setIsPlaying]);
 
-  // 在 AudioPlayer 組件中加入以下函數
+  // 修改 extractColors，加入快取機制
   const extractColors = async (imageUrl: string) => {
     try {
+      // 檢查快取
+      if (paletteCache.has(imageUrl)) {
+        const { light, dark } = paletteCache.get(imageUrl)!
+        useColorStore.getState().setPalette(light, dark)
+        return
+      }
+  
       const img = new Image()
       img.crossOrigin = 'Anonymous'
       img.src = imageUrl
@@ -390,20 +341,14 @@ const AudioPlayer = () => {
       const colorThief = new ColorThief()
       const palette = colorThief.getPalette(img, 5)
   
-      // 將 RGB 值轉換為 HSL
+      // 將 RGB 轉換為 HSL
       const toHSL = (rgb: number[]) => {
-        const r = rgb[0] / 255
-        const g = rgb[1] / 255
-        const b = rgb[2] / 255
-        const max = Math.max(r, g, b)
-        const min = Math.min(r, g, b)
-        let h = 0
-        let s
+        const r = rgb[0] / 255, g = rgb[1] / 255, b = rgb[2] / 255
+        const max = Math.max(r, g, b), min = Math.min(r, g, b)
+        let h = 0, s
         const l = (max + min) / 2
-  
-        if (max === min) {
-          h = s = 0
-        } else {
+        if (max === min) { h = s = 0 }
+        else {
           const d = max - min
           s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
           switch (max) {
@@ -413,24 +358,22 @@ const AudioPlayer = () => {
           }
           h /= 6
         }
-  
         return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)]
       }
   
       const generatePalettes = (mainColor: number[]) => {
         const hsl = toHSL(mainColor)
         const h = hsl[0]
-        
         const light: PaletteType = {
-          background: `${h} 45% 97%`,          // 增加飽和度到 45%
-          foreground: `${h} 45% 15%`,          // 配合背景增加飽和度
-          card: `${h} 40% 99%`,                // 調整以保持與背景的和諧
+          background: `${h} 45% 97%`,
+          foreground: `${h} 45% 15%`,
+          card: `${h} 40% 99%`,
           "card-foreground": `${h} 45% 15%`,
           popover: `${h} 40% 99%`,
           "popover-foreground": `${h} 45% 15%`,
-          primary: `${h} 70% 45%`,             // 增加主色調的飽和度
+          primary: `${h} 70% 45%`,
           "primary-foreground": `${h} 15% 98%`,
-          secondary: `${h} 45% 94%`,           // 增加次要顏色的飽和度
+          secondary: `${h} 45% 94%`,
           "secondary-foreground": `${h} 45% 15%`,
           muted: `${h} 45% 94%`,
           "muted-foreground": `${h} 45% 40%`,  
@@ -438,7 +381,7 @@ const AudioPlayer = () => {
           "accent-foreground": `${h} 45% 15%`,
           destructive: "0 84% 60%",
           "destructive-foreground": `${h} 15% 98%`,
-          border: `${h} 45% 85%`,              // 增加邊框的飽和度
+          border: `${h} 45% 85%`,
           input: `${h} 45% 85%`,
           ring: `${h} 70% 45%`,
           radius: "0.5rem",
@@ -448,7 +391,6 @@ const AudioPlayer = () => {
           "chart-4": `${(h + 216) % 360} 74% 66%`,
           "chart-5": `${(h + 288) % 360} 87% 67%`,
         }
-      
         const dark: PaletteType = {
           background: `${h} 15% 10%`,
           foreground: `${h} 10% 98%`,
@@ -476,11 +418,12 @@ const AudioPlayer = () => {
           "chart-4": `${(h + 216) % 360} 65% 60%`,
           "chart-5": `${(h + 288) % 360} 75% 55%`,
         }
-      
         return { light, dark }
       }
   
       const { light, dark } = generatePalettes(palette[0])
+      // 儲存到快取
+      paletteCache.set(imageUrl, { light, dark })
       useColorStore.getState().setPalette(light, dark)
     } catch (error) {
       console.error('Error extracting colors:', error)

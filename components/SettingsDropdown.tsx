@@ -1,6 +1,6 @@
 "use client"
 
-import { Settings, Download, Upload, AlertTriangle } from "lucide-react"
+import { Settings, Download, Upload, AlertTriangle, XCircle } from "lucide-react"
 import { useTheme } from "next-themes"
 import { usePlayerStore } from "@/lib/playerStore"
 import { useColorStore } from '@/lib/colorStore'
@@ -18,12 +18,45 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+// 添加錯誤彈窗組件
+const ErrorPopup = ({ message, onClose }: { message: string, onClose: () => void }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-background/80 backdrop-blur-xl z-50 flex items-center justify-center"
+  >
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)', y: 20 }}
+      animate={{ opacity: 1, scale: 1, filter: 'blur(0px)', y: 0 }}
+      exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)', y: 20 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className="bg-card border rounded-2xl p-6 max-w-md w-full mx-4 shadow-lg"
+    >
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
+          <XCircle className="h-6 w-6 text-destructive" />
+        </div>
+        <h2 className="text-lg font-semibold">Invalid File</h2>
+        <p className="text-center text-muted-foreground">{message}</p>
+        <Button
+          variant="outline"
+          onClick={onClose}
+          className="w-24"
+        >
+          Close
+        </Button>
+      </div>
+    </motion.div>
+  </motion.div>
+)
+
 const WarningPopup = ({ onConfirm, onCancel }: { onConfirm: () => void, onCancel: () => void }) => (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center"
+    className="fixed inset-0 bg-background/80 backdrop-blur-xl z-50 flex items-center justify-center"
   >
     <motion.div
       initial={{ 
@@ -52,7 +85,7 @@ const WarningPopup = ({ onConfirm, onCancel }: { onConfirm: () => void, onCancel
       className="bg-card border rounded-2xl p-6 max-w-md w-full mx-4 shadow-lg"
     >
       <div className="flex flex-col items-center gap-4">
-        <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
+        <div className="h-12 w-12 rounded-full bg-destructive/20 flex items-center justify-center">
           <AlertTriangle className="h-6 w-6 text-destructive" />
         </div>
         <h2 className="text-lg font-semibold">Warning</h2>
@@ -90,6 +123,7 @@ export function SettingsDropdown() {
   const likedAlbums = usePlayerStore((state) => state.likedAlbums)
   const [showWarning, setShowWarning] = useState(false)
   const [pendingFile, setPendingFile] = useState<File | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const handleExportSettings = () => {
     const settings = {
@@ -100,11 +134,27 @@ export function SettingsDropdown() {
       likedAlbums
     }
 
+    // 格式化當前日期和時間
+    const now = new Date()
+    const date = now.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).replace(/\//g, '-')
+    
+    const time = now.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }).toLowerCase().replace('_', '-')
+
+    const fileName = `Palmus-Data-Export-${date}-${time}.json`
+
     const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'palmus-settings.json'
+    a.download = fileName
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -121,6 +171,83 @@ export function SettingsDropdown() {
     setDynamicColorEnabled(true)
   }
 
+  interface Song {
+    id: number;
+    name: string;
+    artists: string;
+    cover: string;
+  }
+
+  interface Album {
+    id: number;
+    name: string;
+    artists: string;
+    cover: string;
+    songCount: number;
+  }
+
+  interface Settings {
+    theme?: string;
+    audioQuality?: number;
+    isDynamicColorEnabled?: boolean;
+    likedSongs?: Array<Song>;
+    likedAlbums?: Array<Album>;
+  }
+
+  // 添加設定檔驗證函數
+  const validateSettings = (settings: Settings): boolean => {
+    // 檢查基本屬性存在性和類型
+    if (settings.theme && !['light', 'dark', 'system'].includes(settings.theme)) {
+      setErrorMessage('Invalid theme value')
+      return false
+    }
+
+    if (settings.audioQuality && ![1, 2, 7].includes(settings.audioQuality)) {
+      setErrorMessage('Invalid audio quality value')
+      return false
+    }
+
+    if (settings.isDynamicColorEnabled && typeof settings.isDynamicColorEnabled !== 'boolean') {
+      setErrorMessage('Invalid dynamic color setting')
+      return false
+    }
+
+    // 驗證歌曲列表格式
+    if (settings.likedSongs && Array.isArray(settings.likedSongs)) {
+      const isValidSong = settings.likedSongs.every((song: Song) => 
+        typeof song === 'object' &&
+        typeof song.id === 'number' &&
+        typeof song.name === 'string' &&
+        typeof song.artists === 'string' &&
+        typeof song.cover === 'string'
+      )
+
+      if (!isValidSong) {
+        setErrorMessage('Invalid liked songs format')
+        return false
+      }
+    }
+
+    // 驗證專輯列表格式
+    if (settings.likedAlbums && Array.isArray(settings.likedAlbums)) {
+      const isValidAlbum = settings.likedAlbums.every((album: Album) =>
+        typeof album === 'object' &&
+        typeof album.id === 'number' &&
+        typeof album.name === 'string' &&
+        typeof album.artists === 'string' &&
+        typeof album.cover === 'string' &&
+        typeof album.songCount === 'number'
+      )
+
+      if (!isValidAlbum) {
+        setErrorMessage('Invalid liked albums format')
+        return false
+      }
+    }
+
+    return true
+  }
+
   const handleImportSettings = () => {
     const input = document.createElement('input')
     input.type = 'file'
@@ -128,8 +255,20 @@ export function SettingsDropdown() {
     input.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (file) {
-        setPendingFile(file)
-        setShowWarning(true)
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          try {
+            const settings = JSON.parse(e.target?.result as string)
+            if (validateSettings(settings)) {
+              setPendingFile(file)
+              setShowWarning(true)
+            }
+          } catch (error) {
+            setErrorMessage('Failed to parse settings file')
+            console.error('Failed to parse settings file:', error)
+          }
+        }
+        reader.readAsText(file)
       }
     }
     input.click()
@@ -178,6 +317,12 @@ export function SettingsDropdown() {
           <WarningPopup
             onConfirm={handleConfirmImport}
             onCancel={handleCancelImport}
+          />
+        )}
+        {errorMessage && (
+          <ErrorPopup
+            message={errorMessage}
+            onClose={() => setErrorMessage(null)}
           />
         )}
       </AnimatePresence>
