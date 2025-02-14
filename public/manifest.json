@@ -17,5 +17,8 @@
   "lang": "en",
   "categories": [
     "music"
-  ]
+  ],
+  "scope": "/",
+  "iarc_rating_id": "12+",
+  "prefer_related_applications": true
 }
