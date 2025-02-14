@@ -18,7 +18,7 @@
   "categories": [
     "music"
   ],
-  "scope": "/",
+  "scope": "https://palmus.co.uk/",
   "iarc_rating_id": "12+",
   "prefer_related_applications": true
 }
