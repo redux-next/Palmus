@@ -61,7 +61,7 @@ const BottomPlayer = () => {
       <motion.div
         layoutId="bottom-player"
         onClick={() => setIsExpanded(true)}
-        className="fixed bottom-[50px] left-0 right-0 p-2 m-4 rounded-2xl bg-background/75 backdrop-blur-2xl border flex items-center justify-between cursor-pointer"
+        className="fixed bottom-[50px] left-0 right-0 p-2 m-4 rounded-2xl bg-background/75 backdrop-blur-2xl border flex items-center justify-between cursor-pointer z-30"
       >
         <div className="flex items-center min-w-0 flex-1">
           <motion.img

@@ -19,12 +19,22 @@ type ChartSection = {
   loading: boolean
 }
 
+type Artist = {
+  name: string
+  id: number
+  img1v1Url: string
+  trans?: string
+  albumSize: number
+}
+
 export default function Home() {
   const [charts, setCharts] = useState<ChartSection[]>([
     { title: "Billboard Top 30", songs: [], loading: true },
     { title: "UK Top 30", songs: [], loading: true },
     { title: "Beatport Top 30", songs: [], loading: true },
   ])
+  const [topArtists, setTopArtists] = useState<Artist[]>([])
+  const [artistsLoading, setArtistsLoading] = useState(true)
 
   const { setCurrentSong } = usePlayerStore()
   // 移除不需要的 store 方法
@@ -71,10 +81,29 @@ export default function Home() {
     fetchCharts()
   }, [])
 
+  useEffect(() => {
+    const fetchTopArtists = async () => {
+      try {
+        const response = await fetch('/api/topartists')
+        const data = await response.json()
+        if (data.code === 200 && data.list?.artists) {
+          setTopArtists(data.list.artists)
+        }
+      } catch (error) {
+        console.error('Error fetching top artists:', error)
+      } finally {
+        setArtistsLoading(false)
+      }
+    }
+
+    fetchTopArtists()
+  }, [])
+
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-bold">Discover</h1>
       
+      {/* Charts Sections */}
       {charts.map((chart, index) => (
         <section key={index} className="space-y-4">
           <h2 className="text-xl font-semibold">{chart.title}</h2>
@@ -134,6 +163,44 @@ export default function Home() {
           </ScrollArea>
         </section>
       ))}
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Top Artists</h2>
+        <ScrollArea>
+          {artistsLoading ? (
+            <div className="flex gap-4">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div key={i} className="shrink-0 w-[150px]">
+                  <Skeleton className="w-[150px] h-[150px] rounded-full" />
+                  <Skeleton className="h-4 w-3/4 mt-2 mx-auto" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex gap-4">
+              {topArtists.map((artist) => (
+                <Link
+                  key={artist.id}
+                  href={`/artist/${artist.id}`}
+                  className="shrink-0 w-[150px] text-center"
+                >
+                  <div className="relative aspect-square overflow-hidden rounded-full">
+                    <img
+                      src={artist.img1v1Url + "?param=150y150"}
+                      alt={artist.name}
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                  <h3 className="font-medium mt-2 truncate">
+                    {artist.name}
+                  </h3>
+                </Link>
+              ))}
+            </div>
+          )}
+        </ScrollArea>
+      </section>
     </div>
   )
 }
