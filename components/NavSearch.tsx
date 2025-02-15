@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react"
 import { Input } from "./ui/input"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { usePlayerStore } from "@/lib/playerStore"
 

@@ -16,7 +16,7 @@ const Photon: React.FC<PhotonProps> = ({
   defaultWidth = 400,
   ...props
 }) => {
-  const [imgSrc, setImgSrc] = useState(src);
+  const [imgSrc, setImgSrc] = useState(src); // 修正：正確解構 useState
   const [optimizedSrc, setOptimizedSrc] = useState<string | null>(null);
   const [dimensions, setDimensions] = useState({ width: defaultWidth, height: 0 });
   const imgRef = useRef<HTMLImageElement>(null);
@@ -69,13 +69,13 @@ const Photon: React.FC<PhotonProps> = ({
   }, [src, dimensions.width]);
 
   const handleError = () => {
-    setImgSrc('/placeholder.svg');
+    setImgSrc('/placeholder.svg'); // 現在可以正確使用 setImgSrc
   };
 
   return (
     <img
       ref={imgRef}
-      src={optimizedSrc || `/api/image/photon?url=${encodeURIComponent(src)}&w=${defaultWidth * 2}`}
+      src={optimizedSrc || `/api/image/photon?url=${encodeURIComponent(imgSrc)}&w=${defaultWidth * 2}`}
       alt={alt}
       className={className}
       loading={loading}
