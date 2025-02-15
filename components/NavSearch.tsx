@@ -88,7 +88,6 @@ export function NavSearch() {
       cover: `/api/image?id=${song.id}`,
     })
     setShowSuggestions(false)
-    setKeyword('')
   }
 
   return (
@@ -105,7 +104,7 @@ export function NavSearch() {
       />
       
       {showSuggestions && suggestions && keyword && (
-        <div className="absolute top-full mt-2 w-full bg-popover text-popover-foreground rounded-xl shadow-lg z-50 overflow-hidden border">
+        <div className="absolute top-full mt-2 w-full bg-background/75 backdrop-blur-2xl text-popover-foreground rounded-xl shadow-lg z-50 overflow-hidden border">
           {suggestions.result.songs && suggestions.result.songs.length > 0 && (
             <div className="p-2">
               <div className="text-xs text-muted-foreground mb-2">Songs</div>
@@ -117,7 +116,21 @@ export function NavSearch() {
                 >
                   <div className="font-medium">{song.name}</div>
                   <div className="text-sm text-muted-foreground">
-                    {song.artists.map(a => a.name).join(', ')}
+                    {song.artists.map((artist, index) => (
+                      <span key={artist.id}>
+                        {index > 0 && " / "}
+                        <Link
+                          href={`/artist/${artist.id}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowSuggestions(false);
+                          }}
+                          className="hover:underline"
+                        >
+                          {artist.name}
+                        </Link>
+                      </span>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -133,7 +146,6 @@ export function NavSearch() {
                   href={`/artist/${artist.id}`}
                   onClick={() => {
                     setShowSuggestions(false)
-                    setKeyword('')
                   }}
                   className="block px-2 py-1 hover:bg-accent rounded-lg"
                 >
@@ -152,12 +164,22 @@ export function NavSearch() {
                   href={`/artist/${album.artist.id}/album/${album.id}`}
                   onClick={() => {
                     setShowSuggestions(false)
-                    setKeyword('')
                   }}
                   className="block px-2 py-1 hover:bg-accent rounded-lg"
                 >
                   <div className="font-medium">{album.name}</div>
-                  <div className="text-sm text-muted-foreground">{album.artist.name}</div>
+                  <div className="text-sm text-muted-foreground">
+                    <Link
+                      href={`/artist/${album.artist.id}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowSuggestions(false);
+                      }}
+                      className="hover:underline"
+                    >
+                      {album.artist.name}
+                    </Link>
+                  </div>
                 </Link>
               ))}
             </div>
