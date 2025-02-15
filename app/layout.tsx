@@ -15,9 +15,9 @@ export const metadata: Metadata = {
   description: "Palmus Music is a music streaming service. Listen to your favorite music, create playlists, and discover new music.",
   manifest: "/manifest.json",
   icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
-    apple: '/favicon.png',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
   }
 }
 
