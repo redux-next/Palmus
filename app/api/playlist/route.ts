@@ -18,7 +18,7 @@ export async function GET(request: Request) {
 
     // 如果沒有緩存，則從 API 獲取數據
     const response = await fetch(
-      `https://palmus-api.vercel.app/playlist/track/all?id=${id}&limit=${limit}`
+      `https://api.palmus.co.uk/playlist/track/all?id=${id}&limit=${limit}`
     )
     const data = await response.json()
 

@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
     // 如果沒有緩存，則從 API 獲取數據
     const response = await fetch(
-      `https://palmus-api.vercel.app/cloudsearch?keywords=${keywords}&type=${type}&limit=${limit}&offset=${offset}`
+      `https://api.palmus.co.uk/cloudsearch?keywords=${keywords}&type=${type}&limit=${limit}&offset=${offset}`
     )
     const data = await response.json()
 

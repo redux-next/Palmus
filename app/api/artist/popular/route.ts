@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await fetch(`https://palmus-api.vercel.app/artist/top/song?id=${id}`)
+    const response = await fetch(`https://api.palmus.co.uk/artist/top/song?id=${id}`)
     const data = await response.json()
     
     return NextResponse.json(data)
