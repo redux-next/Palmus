@@ -84,7 +84,7 @@ export default function Home() {
   useEffect(() => {
     const fetchTopArtists = async () => {
       try {
-        const response = await fetch('/api/topartists')
+        const response = await fetch('/api/artist/top')
         const data = await response.json()
         if (data.code === 200 && data.list?.artists) {
           setTopArtists(data.list.artists)
@@ -165,7 +165,7 @@ export default function Home() {
       ))}
 
       <section className="space-y-4">
-        <h2 className="text-xl font-semibold">Top Artists</h2>
+        <h2 className="text-xl font-semibold">Popular Artists</h2>
         <ScrollArea>
           {artistsLoading ? (
             <div className="flex gap-4">
@@ -186,7 +186,7 @@ export default function Home() {
                 >
                   <div className="relative aspect-square overflow-hidden rounded-full">
                     <img
-                      src={artist.img1v1Url + "?param=150y150"}
+                      src={artist.img1v1Url + "?param=300y300"}
                       alt={artist.name}
                       className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                       loading="lazy"

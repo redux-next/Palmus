@@ -20,29 +20,23 @@ export async function GET(request: Request) {
             return new NextResponse(cachedImage.buffer, {
                 headers: {
                     'Content-Type': cachedImage.contentType,
-                    'Cache-Control': 'public, max-age=604800' // 7天的秒數
+                    'Cache-Control': 'public, max-age=604800'
                 }
             })
         }
 
-        const response = await fetch(`https://music.163.com/api/song/detail?ids=["${id}"]`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Cache-Control': 'no-cache',
-                'Host': 'music.163.com',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0'
-            }
+        const response = await fetch(`https://api.palmus.co.uk/song/detail?ids=${id}`, {
+            method: 'GET'
         })
 
         const data = await response.json()
 
-        if (!data.songs?.[0]?.album?.picUrl) {
+        if (!data.songs?.[0]?.al?.picUrl) {
             return NextResponse.json({ error: 'Album image not found' }, { status: 404 })
         }
 
         // 構建圖片 URL
-        let imageUrl = data.songs[0].album.picUrl
+        let imageUrl = data.songs[0].al.picUrl
         if (param) {
             imageUrl += `?param=${param}`
         }
@@ -62,7 +56,7 @@ export async function GET(request: Request) {
         return new NextResponse(imageData, {
             headers: {
                 'Content-Type': contentType,
-                'Cache-Control': 'public, max-age=604800' // 7天的秒數
+                'Cache-Control': 'public, max-age=604800'
             }
         })
 

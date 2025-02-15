@@ -7,6 +7,7 @@ import ThemeProvider from "@/components/ThemeProvider"
 import AudioPlayer from "@/components/AudioPlayer"
 import { SettingsDropdown } from "@/components/SettingsDropdown"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { NavSearch } from "@/components/NavSearch"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -42,7 +43,10 @@ export default function RootLayout({
                   </svg>
                   <h1 className="text-2xl font-bold">Palmus Music</h1>
                 </div>
-                <SettingsDropdown />
+                <div className="flex items-center gap-4">
+                  <NavSearch />
+                  <SettingsDropdown />
+                </div>
               </header>
               <main id="main" className="w-screen md:w-[calc(100vw_-_20rem)] flex-grow overflow-auto p-4 scroll-hide flex flex-col pb-28 md:pb-4">{children}<SpeedInsights /></main>
               <BottomNavigation />

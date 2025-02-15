@@ -40,18 +40,10 @@ type Artist = {
   albumSize: number
 }
 
-type Playlist = {
-  id: number
-  name: string
-  coverImgUrl: string
-  creator: { nickname: string }
-  description: string
-}
-
 export default function Search() {
   const router = useRouter()
   const [keyword, setKeyword] = useState("")
-  const [results, setResults] = useState<Song[] | Album[] | Artist[] | Playlist[]>([])
+  const [results, setResults] = useState<Song[] | Album[] | Artist[]>([])
   const [activeTab, setActiveTab] = useState(1)
   const [loading, setLoading] = useState(false)
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null)
@@ -73,9 +65,6 @@ export default function Search() {
           break
         case 100:
           setResults(data.result.artists || [])
-          break
-        case 1000:
-          setResults(data.result.playlists || [])
           break
         default:
           setResults([])
@@ -149,7 +138,6 @@ export default function Search() {
         <Button className={`rounded-xl ${activeTab === 1 ? 'bg-primary text-secondary' : 'bg-transparent border border text-primary hover:text-secondary'}`} onClick={() => handleTabClick(1)}>Songs</Button>
         <Button className={`rounded-xl ${activeTab === 10 ? 'bg-primary text-secondary' : 'bg-transparent border border text-primary hover:text-secondary'}`} onClick={() => handleTabClick(10)}>Albums</Button>
         <Button className={`rounded-xl ${activeTab === 100 ? 'bg-primary text-secondary' : 'bg-transparent border border text-primary hover:text-secondary'}`} onClick={() => handleTabClick(100)}>Artists</Button>
-        <Button className={`rounded-xl ${activeTab === 1000 ? 'bg-primary text-secondary' : 'bg-transparent border border text-primary hover:text-secondary'}`} onClick={() => handleTabClick(1000)}>Playlists</Button>
       </div>
       {loading ? (
         <div className="flex justify-center items-center h-full">
@@ -247,21 +235,6 @@ export default function Search() {
               <h3 className="font-semibold truncate">{artist.name}</h3>
               <p className="text-sm text-muted-foreground truncate">{artist.albumSize} albums</p>
             </Link>
-          ))}
-
-          {activeTab === 1000 && (results as Playlist[]).map((playlist) => (
-            <div key={playlist.id} className="bg-card text-card-foreground p-4 rounded-2xl shadow border" data-type="playlist">
-              <div className="relative aspect-square mb-2">
-                <img
-                  src={playlist.coverImgUrl + "?param=250x250"}
-                  alt={playlist.name}
-                  className="object-cover rounded-xl"
-                />
-              </div>
-              <h3 className="font-semibold truncate">{playlist.name}</h3>
-              <p className="text-sm text-muted-foreground truncate">by {playlist.creator?.nickname}</p>
-              <p className="text-sm text-muted-foreground truncate">{playlist.description}</p>
-            </div>
           ))}
         </div>
       )}
