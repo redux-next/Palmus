@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Palmus Music",
-  description: "Palmus Music is a music streaming service. Listen to your favorite music, create playlists, and discover new music.",
+  description: "Listen to your favorite music, create playlists, and discover new music all on Palmus Music.",
   manifest: "/manifest.json",
   icons: {
     icon: '/favicon.ico',
