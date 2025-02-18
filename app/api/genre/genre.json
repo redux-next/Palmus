@@ -1,0 +1,3236 @@
+[
+    {
+        "id": 1017,
+        "name": "Hip Hop/Rap",
+        "cover": "http://p1.music.126.net/9_zXRSBgJWdCbb76L9IEEw==/109951169246726618.jpg",
+        "children": [
+            {
+                "id": 1158,
+                "name": "Pop Rap",
+                "cover": "https://p1.music.126.net/5AnpHzYhPgNKarhSNfSdzA==/109951167797048567.jpg"
+            },
+            {
+                "id": 11180,
+                "name": "Fusion Rap",
+                "cover": "https://p1.music.126.net/c0zU2eBiO2a5XyCIyZg4vA==/109951167797036909.jpg",
+                "children": [
+                    {
+                        "id": 1167,
+                        "name": "Jazz Hip Hop",
+                        "cover": "https://p1.music.126.net/2xyXPhZkX1zbno0ZnByxWg==/109951167797051642.jpg"
+                    },
+                    {
+                        "id": 8112,
+                        "name": "ChillHop",
+                        "cover": "https://p1.music.126.net/RRDdk3UbCdryZa4O1whF5w==/109951167797040963.jpg"
+                    },
+                    {
+                        "id": 8114,
+                        "name": "Lofi Hip Hop",
+                        "cover": "https://p1.music.126.net/bM_CwHFyNyUf1iO_C1PgJw==/109951167797041920.jpg"
+                    },
+                    {
+                        "id": 66091,
+                        "name": "Melodic Rap",
+                        "cover": "https://p1.music.126.net/TfGZ-ifc22cYhDy28Sl3Sw==/109951167797037184.jpg"
+                    },
+                    {
+                        "id": 9191,
+                        "name": "Emo Rap",
+                        "cover": "https://p1.music.126.net/T7INXWogG8FQ0FvbwwBhaw==/109951167797042174.jpg"
+                    },
+                    {
+                        "id": 8194,
+                        "name": "Country Rap",
+                        "cover": "https://p1.music.126.net/kI48v_q-JPanjKTyue6mWw==/109951167797039334.jpg"
+                    },
+                    {
+                        "id": 10171,
+                        "name": "Industrial Hip Hop",
+                        "cover": "https://p1.music.126.net/zE9GtlZOVOFTyvbbOYOaEA==/109951167797048021.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 9183,
+                "name": "Regional Hip-Hop/Rap",
+                "cover": "https://p1.music.126.net/qug7ySS3iOLdfZGBKqG4Eg==/109951167797047863.jpg",
+                "children": [
+                    {
+                        "id": 1027,
+                        "name": "East Coast Hip Hop",
+                        "cover": "https://p1.music.126.net/CaTEMBo-iIkvVzsc0hiT_g==/109951167797052500.jpg"
+                    },
+                    {
+                        "id": 1086,
+                        "name": "West Coast Hip Hop",
+                        "cover": "https://p1.music.126.net/4G6lFMIqo2VYzZyw9LmYEQ==/109951167797040471.jpg"
+                    },
+                    {
+                        "id": 1160,
+                        "name": "Southern Hip Hop",
+                        "cover": "https://p1.music.126.net/R4Lg6kpSs8xzoWc9vo5Zjw==/109951167797043738.jpg"
+                    },
+                    {
+                        "id": 72080,
+                        "name": "British Rap",
+                        "cover": "https://p1.music.126.net/ZGyMnmU0MwiOamXtSCfeDA==/109951167797053584.jpg"
+                    },
+                    {
+                        "id": 10177,
+                        "name": "K-Rap",
+                        "cover": "https://p1.music.126.net/P7zAaIXwsyrrM1u4wSF1mg==/109951167797042132.jpg"
+                    },
+                    {
+                        "id": 1328,
+                        "name": "Midwest Hip Hop",
+                        "cover": "https://p1.music.126.net/DMlWgKSt8xacpFlueZoeJQ==/109951167797039496.jpg"
+                    },
+                    {
+                        "id": 11186,
+                        "name": "J-Rap",
+                        "cover": "https://p1.music.126.net/RKCR4dLVuBjsmOdyMUbWvg==/109951167797035912.jpg"
+                    },
+                    {
+                        "id": 10173,
+                        "name": "Atlanta Hip Hop",
+                        "cover": "https://p1.music.126.net/mNCT0TDZebihynRAR_z10g==/109951167797045512.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1330,
+                "name": "Trap Rap",
+                "cover": "https://p1.music.126.net/5DwwZY6_JSgknBQB3dQEMA==/109951167797041394.jpg",
+                "children": [
+                    {
+                        "id": 231120,
+                        "name": "Cloud rap",
+                        "cover": "https://p1.music.126.net/KasBqsPQyPmrFp8jJZDPYg==/109951169878022720.jpg"
+                    },
+                    {
+                        "id": 340120,
+                        "name": "Memphis Rap",
+                        "cover": "https://p1.music.126.net/KasBqsPQyPmrFp8jJZDPYg==/109951169878022720.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1070,
+                "name": "Gangsta Rap",
+                "cover": "https://p1.music.126.net/TIj1pDfheACxZx5QDcuytg==/109951167797043796.jpg",
+                "children": [
+                    {
+                        "id": 9187,
+                        "name": "G-Funk",
+                        "cover": "https://p1.music.126.net/p1vm3ebRx8tMCehSXtVmnw==/109951167797051332.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1013,
+                "name": "Reggaeton",
+                "cover": "https://p1.music.126.net/G90SiO6PGw1mlQ2BeV4amg==/109951167797058183.jpg"
+            },
+            {
+                "id": 1333,
+                "name": "Alternative Hip Hop",
+                "cover": "https://p1.music.126.net/gK20vWSRUHe8HgfnIv08Bw==/109951167797049274.jpg"
+            },
+            {
+                "id": 1091,
+                "name": "Hardcore Hip Hop",
+                "cover": "https://p1.music.126.net/7KVnRt6NSIOeddS3TMz8gw==/109951167797042843.jpg"
+            },
+            {
+                "id": 55082,
+                "name": "Instrumental Hip Hop",
+                "cover": "https://p1.music.126.net/GfysSSgNJysmTt0rBWQEwg==/109951167797033374.jpg"
+            },
+            {
+                "id": 9198,
+                "name": "The Root Of Hip Hop",
+                "cover": "https://p1.music.126.net/qhU98nxetWRYK1uKpMw91A==/109951167797040664.jpg",
+                "children": [
+                    {
+                        "id": 1327,
+                        "name": "Old School Hip Hop",
+                        "cover": "https://p1.music.126.net/8AJbOl2ZrH-GEW3c8TF1fQ==/109951167797050603.jpg"
+                    },
+                    {
+                        "id": 8196,
+                        "name": "New School Hip Hop",
+                        "cover": "https://p1.music.126.net/0cw8bO_-G7l_9XMzL3Ggyw==/109951167797048775.jpg"
+                    },
+                    {
+                        "id": 169121,
+                        "name": "Golden age hip hop",
+                        "cover": "https://p1.music.126.net/V1wls94l66ITVstKzr_wmg==/109951167797055056.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 66092,
+                "name": "Comedy Rap",
+                "cover": "https://p1.music.126.net/tv-urx7GQbz87Cj3Bso7zA==/109951167797037258.jpg"
+            },
+            {
+                "id": 1332,
+                "name": "Chinese Hip Hop",
+                "cover": "https://p1.music.126.net/jIdzHkRQD0wX4ePKDFkzIg==/109951167797054620.jpg"
+            },
+            {
+                "id": 9185,
+                "name": "Jersey Club Rap",
+                "cover": "https://p1.music.126.net/7iSOuYX_g--CWwSIfIHq3w==/109951169897651763.jpg"
+            },
+            {
+                "id": 9186,
+                "name": "Conscious Hip Hop",
+                "cover": "https://p1.music.126.net/6sJ6NVZDowtgUYoQED8dzg==/109951167797042275.jpg"
+            },
+            {
+                "id": 8192,
+                "name": "Crunk",
+                "cover": "https://p1.music.126.net/C1vhDxYcqkSCxxUfEC3m4g==/109951167797039952.jpg"
+            },
+            {
+                "id": 11109,
+                "name": "Grime",
+                "cover": "https://p1.music.126.net/K9tJe9PGdiiIsSgWCyjX7g==/109951167797051141.jpg"
+            },
+            {
+                "id": 1331,
+                "name": "Experimental Hip Hop",
+                "cover": "https://p1.music.126.net/ty48scKJZkFRvXKwZ1lblg==/109951167797052055.jpg"
+            },
+            {
+                "id": 175121,
+                "name": "Chopper",
+                "cover": "https://p1.music.126.net/GStzwXfYfebMGcPW8GWZCw==/109951167797034383.jpg"
+            },
+            {
+                "id": 11179,
+                "name": "Mumble Rap",
+                "cover": "https://p1.music.126.net/zhXQenNk1OEEgufaX6hJHg==/109951167797042216.jpg"
+            },
+            {
+                "id": 64097,
+                "name": "Hip hop beat",
+                "cover": "https://p1.music.126.net/x-x16kmcuUD7PLgkCZ50sA==/109951169892239775.jpg"
+            },
+            {
+                "id": 168122,
+                "name": "Drill",
+                "cover": "https://p1.music.126.net/3WX-LjC3wkf2z_G11Y8Tcg==/109951167797051783.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1015,
+        "name": "Electronic",
+        "cover": "http://p1.music.126.net/YBYR60a0Bvo1PQi4bF5nEA==/109951165924153440.jpg",
+        "children": [
+            {
+                "id": 1047,
+                "name": "House",
+                "cover": "https://p1.music.126.net/t038hOZKeidVxuWsZOmh6g==/109951167794547289.jpg",
+                "children": [
+                    {
+                        "id": 1338,
+                        "name": "Deep House",
+                        "cover": "https://p1.music.126.net/HxOxuiS9RWlryp1g5-s43Q==/109951167794581715.jpg"
+                    },
+                    {
+                        "id": 1339,
+                        "name": "Tech House",
+                        "cover": "https://p1.music.126.net/L5LpP8uW1WXkDHGoGJhr8g==/109951167794580589.jpg"
+                    },
+                    {
+                        "id": 1342,
+                        "name": "Progressive House",
+                        "cover": "https://p1.music.126.net/RdkIjkiafVNOKCzsiIrDQQ==/109951167794579743.jpg"
+                    },
+                    {
+                        "id": 1340,
+                        "name": "Electro House",
+                        "cover": "https://p1.music.126.net/8-qGlFnxFTiBMSU8WD5ISw==/109951167794573823.jpg"
+                    },
+                    {
+                        "id": 1218,
+                        "name": "Bigroom House",
+                        "cover": "https://p1.music.126.net/v8oFyg5pzeGyY1H9yXf4Ww==/109951167794571400.jpg"
+                    },
+                    {
+                        "id": 8093,
+                        "name": "Soulful House",
+                        "cover": "https://p1.music.126.net/aX1fRp2DCquP0upX72IKGA==/109951167794563345.jpg"
+                    },
+                    {
+                        "id": 1344,
+                        "name": "Future House",
+                        "cover": "https://p1.music.126.net/kJo_SYdxGg5r5Pw99xAShw==/109951167794583555.jpg"
+                    },
+                    {
+                        "id": 5100,
+                        "name": "Disco House",
+                        "cover": "https://p1.music.126.net/1lyL-AMXHtbuNqeDKXuo5A==/109951167794569817.jpg"
+                    },
+                    {
+                        "id": 10080,
+                        "name": "Funky House",
+                        "cover": "https://p1.music.126.net/AMdLLiYrhLKH1Lo8cB7-fw==/109951167794568222.jpg"
+                    },
+                    {
+                        "id": 11080,
+                        "name": "Garage House",
+                        "cover": "https://p1.music.126.net/SkYIbkn0hKMyfOIbIvySng==/109951167794570191.jpg"
+                    },
+                    {
+                        "id": 8086,
+                        "name": "Hard House",
+                        "cover": "https://p1.music.126.net/1QiCgvjepvLjtzgzOf7eyw==/109951167794564326.jpg"
+                    },
+                    {
+                        "id": 8094,
+                        "name": "Tribal House",
+                        "cover": "https://p1.music.126.net/-1m2gOWO5Depd3LvjRQiIw==/109951167794562834.jpg"
+                    },
+                    {
+                        "id": 5101,
+                        "name": "Bass House",
+                        "cover": "https://p1.music.126.net/uQbfv_dF_Mp_SAkqjiZftw==/109951167794568304.jpg"
+                    },
+                    {
+                        "id": 8081,
+                        "name": "Detroit House",
+                        "cover": "https://p1.music.126.net/xAoZVaIarkAlcvCye26gIg==/109951167794579087.jpg"
+                    },
+                    {
+                        "id": 9082,
+                        "name": "Latin House",
+                        "cover": "https://p1.music.126.net/g2934nEVBCnUAZDnvMTQzQ==/109951167794557978.jpg"
+                    },
+                    {
+                        "id": 4093,
+                        "name": "Acid House",
+                        "cover": "https://p1.music.126.net/QVZ5Kr21OmsMYwLSr7areg==/109951167794585507.jpg"
+                    },
+                    {
+                        "id": 8084,
+                        "name": "French House",
+                        "cover": "https://p1.music.126.net/9LeajxRlDO2Kbbhim9fGFw==/109951167794576009.jpg"
+                    },
+                    {
+                        "id": 1498,
+                        "name": "Tropical House",
+                        "cover": "https://p1.music.126.net/ObbAegV1ihFq_Sb7jFqEYw==/109951167794573912.jpg"
+                    },
+                    {
+                        "id": 5099,
+                        "name": "Chicago House",
+                        "cover": "https://p1.music.126.net/fCYAEGCrwS3p-X7ddTbrWA==/109951167794574110.jpg"
+                    },
+                    {
+                        "id": 8089,
+                        "name": "Jazz House",
+                        "cover": "https://p1.music.126.net/l_pJFa22eWcxID9vxDUetQ==/109951167794560766.jpg"
+                    },
+                    {
+                        "id": 5103,
+                        "name": "Ghetto House",
+                        "cover": "https://p1.music.126.net/feT6wGuKHhnzbRihlGEmAA==/109951167794578586.jpg"
+                    },
+                    {
+                        "id": 1341,
+                        "name": "Melbourne Bounce",
+                        "cover": "https://p1.music.126.net/AwBLCkS3Y4FXSk0JyM1_xw==/109951167794581577.jpg"
+                    },
+                    {
+                        "id": 5102,
+                        "name": "Chill House",
+                        "cover": "https://p1.music.126.net/6VxvTMgjQ011ZlX-beHgXg==/109951167794571221.jpg"
+                    },
+                    {
+                        "id": 11089,
+                        "name": "Witch House",
+                        "cover": "https://p1.music.126.net/vJ44O48hWfGvAkr0qezaZA==/109951167794561182.jpg"
+                    },
+                    {
+                        "id": 5098,
+                        "name": "Ambient House",
+                        "cover": "https://p1.music.126.net/ccHlHNMYTRZ234KyGtR7YA==/109951167794581205.jpg"
+                    },
+                    {
+                        "id": 8082,
+                        "name": "Complextro",
+                        "cover": "https://p1.music.126.net/BxLNgf1FeFTtd0n39F9H-g==/109951167794572358.jpg"
+                    },
+                    {
+                        "id": 171122,
+                        "name": "Future Bounce",
+                        "cover": "https://p1.music.126.net/qFyUeK-8YgWNbE2x0ULs1g==/109951167794549954.jpg"
+                    },
+                    {
+                        "id": 173121,
+                        "name": "Brazilian Bass",
+                        "cover": "https://p1.music.126.net/M7pXIUFjA6HJ4m972B_MRQ==/109951167794562730.jpg"
+                    },
+                    {
+                        "id": 232120,
+                        "name": "Amapiano",
+                        "cover": ".jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1046,
+                "name": "Techno",
+                "cover": "https://p1.music.126.net/x1hBfCSsVW9m8wm7wPprtA==/109951167794552598.jpg",
+                "children": [
+                    {
+                        "id": 1348,
+                        "name": "Minimal Techno",
+                        "cover": "https://p1.music.126.net/udKoFqNk2Yomf3agdG9XJQ==/109951167794592623.jpg"
+                    },
+                    {
+                        "id": 1347,
+                        "name": "Hard Techno",
+                        "cover": "https://p1.music.126.net/SO1hPQS9LkVDc08cQWKYvg==/109951167794592127.jpg"
+                    },
+                    {
+                        "id": 11213,
+                        "name": "Dub Techno",
+                        "cover": "https://p1.music.126.net/90BTPbXqZWFy8BnInbUC9Q==/109951167794593523.jpg"
+                    },
+                    {
+                        "id": 9093,
+                        "name": "Detroit Techno",
+                        "cover": "https://p1.music.126.net/dRv7GwBvb_68PmrqBCRgEw==/109951167794577985.jpg"
+                    },
+                    {
+                        "id": 4100,
+                        "name": "Ambient techno",
+                        "cover": "https://p1.music.126.net/Xy0Acq9HRrCiMsy7Bs8OFg==/109951169676282832.jpg"
+                    },
+                    {
+                        "id": 231121,
+                        "name": "Melodic Techno",
+                        "cover": "https://p1.music.126.net/dRv7GwBvb_68PmrqBCRgEw==/109951167794577985.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1059,
+                "name": "Trance",
+                "cover": "https://p1.music.126.net/xyPtNat01AyfwllSDHf9FA==/109951167794542287.jpg",
+                "children": [
+                    {
+                        "id": 8103,
+                        "name": "Progressive Trance",
+                        "cover": "https://p1.music.126.net/VC3yel9wmzhr8-m3qbJhYw==/109951167794587770.jpg"
+                    },
+                    {
+                        "id": 1349,
+                        "name": "Psychedelic Trance",
+                        "cover": "https://p1.music.126.net/ELJFcB6LHX2NOKKKgmvfsw==/109951167794593838.jpg"
+                    },
+                    {
+                        "id": 11096,
+                        "name": "Vocal Trance",
+                        "cover": "https://p1.music.126.net/dhSlb6zQvIJCS4gA6yd1Zg==/109951167794598527.jpg"
+                    },
+                    {
+                        "id": 8104,
+                        "name": "Tech Trance",
+                        "cover": "https://p1.music.126.net/nUbt9KHMs59VgEgsVYAYww==/109951167794583465.jpg"
+                    },
+                    {
+                        "id": 9098,
+                        "name": "Hard Trance",
+                        "cover": "https://p1.music.126.net/M9l0Nux5ib87Dw6BnRL92g==/109951167794598182.jpg"
+                    },
+                    {
+                        "id": 10206,
+                        "name": "Progressive Psy trance",
+                        "cover": "https://p1.music.126.net/FZdWVOVYfYXckwXziEGimA==/109951167794595151.jpg"
+                    },
+                    {
+                        "id": 9099,
+                        "name": "Dark Psytrance",
+                        "cover": "https://p1.music.126.net/cZ3xcWBYKXtuMMToL7o-Xw==/109951167794587846.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1108,
+                "name": "Ambient",
+                "cover": "https://p1.music.126.net/pt_iXhb5J2WgkQvilvjJfA==/109951167794543289.jpg",
+                "children": [
+                    {
+                        "id": 9102,
+                        "name": "Dark Ambient",
+                        "cover": "https://p1.music.126.net/tpXaLBi6kRrub6qsqIbwuQ==/109951167794609025.jpg"
+                    },
+                    {
+                        "id": 11105,
+                        "name": "Psybient",
+                        "cover": "https://p1.music.126.net/c_v8Xl18gdqViJTo0Bh5Ig==/109951167794600807.jpg"
+                    },
+                    {
+                        "id": 9101,
+                        "name": "Ambient Dub",
+                        "cover": "https://p1.music.126.net/wLrvvGWqcme8mRAT-Uuirw==/109951167794605078.jpg"
+                    },
+                    {
+                        "id": 8106,
+                        "name": "Space",
+                        "cover": "https://p1.music.126.net/rGxaq_IO3lzLfWjflPL-AQ==/109951167794598761.jpg"
+                    },
+                    {
+                        "id": 8107,
+                        "name": "Illbient",
+                        "cover": "https://p1.music.126.net/Y3Bcq6gaFWDK7prEdqCW9A==/109951167794594927.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1351,
+                "name": "Downtempo",
+                "cover": "https://p1.music.126.net/nqBiGg92VFyyGTgd18rJtQ==/109951167794547328.jpg",
+                "children": [
+                    {
+                        "id": 1352,
+                        "name": "Trip Hop",
+                        "cover": "https://p1.music.126.net/RtT4GqBDqQih-lL97Oy0ZQ==/109951167794618244.jpg"
+                    },
+                    {
+                        "id": 10095,
+                        "name": "Chillout Dreams",
+                        "cover": "https://p1.music.126.net/qjWn2o2IR3u0Hs_63AopaQ==/109951167794623055.jpg"
+                    },
+                    {
+                        "id": 8111,
+                        "name": "Vocal Chillout",
+                        "cover": "https://p1.music.126.net/flWjYQ5IHbgsy1cwa6pi-Q==/109951167794619066.jpg"
+                    },
+                    {
+                        "id": 8113,
+                        "name": "Space Dreams",
+                        "cover": "https://p1.music.126.net/gNOfLojCBkV9rgdIRYlRqg==/109951167794615803.jpg"
+                    },
+                    {
+                        "id": 9109,
+                        "name": "Downtempo Lounge",
+                        "cover": "https://p1.music.126.net/WryHNLYEhZNE0Kacu_xi4w==/109951167794620674.jpg"
+                    },
+                    {
+                        "id": 10094,
+                        "name": "PsyChill",
+                        "cover": "https://p1.music.126.net/1ntb_wTVOaNYHRjkHl17hg==/109951167794610430.jpg"
+                    },
+                    {
+                        "id": 10096,
+                        "name": "Atmospheric Breaks",
+                        "cover": "https://p1.music.126.net/eoc1xkaegZPtv2TJ3WvH_g==/109951167794617219.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 9108,
+                "name": "Electronica",
+                "cover": "https://p1.music.126.net/0sElEwp2ENdar0dSRcdkgg==/109951167794542185.jpg"
+            },
+            {
+                "id": 1072,
+                "name": "Drum & Bass",
+                "cover": "https://p1.music.126.net/YRhs5tLxYtNpEfKZxx5x5w==/109951167794548658.jpg",
+                "children": [
+                    {
+                        "id": 11098,
+                        "name": "Neurofunk",
+                        "cover": "https://p1.music.126.net/0xB5awZT_Cz7u-pJi7GhPA==/109951167794627779.jpg"
+                    },
+                    {
+                        "id": 10093,
+                        "name": "Liquid DnB",
+                        "cover": "https://p1.music.126.net/VVLITQxvd09uutBQ5jzw2w==/109951167794623361.jpg"
+                    },
+                    {
+                        "id": 10089,
+                        "name": "Jump-Up",
+                        "cover": "https://p1.music.126.net/PUffhcYMxSlEJImv4FQXEQ==/109951167794626181.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1060,
+                "name": "Dubstep",
+                "cover": "https://p1.music.126.net/s9G891fMITR78O9WWqwunw==/109951167794548770.jpg",
+                "children": [
+                    {
+                        "id": 11210,
+                        "name": "brostep",
+                        "cover": "https://p1.music.126.net/RKv56P_MPRNNZGcnyxswhA==/109951167794646050.jpg"
+                    },
+                    {
+                        "id": 65101,
+                        "name": "Melodic Dubstep",
+                        "cover": "https://p1.music.126.net/dbiV5zUQNwOtWVMJaehMDw==/109951167794642163.jpg"
+                    },
+                    {
+                        "id": 172120,
+                        "name": "Riddim Dubstep",
+                        "cover": "https://p1.music.126.net/DBIBs4cSX7pPGqpoJiJAwQ==/109951167794651507.jpg"
+                    },
+                    {
+                        "id": 224120,
+                        "name": "Color Bass",
+                        "cover": "https://p1.music.126.net/CIsPQA2rIHtFGh3EmzpkdA==/109951167794644692.jpg"
+                    },
+                    {
+                        "id": 10090,
+                        "name": "Drumstep",
+                        "cover": "https://p1.music.126.net/j4bRxEgp2-_0iPfCfGajjA==/109951167794646660.jpg"
+                    },
+                    {
+                        "id": 64100,
+                        "name": "Metalstep",
+                        "cover": "https://p1.music.126.net/qLAjMu8cMO4pZ6hyqzNxeA==/109951167794644651.jpg"
+                    },
+                    {
+                        "id": 67094,
+                        "name": "Deathstep",
+                        "cover": "https://p1.music.126.net/3HcfudFxBmuh8MmoNBM19w==/109951167794644636.jpg"
+                    },
+                    {
+                        "id": 1499,
+                        "name": "Chillstep",
+                        "cover": "https://p1.music.126.net/2BQqJJ1lvuBmdQBqVJWOLA==/109951167794645687.jpg"
+                    },
+                    {
+                        "id": 62080,
+                        "name": "Deep Dubstep",
+                        "cover": "https://p1.music.126.net/XENNCbZYycgqNBM67JkdwA==/109951167794645602.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1153,
+                "name": "Disco",
+                "cover": "https://p1.music.126.net/LhTuhgWNLimszqQ64M3oIA==/109951167794548648.jpg",
+                "children": [
+                    {
+                        "id": 1337,
+                        "name": "Nu Disco",
+                        "cover": "https://p1.music.126.net/0YPpcaLR2ctKglu6lJzJ0A==/109951167794629954.jpg"
+                    },
+                    {
+                        "id": 9106,
+                        "name": "Italo Disco",
+                        "cover": "https://p1.music.126.net/fVZXjOrx-56IZe7QurDaGg==/109951167794633783.jpg"
+                    },
+                    {
+                        "id": 8109,
+                        "name": "Space Disco",
+                        "cover": "https://p1.music.126.net/qsUkJAX4xE0ESW34LyCPuQ==/109951167794643522.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1233,
+                "name": "Hardcore",
+                "cover": "https://p1.music.126.net/C9vp_t59O_r1EgsfRNOMtA==/109951167794543797.jpg",
+                "children": [
+                    {
+                        "id": 10108,
+                        "name": "UK Hardcore",
+                        "cover": "https://p1.music.126.net/fpwMmR38gCV9rB1L-ilXMw==/109951167794650691.jpg"
+                    },
+                    {
+                        "id": 11114,
+                        "name": "Happy Hardcore",
+                        "cover": "https://p1.music.126.net/BIOKYYY6PsgJ8ec1TV05qw==/109951167794649247.jpg"
+                    },
+                    {
+                        "id": 8128,
+                        "name": "Breakcore",
+                        "cover": "https://p1.music.126.net/m9romLoNymMTBU07EUqjzg==/109951167794658024.jpg"
+                    },
+                    {
+                        "id": 67090,
+                        "name": "Frenchcore",
+                        "cover": "https://p1.music.126.net/U2uBvbUvSGuES11fpibhDg==/109951167794656533.jpg"
+                    },
+                    {
+                        "id": 10107,
+                        "name": "Speedcore",
+                        "cover": "https://p1.music.126.net/R4cItQf6dQUi0XvmuTVV9Q==/109951167794648232.jpg"
+                    },
+                    {
+                        "id": 9119,
+                        "name": "Doomcore",
+                        "cover": "https://p1.music.126.net/2PcDpAopMsVoOUCZwAszLQ==/109951167794650167.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1114,
+                "name": "Breakbeat",
+                "cover": "https://p1.music.126.net/Q5gIAVvEdTIVQgZ-f1AZpA==/109951167794550515.jpg",
+                "children": [
+                    {
+                        "id": 1228,
+                        "name": "Big Beat",
+                        "cover": "https://p1.music.126.net/L2UhxNqMDbm4cUkucYOYCg==/109951167794660761.jpg"
+                    },
+                    {
+                        "id": 9113,
+                        "name": "Baltimore Club",
+                        "cover": "https://p1.music.126.net/WH0cxZIWVdGrSnDTGCxVvQ==/109951167794664216.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 8171,
+                "name": "VGM",
+                "cover": "https://p1.music.126.net/3kn4f9D57n-StzPrCkOJeQ==/109951167794532738.jpg",
+                "children": [
+                    {
+                        "id": 9156,
+                        "name": "Chiptune",
+                        "cover": "https://p1.music.126.net/nDgYtm94_b8rsHCN9DqBtQ==/109951167794700568.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 11118,
+                "name": "Industrial Music",
+                "cover": "https://p1.music.126.net/7zUtMIZ74rvLoXVSkKTN-w==/109951167794528916.jpg",
+                "children": [
+                    {
+                        "id": 8133,
+                        "name": "Electro-Industrial",
+                        "cover": "https://p1.music.126.net/8paI-LrOCWYldA841LJ3bw==/109951167794671323.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1350,
+                "name": "Hardstyle",
+                "cover": "https://p1.music.126.net/DDh3bMpa6JpUEZU8ScOB4A==/109951167794542981.jpg",
+                "children": [
+                    {
+                        "id": 64098,
+                        "name": "Raw Hardstyle",
+                        "cover": "https://p1.music.126.net/5QlszZTPBPgTCYCRFfCfAQ==/109951167794665920.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 9120,
+                "name": "Jungle",
+                "cover": "https://p1.music.126.net/ik81JO4Awt2EcV-3rN68zA==/109951167794531859.jpg"
+            },
+            {
+                "id": 1346,
+                "name": "UK Garage",
+                "cover": "https://p1.music.126.net/Y3wpXJoXDCmeN-x2Z4dYUg==/109951167794556999.jpg",
+                "children": [
+                    {
+                        "id": 9110,
+                        "name": "Future Garage",
+                        "cover": "https://p1.music.126.net/XomF8VaRZz-cDnPfTMPiiw==/109951167794682125.jpg"
+                    },
+                    {
+                        "id": 10100,
+                        "name": "UK Funky",
+                        "cover": "https://p1.music.126.net/LxkHv5zObRjbtup3EhloZA==/109951167794674398.jpg"
+                    },
+                    {
+                        "id": 11097,
+                        "name": "Bassline",
+                        "cover": "https://p1.music.126.net/zcPgZd6aflMOMUqDNJi6jQ==/109951167794686545.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 9154,
+                "name": "Hi-Nrg",
+                "cover": "https://p1.music.126.net/sx-1gSMz_EBqFD5jxoJsvw==/109951167794532754.jpg",
+                "children": [
+                    {
+                        "id": 10143,
+                        "name": "Eurodance",
+                        "cover": "https://p1.music.126.net/VOIwkU0mSfmVA4C6WqZH5w==/109951167794682768.jpg"
+                    },
+                    {
+                        "id": 9088,
+                        "name": "Hands Up",
+                        "cover": "https://p1.music.126.net/JPX3ISgndhqIBC0jNxC75Q==/109951167794680862.jpg"
+                    },
+                    {
+                        "id": 5097,
+                        "name": "Classic EuroDance",
+                        "cover": "https://p1.music.126.net/4aZ18lVfEEWRIw992FTCyA==/109951167794674437.jpg"
+                    },
+                    {
+                        "id": 9155,
+                        "name": "Eurobeat",
+                        "cover": "https://p1.music.126.net/3lXO0KmR69V_WAju71XTxg==/109951167794685616.jpg"
+                    },
+                    {
+                        "id": 8168,
+                        "name": "Italo Dance",
+                        "cover": "https://p1.music.126.net/rCLnY9F6yW-VLmJiy-gRbw==/109951167794684645.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1124,
+                "name": "EDM",
+                "cover": "https://p1.music.126.net/DmB848f5_plZwSyIIvS99A==/109951167794538489.jpg",
+                "children": [
+                    {
+                        "id": 235126,
+                        "name": "EDM Progressive House",
+                        "cover": "https://p1.music.126.net/DnQP1rVxBz2qcOZLOGNfWA==/109951167794613996.jpg"
+                    },
+                    {
+                        "id": 231127,
+                        "name": "EDM Psy Trance",
+                        "cover": "https://p1.music.126.net/DnQP1rVxBz2qcOZLOGNfWA==/109951167794613996.jpg"
+                    },
+                    {
+                        "id": 225120,
+                        "name": "Future Rave",
+                        "cover": "https://p1.music.126.net/DnQP1rVxBz2qcOZLOGNfWA==/109951167794613996.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1244,
+                "name": "Electropop",
+                "cover": "https://p1.music.126.net/XIRbpeJvTS9SEHQQZn7FHA==/109951167794550638.jpg"
+            },
+            {
+                "id": 1189,
+                "name": "Electro Trap",
+                "cover": "https://p1.music.126.net/XIRbpeJvTS9SEHQQZn7FHA==/109951167794550638.jpg"
+            },
+            {
+                "id": 10101,
+                "name": "IDM",
+                "cover": "https://p1.music.126.net/IJsrovqsmN4y7NVkckx1ag==/109951167794542710.jpg"
+            },
+            {
+                "id": 1232,
+                "name": "Future Bass",
+                "cover": "https://p1.music.126.net/v0N1F1LeqMKpu1W38vk7Ig==/109951167794538973.jpg"
+            },
+            {
+                "id": 8100,
+                "name": "Gabber",
+                "cover": "https://p1.music.126.net/CvO1OcbMGLgW6G8jAevT2g==/109951167794593514.jpg"
+            },
+            {
+                "id": 10106,
+                "name": "Hardbass",
+                "cover": "https://p1.music.126.net/gxHDPDJ2jtpGEHvyoqcqGw==/109951167794545142.jpg"
+            },
+            {
+                "id": 227120,
+                "name": "Midtempo",
+                "cover": "https://p1.music.126.net/CV2At_ZdqIS6UiTFLkWggA==/109951167794613861.jpg",
+                "children": [
+                    {
+                        "id": 1502,
+                        "name": "Synth-pop",
+                        "cover": "https://p1.music.126.net/GXjPJ5RDbKYD_RZT10mW5w==/109951167794540305.jpg"
+                    },
+                    {
+                        "id": 10102,
+                        "name": "Glitch Hop",
+                        "cover": "https://p1.music.126.net/egj4yQwqAJPCNt18fUtFwg==/109951167794540731.jpg"
+                    },
+                    {
+                        "id": 11189,
+                        "name": "Synthwave",
+                        "cover": "https://p1.music.126.net/8h4Ye7FgjntipvT4ZtYF7g==/109951167794668212.jpg"
+                    },
+                    {
+                        "id": 1345,
+                        "name": "Vaporwave",
+                        "cover": "https://p1.music.126.net/-_6Xmy8lAsLEw7Hr8tzX7Q==/109951167794666269.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 226120,
+                "name": "Drift Phonk",
+                "cover": "https://p1.music.126.net/JtA7FOnyMTCVBdQUOGbk0w==/109951167794530442.jpg"
+            },
+            {
+                "id": 225121,
+                "name": "Carnival",
+                "cover": "https://p1.music.126.net/gX7GCkdSNjj1aZfZRwdwzQ==/109951167794527983.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1028,
+        "name": "R&B",
+        "cover": "http://p1.music.126.net/siJagiflKlz9hiwxFEibXg==/109951165924173120.jpg",
+        "children": [
+            {
+                "id": 1103,
+                "name": "Soul",
+                "cover": "https://p1.music.126.net/VNjHfFdiJIp1v70M3qeMTw==/109951167806306088.jpg",
+                "children": [
+                    {
+                        "id": 8138,
+                        "name": "Neo Soul",
+                        "cover": "https://p1.music.126.net/4cuAvpYCq-dxXL3O9i3xFg==/109951167806301735.jpg"
+                    },
+                    {
+                        "id": 11133,
+                        "name": "Smooth Soul",
+                        "cover": "https://p1.music.126.net/XW-RcvCNUalm1De_a6Jhuw==/109951167806298747.jpg"
+                    },
+                    {
+                        "id": 8149,
+                        "name": "Hip Hop Soul",
+                        "cover": "https://p1.music.126.net/lQpGbgy6wjxdCOeOipTJuw==/109951167806305540.jpg"
+                    },
+                    {
+                        "id": 9138,
+                        "name": "Pop Soul",
+                        "cover": "https://p1.music.126.net/IxBAo9ixCC8o7bKZZjCu0g==/109951167806306112.jpg"
+                    },
+                    {
+                        "id": 6100,
+                        "name": "Blue-Eyed Soul",
+                        "cover": "https://p1.music.126.net/8ZxRDCcROysOSQaiHSB6_w==/109951167806306102.jpg"
+                    },
+                    {
+                        "id": 9128,
+                        "name": "Southern Soul",
+                        "cover": "https://p1.music.126.net/vhfpkn736pJ5qAqxoOaFlg==/109951167806300829.jpg"
+                    },
+                    {
+                        "id": 10130,
+                        "name": "Psychedelic Soul",
+                        "cover": "https://p1.music.126.net/wQrs2UwkQRYhtRiuWwkQFg==/109951167806305535.jpg"
+                    },
+                    {
+                        "id": 7098,
+                        "name": "Northern Soul",
+                        "cover": "https://p1.music.126.net/vtEphCJ__ibnU9ixa5Gc6w==/109951167806296317.jpg"
+                    },
+                    {
+                        "id": 8148,
+                        "name": "Latin Soul",
+                        "cover": "https://p1.music.126.net/N28JaRbSFgoTdNCKAOE0Gw==/109951167806306042.jpg"
+                    },
+                    {
+                        "id": 8146,
+                        "name": "Chicago Soul",
+                        "cover": "https://p1.music.126.net/R13jzSQtkjXP7d9hLfJTNQ==/109951167806300248.jpg"
+                    },
+                    {
+                        "id": 9139,
+                        "name": "Philadelphia Soul",
+                        "cover": "https://p1.music.126.net/_s8qAWFkloZLLgpjUNC0fQ==/109951167806299189.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1053,
+                "name": "Contemporary R&B",
+                "cover": "https://p1.music.126.net/3d1LPhpbH7xTz1nhM0OK6A==/109951167806294793.jpg",
+                "children": [
+                    {
+                        "id": 1220,
+                        "name": "Urban Pop",
+                        "cover": "https://p1.music.126.net/b1SKrpgvzIjtvqfWdJmDDw==/109951167806308076.jpg"
+                    },
+                    {
+                        "id": 1052,
+                        "name": "Quiet Storm",
+                        "cover": "https://p1.music.126.net/2iUnd5sEWiEh8qf-c3Ny_g==/109951167806302851.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1029,
+                "name": "Funk",
+                "cover": "https://p1.music.126.net/NQSZWv2ZXc4ruSz54DL1_Q==/109951167806307742.jpg",
+                "children": [
+                    {
+                        "id": 7099,
+                        "name": "Deep Funk",
+                        "cover": "https://p1.music.126.net/FKltyiBv5oxtN8ATd4Ynwg==/109951167806310083.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1279,
+                "name": "Classic R&B",
+                "cover": "https://p1.music.126.net/sxccY008XJ2aOa96SeiRkQ==/109951167806295245.jpg",
+                "children": [
+                    {
+                        "id": 1119,
+                        "name": "Doo Wop",
+                        "cover": "https://p1.music.126.net/Al3VS8BByyeZYLLM3ANQRg==/109951167806308734.jpg"
+                    },
+                    {
+                        "id": 1281,
+                        "name": "Motown",
+                        "cover": "https://p1.music.126.net/djMLxMOd3buLrroqEUMM0g==/109951167806303976.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1280,
+                "name": "Alternative R&B",
+                "cover": "https://p1.music.126.net/bCqwzXbe0lV3klpN_zOK4g==/109951167806292874.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1008,
+        "name": "Rock",
+        "cover": "http://p1.music.126.net/fodhDOi6gYV_mTPfS83M_A==/109951169246726732.jpg",
+        "children": [
+            {
+                "id": 1098,
+                "name": "Pop Rock",
+                "cover": "https://p1.music.126.net/AXB_VFrUBGNlUIRFj263eg==/109951167806207865.jpg",
+                "children": [
+                    {
+                        "id": 1075,
+                        "name": "Soft Rock",
+                        "cover": "https://p1.music.126.net/WE1ikXyhdyfo4vB-lqwdiA==/109951167806213274.jpg"
+                    },
+                    {
+                        "id": 9206,
+                        "name": "Power Pop‎",
+                        "cover": "https://p1.music.126.net/xBxXiLODO0DWufTTEo5ZYQ==/109951167806211368.jpg"
+                    },
+                    {
+                        "id": 9207,
+                        "name": "Jangle Pop",
+                        "cover": "https://p1.music.126.net/La3etmhcCS-Wwmg9_f6oMg==/109951167806211918.jpg"
+                    },
+                    {
+                        "id": 11193,
+                        "name": "English Beat Music",
+                        "cover": "https://p1.music.126.net/nm4EE20YdjTl02f_egn1bA==/109951167806219170.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1040,
+                "name": "Alternative Rock",
+                "cover": "https://p1.music.126.net/quCPdYoS94Lit1LvBOiprg==/109951167806214268.jpg",
+                "children": [
+                    {
+                        "id": 1177,
+                        "name": "Grunge",
+                        "cover": "https://p1.music.126.net/X7ihmwP4ObSaWXdALSztTA==/109951167806203437.jpg"
+                    },
+                    {
+                        "id": 1042,
+                        "name": "Dream Pop",
+                        "cover": "https://p1.music.126.net/otTsVFvNA4vdC6zk5P1hUw==/109951167806214433.jpg"
+                    },
+                    {
+                        "id": 11191,
+                        "name": "College Rock",
+                        "cover": "https://p1.music.126.net/nntpVny6dy1tlPh8G6nIdQ==/109951167806213552.jpg"
+                    },
+                    {
+                        "id": 1170,
+                        "name": "Britpop",
+                        "cover": "https://p1.music.126.net/UdZ-DcaM13wRKKGrNIOrvw==/109951167806213572.jpg"
+                    },
+                    {
+                        "id": 9204,
+                        "name": "Noise Rock",
+                        "cover": "https://p1.music.126.net/xPFhXfpGj6Zcwn2WWlXaPA==/109951167806199977.jpg"
+                    },
+                    {
+                        "id": 8220,
+                        "name": "Shoegaze",
+                        "cover": "https://p1.music.126.net/47n3r7ZLFSwjz1byfMtbhw==/109951167806205111.jpg"
+                    },
+                    {
+                        "id": 10182,
+                        "name": "Slowcore",
+                        "cover": "https://p1.music.126.net/vpbXQiuYJbaPz5YWP3nbmg==/109951167806225059.jpg"
+                    },
+                    {
+                        "id": 11190,
+                        "name": "Chamber Pop",
+                        "cover": "https://p1.music.126.net/atVpgZToNaN8nfH9VwPCGQ==/109951167806222682.jpg"
+                    },
+                    {
+                        "id": 10180,
+                        "name": "Post-grunge",
+                        "cover": "https://p1.music.126.net/vaiEv181OPy9sVp4ieG-JQ==/109951167806207687.jpg"
+                    },
+                    {
+                        "id": 10181,
+                        "name": "Sadcore",
+                        "cover": "https://p1.music.126.net/inG7exv66J26kvZxJgx2gg==/109951167806222220.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1171,
+                "name": "Instrumental Rock",
+                "cover": "https://p1.music.126.net/eSx_rDJjB0q1hk05-KY00w==/109951167806205807.jpg",
+                "children": [
+                    {
+                        "id": 1061,
+                        "name": "Post-Rock",
+                        "cover": "https://p1.music.126.net/Z5heFBmIkZOXqI1I3Pc8CA==/109951167806225291.jpg"
+                    },
+                    {
+                        "id": 1063,
+                        "name": "Math Rock",
+                        "cover": "https://p1.music.126.net/f7nGZR6EyFWrcDczwZyE_w==/109951167806214727.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1065,
+                "name": "Progressive Rock",
+                "cover": "https://p1.music.126.net/mIQezv91bQBOXBwzoKirAg==/109951167806232164.jpg",
+                "children": [
+                    {
+                        "id": 10185,
+                        "name": "Krautrock",
+                        "cover": "https://p1.music.126.net/ai_6ESxe4QCakWVXrK7Npw==/109951167806199923.jpg"
+                    },
+                    {
+                        "id": 8203,
+                        "name": "Space Rock",
+                        "cover": "https://p1.music.126.net/O80unwqh4xDoNrLWyXjc5w==/109951167806205628.jpg"
+                    },
+                    {
+                        "id": 8202,
+                        "name": "Canterbury Scene",
+                        "cover": "https://p1.music.126.net/cqq8KVOfGLtljS23IEJHzA==/109951167806221498.jpg"
+                    },
+                    {
+                        "id": 10186,
+                        "name": "Rock In Opposition",
+                        "cover": "https://p1.music.126.net/OvwM-B5Kt-GgN0dqcIDtUQ==/109951167806228343.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1058,
+                "name": "Psychedelic Rock",
+                "cover": "https://p1.music.126.net/exeIOWtiOfnGY2-q-WKqkQ==/109951167806212802.jpg",
+                "children": [
+                    {
+                        "id": 8205,
+                        "name": "Neo-Psychedelia",
+                        "cover": "https://p1.music.126.net/31VONZk7ClqMzYM8t6PBqQ==/109951167806226908.jpg"
+                    },
+                    {
+                        "id": 8204,
+                        "name": "Acid Rock",
+                        "cover": "https://p1.music.126.net/6h9CJXNLu22KIvnO0q9XeQ==/109951167806200360.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1394,
+                "name": "Experimental Rock",
+                "cover": "https://p1.music.126.net/yDAEd_lH-Vc_rH0FFqjjjQ==/109951167806212836.jpg",
+                "children": [
+                    {
+                        "id": 9203,
+                        "name": "Art Rock",
+                        "cover": "https://p1.music.126.net/zTE6d8wQOwR1W-7OQwXiRA==/109951167806213034.jpg"
+                    },
+                    {
+                        "id": 8199,
+                        "name": "Industrial Rock",
+                        "cover": "https://p1.music.126.net/rP-nZvbF-PoNXG6mGRR3Fg==/109951167806206192.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 9199,
+                "name": "Electronic Rock",
+                "cover": "https://p1.music.126.net/hfBKDBywbUcKyESsuVmgUQ==/109951167806204744.jpg",
+                "children": [
+                    {
+                        "id": 1104,
+                        "name": "Synthesizer",
+                        "cover": "https://p1.music.126.net/ceghuBhfsRm_9pVeURtKgA==/109951167806210262.jpg"
+                    },
+                    {
+                        "id": 9201,
+                        "name": "Electroclash",
+                        "cover": "https://p1.music.126.net/2YFAore6noN8R1dw19bE2A==/109951167806231286.jpg"
+                    },
+                    {
+                        "id": 11188,
+                        "name": "New Rave",
+                        "cover": "https://p1.music.126.net/w2wyHWWgvia2CPHp4vXdVA==/109951167806235232.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1090,
+                "name": "Glam Rock",
+                "cover": "https://p1.music.126.net/cGLLyWKxQ0wsnEGPPR2_gA==/109951167806208315.jpg",
+                "children": [
+                    {
+                        "id": 1127,
+                        "name": "Arena Rock",
+                        "cover": "https://p1.music.126.net/jSQC5xqWZIEeILkFK8_1LA==/109951167806207309.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 8209,
+                "name": "Southern Rock",
+                "cover": "https://p1.music.126.net/BS-OCpiypku8UvsIJVJjNA==/109951167806198858.jpg"
+            },
+            {
+                "id": 1057,
+                "name": "Hard Rock",
+                "cover": "https://p1.music.126.net/FnGaLGO4u4OiVKg3Ilxesw==/109951167806229478.jpg"
+            },
+            {
+                "id": 1074,
+                "name": "Folk Rock",
+                "cover": "https://p1.music.126.net/hp0W34goeJ9h4_3_3GgaOQ==/109951167806202986.jpg"
+            },
+            {
+                "id": 1106,
+                "name": "Blues Rock",
+                "cover": "https://p1.music.126.net/U1k06d9wDTlgERy6gV9ZbA==/109951167806209327.jpg"
+            },
+            {
+                "id": 1164,
+                "name": "Garage Rock",
+                "cover": "https://p1.music.126.net/ys1tcGS1VM4H1vaeJNTwog==/109951167806207745.jpg"
+            },
+            {
+                "id": 9227,
+                "name": "Roots Rock",
+                "cover": "https://p1.music.126.net/RNqVWvuAr5U_l0zh0I0a5w==/109951167806197356.jpg"
+            },
+            {
+                "id": 1201,
+                "name": "Classic Rock",
+                "cover": "https://p1.music.126.net/Enxg6aw3fW7cK3o6qWyySQ==/109951167806201990.jpg"
+            },
+            {
+                "id": 1236,
+                "name": "Visual Rock",
+                "cover": "https://p1.music.126.net/u-St8Lwp7wioBXuv0uheDQ==/109951167806206771.jpg"
+            },
+            {
+                "id": 1163,
+                "name": "Surf Rock",
+                "cover": "https://p1.music.126.net/XTP5I1zUq9ktPGxedwsaLQ==/109951167806206406.jpg"
+            },
+            {
+                "id": 11202,
+                "name": "Rap Rock",
+                "cover": "https://p1.music.126.net/6iBJr8qhWlECeUxPI1KoDA==/109951167806210511.jpg"
+            },
+            {
+                "id": 7092,
+                "name": "J-Rock",
+                "cover": "https://p1.music.126.net/km4h7QzKBufIcrRoCcW1Ag==/109951167806212154.jpg"
+            },
+            {
+                "id": 4091,
+                "name": "K-Rock",
+                "cover": "https://p1.music.126.net/NbgE2u_PMKyzVcLinEyPzA==/109951167806206781.jpg"
+            },
+            {
+                "id": 1118,
+                "name": "Indie Rock",
+                "cover": "https://p1.music.126.net/mcT-6h0HtHvHxTz9mtcREQ==/109951167806207883.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1252,
+        "name": "ACG",
+        "cover": "http://p5.music.126.net/2gCjzR1gJwAuJO-18bVqcg==/109951165924158226.jpg",
+        "children": [
+            {
+                "id": 1320,
+                "name": "Doujin",
+                "cover": "https://p1.music.126.net/PCXiiCrG-qdiF_GdNrpivA==/109951167815678770.jpg",
+                "children": [
+                    {
+                        "id": 7089,
+                        "name": "TouHou Project",
+                        "cover": "https://p1.music.126.net/zNrAn9oXRE2DGb7f_Z4_yA==/109951167815683595.jpg"
+                    },
+                    {
+                        "id": 1319,
+                        "name": "Original Works",
+                        "cover": "https://p1.music.126.net/Z9M_KBizjYcRI9JYKX7Fvg==/109951167815677754.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1025,
+                "name": "Game Music",
+                "cover": "https://p1.music.126.net/tuhZ_XP3bcXTGbR9s45Nkw==/109951167815672972.jpg",
+                "children": [
+                    {
+                        "id": 6084,
+                        "name": "Game Soundtrack",
+                        "cover": "https://p1.music.126.net/iHBISzlbZxnXSfyIWq9Kng==/109951167815678394.jpg"
+                    },
+                    {
+                        "id": 7087,
+                        "name": "Game Theme Song",
+                        "cover": "https://p1.music.126.net/ogc5I-eF_VBl5MZNXAHWqQ==/109951167815677848.jpg"
+                    },
+                    {
+                        "id": 7088,
+                        "name": "Game Character Song",
+                        "cover": "https://p1.music.126.net/CJiQ-Q8fmKXPj-uhCIHwcw==/109951167815685087.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1315,
+                "name": "Anisong",
+                "cover": "https://p1.music.126.net/PrzbxCPrN1IbmdPy038ZsQ==/109951167815684641.jpg",
+                "children": [
+                    {
+                        "id": 4085,
+                        "name": "Anime Theme Song",
+                        "cover": "https://p1.music.126.net/KChKjaNmF3Ddpjdr_Bbkbg==/109951167815681802.jpg"
+                    },
+                    {
+                        "id": 5082,
+                        "name": "Anime Soundtrack",
+                        "cover": "https://p1.music.126.net/iRRzwYuxPjnSjm2RtEwEcg==/109951167815681787.jpg"
+                    },
+                    {
+                        "id": 7085,
+                        "name": "Anime Character Song",
+                        "cover": "https://p1.music.126.net/J5yrxrId5kAbbrM49fnNUw==/109951167815686172.jpg"
+                    },
+                    {
+                        "id": 5083,
+                        "name": "Anime Imagie Song",
+                        "cover": "https://p1.music.126.net/XDrTbTaGxoPcgc4indGTtw==/109951167815688575.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 7083,
+                "name": "Tokusatsu",
+                "cover": "https://p1.music.126.net/HFqxhqzWIEieAnUvTmK2Uw==/109951169806381169.jpg"
+            },
+            {
+                "id": 1316,
+                "name": "Voice Synthesizer",
+                "cover": "https://p1.music.126.net/oOPXrOxdnK8C6SQ4RTAv5w==/109951167815677485.jpg",
+                "children": [
+                    {
+                        "id": 6086,
+                        "name": "VOCALOID",
+                        "cover": "https://p1.music.126.net/6hTbvWxGWqjCS2JHc0sjXw==/109951167815693019.jpg"
+                    },
+                    {
+                        "id": 5084,
+                        "name": "UTAU",
+                        "cover": "https://p1.music.126.net/8XRrcfODfHP7Ee3r2e-AQg==/109951167815679971.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1318,
+                "name": "Drama/Voice",
+                "cover": "https://p1.music.126.net/bGcKN2TVC9Go7Tb8oEXnCQ==/109951167815679467.jpg"
+            },
+            {
+                "id": 1317,
+                "name": "Utattemita",
+                "cover": "https://p1.music.126.net/_fJxCmHjH-QIwXidPzIchA==/109951167815691625.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1000,
+        "name": "Pop",
+        "cover": "http://p5.music.126.net/VcsE6_F3cqMm3D9SWyIR5A==/109951165924166690.jpg",
+        "children": [
+            {
+                "id": 1020,
+                "name": "C-Pop",
+                "cover": "https://p1.music.126.net/hCzv6a8YDuqwQK9STIWMDA==/109951167794460635.jpg"
+            },
+            {
+                "id": 1009,
+                "name": "Cantopop",
+                "cover": "https://p1.music.126.net/-meUdqp2oOcp4Tn5dPQDMw==/109951169246716932.jpg"
+            },
+            {
+                "id": 1032,
+                "name": "Western Pop",
+                "cover": "https://p1.music.126.net/J9EoeE9XdNjf5uAJnC14lg==/109951169238187071.jpg"
+            },
+            {
+                "id": 1034,
+                "name": "J-Pop",
+                "cover": "https://p1.music.126.net/zy_oKvicpHLpokOdBrA-yw==/109951169246721855.jpg",
+                "children": [
+                    {
+                        "id": 7093,
+                        "name": "Shibuya-Kei",
+                        "cover": "https://p1.music.126.net/sQn2kMljDpt-Xg_R24UeHQ==/109951167794721172.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1180,
+                "name": "K-Pop",
+                "cover": "https://p1.music.126.net/m65Cu8lSg09yoR4lfd_-TA==/109951169246716998.jpg",
+                "children": [
+                    {
+                        "id": 1181,
+                        "name": "Korean Ballad",
+                        "cover": "https://p1.music.126.net/2vSDIa-QdLqrPQuKbGM-oA==/109951167794726065.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1227,
+                "name": "T-Pop",
+                "cover": "https://p1.music.126.net/CkS2QOHMvNxcTQKXWHoB0g==/109951167794500006.jpg"
+            },
+            {
+                "id": 1023680,
+                "name": "Afrobeats",
+                "cover": "https://p1.music.126.net/YRADXsTQr1-ssYaCcKHfxw==/109951169878634169.jpg"
+            },
+            {
+                "id": 1122,
+                "name": "French Pop",
+                "cover": "https://p1.music.126.net/eta6pD0W2qtASI0Ce-vozg==/109951167794497940.jpg"
+            },
+            {
+                "id": 1324,
+                "name": "Spanish Pop",
+                "cover": "https://p1.music.126.net/dn7xOLyyB0wslrTTcjWCwg==/109951167794511276.jpg"
+            },
+            {
+                "id": 1325,
+                "name": "German Pop",
+                "cover": "https://p1.music.126.net/WnKd88Hym5smY16I49OI7Q==/109951167794516259.jpg"
+            },
+            {
+                "id": 6090,
+                "name": "Russian Pop",
+                "cover": "https://p1.music.126.net/NCfv9HlKl-13vvlrBSdQjg==/109951167794499698.jpg"
+            },
+            {
+                "id": 1084,
+                "name": "Italian Pop",
+                "cover": "https://p1.music.126.net/VqFtFADmUK3K16yq9mZUCg==/109951167794517520.jpg"
+            },
+            {
+                "id": 8173,
+                "name": "Pinoy Pop",
+                "cover": "https://p1.music.126.net/bCK-00FeIJV4-9Ew6H8I2A==/109951167794491109.jpg"
+            },
+            {
+                "id": 169120,
+                "name": "Vietnam pop",
+                "cover": "https://p1.music.126.net/9-Z1g2PD_W5qi7kofSJVmg==/109951167794472951.jpg"
+            },
+            {
+                "id": 7080,
+                "name": "City Pop",
+                "cover": "https://p1.music.126.net/2205M-JDYlBnlQQ_fW5rYw==/109951167794503558.jpg"
+            },
+            {
+                "id": 1033,
+                "name": "Dance-Pop",
+                "cover": "https://p1.music.126.net/3wJNCdkDKZfY1MK4LvTx-A==/109951167794504417.jpg"
+            },
+            {
+                "id": 1166,
+                "name": "Afro-Pop",
+                "cover": "https://p1.music.126.net/IcDKmkpwlTf4teF_rmr1kg==/109951167794510540.jpg"
+            },
+            {
+                "id": 9229,
+                "name": "Europop",
+                "cover": "https://p1.music.126.net/yfq3VkI8dgiWKHQxfE6LSw==/109951167794485004.jpg"
+            },
+            {
+                "id": 1168,
+                "name": "Indian Pop",
+                "cover": "https://p1.music.126.net/cdIewESd7CUVz9FL8Mv2_Q==/109951167794499335.jpg"
+            },
+            {
+                "id": 9159,
+                "name": "Indo Pop",
+                "cover": "https://p1.music.126.net/ZW7iCCe6beyZgvCZKDsE1g==/109951167794492107.jpg"
+            },
+            {
+                "id": 309120,
+                "name": "Birthday Pop",
+                "cover": "https://p1.music.126.net/eGo3In_Fac5BK6AgAzOmtA==/109951169440611897.jpg"
+            },
+            {
+                "id": 1085,
+                "name": "Adult Contemporary",
+                "cover": "https://p1.music.126.net/CrTnmx8J9U-j9l2MUadOAA==/109951167794719194.jpg"
+            },
+            {
+                "id": 55081,
+                "name": "Ambient Pop",
+                "cover": "https://p1.music.126.net/rLaMZF7Lw91sesJmVNEMuw==/109951167794467136.jpg"
+            },
+            {
+                "id": 8176,
+                "name": "Teen Pop",
+                "cover": "https://p1.music.126.net/0Q6fsI2I5JHONfiGj68hPQ==/109951167794484211.jpg"
+            },
+            {
+                "id": 1299,
+                "name": "Instrumental Pop",
+                "cover": "https://p1.music.126.net/SDjaga2_PESBIrv_Z4Sjwg==/109951167794514615.jpg"
+            },
+            {
+                "id": 1321,
+                "name": "Min Nan Pop",
+                "cover": "https://p1.music.126.net/Xiv81dpAW4wZSYFNp4yAYw==/109951167794516688.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1003,
+        "name": "Folk",
+        "cover": "http://p5.music.126.net/cHsQLxn5_EfXBvyrCUYivg==/109951165924166722.jpg",
+        "children": [
+            {
+                "id": 1107,
+                "name": "Folk Pop",
+                "cover": "https://p1.music.126.net/h_j1x6XGgQusPSv5EG8HHA==/109951167797160664.jpg",
+                "children": [
+                    {
+                        "id": 1390,
+                        "name": "Urban Folk",
+                        "cover": "https://p1.music.126.net/PhOZf-gAteuesep-GfYPww==/109951167797161647.jpg"
+                    },
+                    {
+                        "id": 8215,
+                        "name": "Campus Folk",
+                        "cover": "https://p1.music.126.net/OpT1_aEL1BypV7u4QO2qug==/109951167797128978.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1120,
+                "name": "Traditional Folk",
+                "cover": "https://p1.music.126.net/9tchbVY-WMp5itt9ZMdG4A==/109951167797155375.jpg",
+                "children": [
+                    {
+                        "id": 11203,
+                        "name": "Celtic Folk",
+                        "cover": "https://p1.music.126.net/91L0VcVzDD01wURveRfZfw==/109951167797155779.jpg"
+                    },
+                    {
+                        "id": 10205,
+                        "name": "German Folk",
+                        "cover": "https://p1.music.126.net/N73kvOLw3JYUZHUpvKk3Bw==/109951167797140523.jpg"
+                    },
+                    {
+                        "id": 10197,
+                        "name": "Irish Folk",
+                        "cover": "https://p1.music.126.net/-72oryvLMaIKC5eDWD8kQA==/109951167797157742.jpg"
+                    },
+                    {
+                        "id": 10199,
+                        "name": "Swedish Folk",
+                        "cover": "https://p1.music.126.net/HP52ShC1onvZlnvVAmnYiw==/109951167797146000.jpg"
+                    },
+                    {
+                        "id": 10198,
+                        "name": "Scottish Folk",
+                        "cover": "https://p1.music.126.net/DZdfRQAB_xHotQ47IX326w==/109951167797157261.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 11205,
+                "name": "Fusion Folk",
+                "cover": "https://p1.music.126.net/mLYwktV1tx_9ABP9V1p4cw==/109951167797137733.jpg",
+                "children": [
+                    {
+                        "id": 9219,
+                        "name": "Neofolk",
+                        "cover": "https://p1.music.126.net/o8iUElIPi8jS7pZPfUzxFA==/109951167797143072.jpg"
+                    },
+                    {
+                        "id": 8216,
+                        "name": "Psychedelic Folk",
+                        "cover": "https://p1.music.126.net/7emRgIgfMTls3Y5oAGsihw==/109951167797129446.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1021,
+                "name": "Contemporary Folk",
+                "cover": "https://p1.music.126.net/yP4U-9pWHns7t5J6MPMGLA==/109951167797160140.jpg"
+            },
+            {
+                "id": 1147,
+                "name": "Indie Folk",
+                "cover": "https://p1.music.126.net/ywRK4tOx0_dduqmbQiZjBQ==/109951167797131978.jpg"
+            },
+            {
+                "id": 15088,
+                "name": "Chinese Folk",
+                "cover": "https://p1.music.126.net/zTVwE1ZdZ9xXjqOtwGXrOA==/109951167797137660.jpg"
+            },
+            {
+                "id": 1391,
+                "name": "World Folk",
+                "cover": "https://p1.music.126.net/5L1k0UNeXvtNufWo22qFfw==/109951167797162112.jpg"
+            }
+        ]
+    },
+    {
+        "id": 10119,
+        "name": "Chinese Style",
+        "cover": "http://p1.music.126.net/yPUE0D85zvoEX2PEbtXW2Q==/109951169946904528.jpg",
+        "children": [
+            {
+                "id": 1255,
+                "name": "Gufeng",
+                "cover": "https://p1.music.126.net/ovZ039bFjPg8TDMNnJTlvQ==/109951169654932663.jpg"
+            },
+            {
+                "id": 206122,
+                "name": "Chinese Style Pop",
+                "cover": "https://p1.music.126.net/6oq2SC6Ckule4-1ipIYuuA==/109951169654921509.jpg"
+            },
+            {
+                "id": 208120,
+                "name": "Chinese Style Hiphop",
+                "cover": "https://p1.music.126.net/7snKGkHGc5MJWO9qU56p3g==/109951169654925849.jpg"
+            },
+            {
+                "id": 215125,
+                "name": "Chinese Style Electronic",
+                "cover": "https://p1.music.126.net/LHOD5FtuAKlbf5KqGVltig==/109951169851550079.jpg"
+            },
+            {
+                "id": 333124,
+                "name": "Chinese Style Rock",
+                "cover": "https://p1.music.126.net/YLxSiFwphIbJmw5VafWDDQ==/109951169851543730.jpg"
+            },
+            {
+                "id": 1020680,
+                "name": "Chinese Style Opera Tune",
+                "cover": "https://p1.music.126.net/7sD6qd-2NV5hI7EWxvekpw==/109951169855097806.jpg"
+            },
+            {
+                "id": 336128,
+                "name": "Chinese Style Absolute Music",
+                "cover": "https://p1.music.126.net/NxQBI_zDJM-PJgkAcr6kyw==/109951169932730404.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1001,
+        "name": "Chinese",
+        "cover": "http://p1.music.126.net/y9IpRuoIgK9ElVZUPXrvYA==/109951165972470443.jpg",
+        "children": [
+            {
+                "id": 1039,
+                "name": "Chinese Opera",
+                "cover": "https://p1.music.126.net/g78dx0vUWzir8fIO13fq1w==/109951167815704367.jpg",
+                "children": [
+                    {
+                        "id": 1241,
+                        "name": "Peking Opera",
+                        "cover": "https://p1.music.126.net/MaY8SmQFFIAQZ0h_IBaLkQ==/109951167815725231.jpg"
+                    },
+                    {
+                        "id": 1294,
+                        "name": "Kunqu Opera",
+                        "cover": "https://p1.music.126.net/STocb6C7yeZ7BpTQYyoGxw==/109951167815725451.jpg"
+                    },
+                    {
+                        "id": 1295,
+                        "name": "Shaoxing Opera",
+                        "cover": "https://p1.music.126.net/0XE_P5Lhwkc6hTrRz_JXmA==/109951167815722812.jpg"
+                    },
+                    {
+                        "id": 1249,
+                        "name": "Cantonese Opera",
+                        "cover": "https://p1.music.126.net/jcY0HH19wVfLT0WzlgUy9w==/109951167815723896.jpg"
+                    },
+                    {
+                        "id": 1038,
+                        "name": "Huangmei Opera",
+                        "cover": "https://p1.music.126.net/x6hwKF8lVWPMW0q7BJ5iBQ==/109951167815719895.jpg"
+                    },
+                    {
+                        "id": 1297,
+                        "name": "Henan Opera",
+                        "cover": "https://p1.music.126.net/qfN-FU37XzACgI8zrQjCOA==/109951167815721305.jpg"
+                    },
+                    {
+                        "id": 1296,
+                        "name": "Pingju Opera",
+                        "cover": "https://p1.music.126.net/Bv0ilqLRlME_DE7PNc-TzQ==/109951167815717875.jpg"
+                    },
+                    {
+                        "id": 77090,
+                        "name": "Hebei Clapper",
+                        "cover": "https://p1.music.126.net/LwPYpwy2QoZfZGh2yNSzSg==/109951167815726844.jpg"
+                    },
+                    {
+                        "id": 78092,
+                        "name": "Wu opera",
+                        "cover": "https://p1.music.126.net/rYI6W_r_24beFnHGqV4pUQ==/109951167815737126.jpg"
+                    },
+                    {
+                        "id": 78091,
+                        "name": "Shanxi opera",
+                        "cover": "https://p1.music.126.net/R9PYb8rPq3sqawN4j6nc2Q==/109951167815725732.jpg"
+                    },
+                    {
+                        "id": 79094,
+                        "name": "Flower Drum Song",
+                        "cover": "https://p1.music.126.net/bJMqwIyCk-4--qbgT-hq5Q==/109951167815729295.jpg"
+                    },
+                    {
+                        "id": 76094,
+                        "name": "Shanghai opera",
+                        "cover": "https://p1.music.126.net/BbtKZ0XXbfh8crlJCejjog==/109951167815719436.jpg"
+                    },
+                    {
+                        "id": 78093,
+                        "name": "Teochew Opera",
+                        "cover": "https://p1.music.126.net/XnHlJsJJ3-UdLqVLAlR9vQ==/109951167815724492.jpg"
+                    },
+                    {
+                        "id": 79092,
+                        "name": "Sichuan opera",
+                        "cover": "https://p1.music.126.net/hXmZhbeUJxj40Xum62TDNw==/109951167815721986.jpg"
+                    },
+                    {
+                        "id": 79093,
+                        "name": "Jin Opera",
+                        "cover": "https://p1.music.126.net/_UnesFuqqwBWzIkAI1eSww==/109951167815724433.jpg"
+                    },
+                    {
+                        "id": 78095,
+                        "name": "Er-ren-tai opera",
+                        "cover": "https://p1.music.126.net/Ba0AhFkiqcPgm6LnEsM33g==/109951167815740011.jpg"
+                    },
+                    {
+                        "id": 76095,
+                        "name": "Han opera",
+                        "cover": ".jpg"
+                    },
+                    {
+                        "id": 79097,
+                        "name": "Huai opera",
+                        "cover": "https://p1.music.126.net/AhkBHB804EU4Y_TfXRuY_w==/109951167815737524.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1002,
+                "name": "Chinese Orchestra",
+                "cover": "https://p1.music.126.net/JU0xpETAPu55X1v_HyKbXw==/109951167815712800.jpg",
+                "children": [
+                    {
+                        "id": 77097,
+                        "name": "Chinese zither",
+                        "cover": ".jpg"
+                    },
+                    {
+                        "id": 79106,
+                        "name": "Zheng",
+                        "cover": ".jpg"
+                    },
+                    {
+                        "id": 76091,
+                        "name": "ERhu",
+                        "cover": ".jpg"
+                    },
+                    {
+                        "id": 78101,
+                        "name": "pipa",
+                        "cover": ".jpg"
+                    },
+                    {
+                        "id": 76090,
+                        "name": "Bamboo Flute",
+                        "cover": ".jpg"
+                    },
+                    {
+                        "id": 63080,
+                        "name": "Morin khuur",
+                        "cover": ".jpg"
+                    },
+                    {
+                        "id": 79105,
+                        "name": "Guangdong Music",
+                        "cover": "https://p1.music.126.net/5oE-yzJjrrDxhIMntTSY8A==/109951167815719131.jpg"
+                    },
+                    {
+                        "id": 77099,
+                        "name": "Chaozhou Music",
+                        "cover": "https://p1.music.126.net/zw02s1bbScmOuMPMRDyJTw==/109951167815720671.jpg"
+                    },
+                    {
+                        "id": 77098,
+                        "name": "Xi'an Drums Music",
+                        "cover": "https://p1.music.126.net/4k4MRbbqh_VsZ551-qX5Vg==/109951167815720096.jpg"
+                    },
+                    {
+                        "id": 78102,
+                        "name": "Chinese Bamboo Flute",
+                        "cover": ".jpg"
+                    },
+                    {
+                        "id": 79104,
+                        "name": "Suona ",
+                        "cover": ".jpg"
+                    },
+                    {
+                        "id": 78089,
+                        "name": "Cucurbit flute",
+                        "cover": ".jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1023,
+                "name": "Chinese Traditional Folk",
+                "cover": "https://p1.music.126.net/5C-N1lsc_lI11nNcJ25kBw==/109951167815703331.jpg",
+                "children": [
+                    {
+                        "id": 9130,
+                        "name": "Taiwan Aboriginal",
+                        "cover": "https://p1.music.126.net/FCldsae5Yp9J6PKwm-Mb4g==/109951167815740822.jpg"
+                    },
+                    {
+                        "id": 10144,
+                        "name": "Tibetan Music",
+                        "cover": "https://p1.music.126.net/Px8cxVOGzrvTy19DeQ3V6g==/109951167815746130.jpg"
+                    },
+                    {
+                        "id": 57080,
+                        "name": "Mongolian Music",
+                        "cover": "https://p1.music.126.net/GxDJ214zEbUp4G26UHzsXA==/109951167815742319.jpg"
+                    },
+                    {
+                        "id": 55084,
+                        "name": "Xinjiang Music",
+                        "cover": "https://p1.music.126.net/MuDTpBFl2ZzxNgTKURjzjQ==/109951167815751026.jpg"
+                    },
+                    {
+                        "id": 78090,
+                        "name": "Northern Shaanxi folk songs",
+                        "cover": "https://p1.music.126.net/GbDAKuXUoD4FmWvcWo6IOA==/109951167815743353.jpg"
+                    },
+                    {
+                        "id": 76099,
+                        "name": "South Sound",
+                        "cover": "https://p1.music.126.net/_wXhoRzPDbBOz77ik9l4ww==/109951167815745176.jpg"
+                    },
+                    {
+                        "id": 78098,
+                        "name": "Mongolian long-tune",
+                        "cover": "https://p1.music.126.net/TEuplPoYNu87Nso3o1dWnw==/109951167815742372.jpg"
+                    },
+                    {
+                        "id": 79102,
+                        "name": "Flowers",
+                        "cover": "https://p1.music.126.net/WvrIquD24i2xuAEWw5oxhg==/109951167815745232.jpg"
+                    },
+                    {
+                        "id": 77096,
+                        "name": "Miao Folk songs",
+                        "cover": "https://p1.music.126.net/P1NFIsF__5Kx-fJ1tuMq3g==/109951167815743404.jpg"
+                    },
+                    {
+                        "id": 146121,
+                        "name": "Yunnan folk songs",
+                        "cover": "https://p1.music.126.net/UBNcjRSTL5lOy3xQgQQFrw==/109951167815742410.jpg"
+                    },
+                    {
+                        "id": 146122,
+                        "name": "Guizhou folk songs",
+                        "cover": "https://p1.music.126.net/b7Rfx60eSeORePhVT4YLgA==/109951167815748156.jpg"
+                    },
+                    {
+                        "id": 144121,
+                        "name": "Qinghai folk songs",
+                        "cover": "https://p1.music.126.net/lVu79GyFMzdIILecjEABwA==/109951167815740983.jpg"
+                    },
+                    {
+                        "id": 78099,
+                        "name": "Dong Ka Lau",
+                        "cover": "https://p1.music.126.net/b8qTXiv3E5w42kFCdWYE-Q==/109951167815745299.jpg"
+                    },
+                    {
+                        "id": 78103,
+                        "name": "Yi  Folk songs",
+                        "cover": "https://p1.music.126.net/td2tlGKihfNZK7mUKldD5g==/109951167815747772.jpg"
+                    },
+                    {
+                        "id": 145120,
+                        "name": "jiangsu Folk songs",
+                        "cover": "https://p1.music.126.net/wbwv0aahlkYEKZWpym-pFQ==/109951167815741949.jpg"
+                    },
+                    {
+                        "id": 144122,
+                        "name": "Anhui folk songs",
+                        "cover": "https://p1.music.126.net/7sFOTmLW4CGhXS61SKYzEg==/109951167815743961.jpg"
+                    },
+                    {
+                        "id": 76098,
+                        "name": "Mukam",
+                        "cover": "https://p1.music.126.net/Y4F6Gc92-UT3psp1ybvuLg==/109951167815754656.jpg"
+                    },
+                    {
+                        "id": 77095,
+                        "name": "Hoomei",
+                        "cover": "https://p1.music.126.net/95OSMOD_9gXiPw5EyS-mxg==/109951167815757521.jpg"
+                    },
+                    {
+                        "id": 76100,
+                        "name": "Lisu Folk songs",
+                        "cover": "https://p1.music.126.net/XevJTCOrftzRWC56PdluzQ==/109951167815752722.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1245,
+                "name": "Chinese Quyi",
+                "cover": "https://p1.music.126.net/wMtG_wgB4Imr6XNPTyEyiA==/109951167815711112.jpg",
+                "children": [
+                    {
+                        "id": 50080,
+                        "name": "Xiang sheng",
+                        "cover": "https://p1.music.126.net/jTUj4-jSLwtOFdUtI8920w==/109951167815739698.jpg"
+                    },
+                    {
+                        "id": 76096,
+                        "name": "Suzhou Pingtan",
+                        "cover": "https://p1.music.126.net/opQwGd_H5JqChMW_4PD11w==/109951167815742567.jpg"
+                    },
+                    {
+                        "id": 49080,
+                        "name": "Ping shu",
+                        "cover": "https://p1.music.126.net/0c_dLoXQ_oMSSH5ksWMFoA==/109951167815734827.jpg"
+                    },
+                    {
+                        "id": 79099,
+                        "name": "Jingyun Dagu",
+                        "cover": "https://p1.music.126.net/Xd_ryCp1tuBT8T8fwI8z2w==/109951167815734328.jpg"
+                    },
+                    {
+                        "id": 145121,
+                        "name": "Dan xian",
+                        "cover": "https://p1.music.126.net/i_UAFy7dWpcOdkfX88t1nA==/109951167815741619.jpg"
+                    },
+                    {
+                        "id": 144123,
+                        "name": "Jingdong Dagu",
+                        "cover": "https://p1.music.126.net/2W73lFLx79875p8I2POZfw==/109951167815735321.jpg"
+                    },
+                    {
+                        "id": 146123,
+                        "name": "Xihe Dagu",
+                        "cover": "https://p1.music.126.net/qJ2ypcjPLNUi94cAXYj9yg==/109951167815733927.jpg"
+                    },
+                    {
+                        "id": 77091,
+                        "name": "Henan zhuizi",
+                        "cover": "https://p1.music.126.net/-4F5mxIXSWXlAaxAzkD4LQ==/109951167815732443.jpg"
+                    },
+                    {
+                        "id": 79098,
+                        "name": "Shandong Qinshu",
+                        "cover": "https://p1.music.126.net/g4PgCX3EtjccDr4LjmtaHQ==/109951167815738832.jpg"
+                    },
+                    {
+                        "id": 49081,
+                        "name": "Xiao pin",
+                        "cover": "https://p1.music.126.net/JeUWHcT2n-7S-BYTL37WNg==/109951167815731478.jpg"
+                    },
+                    {
+                        "id": 77093,
+                        "name": "Meihua Dagu",
+                        "cover": "https://p1.music.126.net/faBsejwtBaJ9VnBZLrC-1w==/109951167815743190.jpg"
+                    },
+                    {
+                        "id": 77092,
+                        "name": "Er ren zhuan",
+                        "cover": "https://p1.music.126.net/ynJXRabNs6ob8d22qHJybA==/109951167815733450.jpg"
+                    },
+                    {
+                        "id": 144124,
+                        "name": "Beijing xiao qu",
+                        "cover": "https://p1.music.126.net/93rSguQOj6irEQPHFljtRw==/109951167815738895.jpg"
+                    },
+                    {
+                        "id": 77094,
+                        "name": "Shandong quick books",
+                        "cover": "https://p1.music.126.net/gJPJ0bVPhWK2NF8HPTfITQ==/109951167815740290.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1243,
+                "name": "Red Song",
+                "cover": "https://p1.music.126.net/3uB0s3k87VTmxHF3NGEfew==/109951167815704388.jpg"
+            },
+            {
+                "id": 1210,
+                "name": "Song of the times",
+                "cover": "https://p1.music.126.net/UlDDHlq4PoUfQbIbHoJnfA==/109951167815703896.jpg"
+            },
+            {
+                "id": 58090,
+                "name": "Charity Music",
+                "cover": "https://p1.music.126.net/JU-mBC_2ggE9l8sjRPJDWg==/109951167815714142.jpg"
+            },
+            {
+                "id": 1242,
+                "name": "Military Songs",
+                "cover": "https://p1.music.126.net/Kgu3HLsWqG6oxU3B3-IbXA==/109951167815704486.jpg"
+            },
+            {
+                "id": 75081,
+                "name": "Chinese art music",
+                "cover": "https://p1.music.126.net/evErzcZx_rnvRwZilWlxGQ==/109951167815703956.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1022,
+        "name": "Classical",
+        "cover": "http://p1.music.126.net/vHzDj7A5R3HrwKj4XthHyg==/109951165956566404.jpg",
+        "children": [
+            {
+                "id": 1308,
+                "name": "Renaissance",
+                "cover": "https://p1.music.126.net/neHYCeIfEK-qsULVB8ZPGA==/109951167815577637.jpg"
+            },
+            {
+                "id": 1309,
+                "name": "Baroque",
+                "cover": "https://p1.music.126.net/swZu0Nygju-vQyP0JX0wTg==/109951167815572317.jpg"
+            },
+            {
+                "id": 1310,
+                "name": "Classicism",
+                "cover": "https://p1.music.126.net/RMIxKQ5S1hXg6CHec07gQw==/109951167815566821.jpg"
+            },
+            {
+                "id": 1311,
+                "name": "Romantic",
+                "cover": "https://p1.music.126.net/X_DeXo0MyWB43sEmRiXJ3A==/109951167815564951.jpg"
+            },
+            {
+                "id": 1418,
+                "name": "20th Century",
+                "cover": "https://p1.music.126.net/zOSlqYmRavzPaPvIYQLt_g==/109951167815568936.jpg"
+            },
+            {
+                "id": 1312,
+                "name": "Impressionist",
+                "cover": "https://p1.music.126.net/q7qCi_YIjwm5JOUIKnGQww==/109951167815564474.jpg"
+            },
+            {
+                "id": 74088,
+                "name": "neo-classical",
+                "cover": "https://p1.music.126.net/MnTxXnkerOKy2-PcdsCgiA==/109951167815573609.jpg"
+            },
+            {
+                "id": 1128,
+                "name": "contemporary",
+                "cover": "https://p1.music.126.net/BYhC21BZmhgA6pZPMMibBQ==/109951167815568727.jpg"
+            },
+            {
+                "id": 1151,
+                "name": "Classical Crossover",
+                "cover": "https://p1.music.126.net/yDlvdhxrCAMy2E9a0VABTg==/109951167815567254.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1011,
+        "name": "Jazz",
+        "cover": "http://p1.music.126.net/Cjd5NyzCIfgFSsjlG8wFPg==/109951165924165120.jpg",
+        "children": [
+            {
+                "id": 1302,
+                "name": "Early Jazz",
+                "cover": "https://p1.music.126.net/DKrdxdW47jI0EdL19X-xPA==/109951167806254329.jpg",
+                "children": [
+                    {
+                        "id": 1303,
+                        "name": "Ragtime",
+                        "cover": "https://p1.music.126.net/5upyaoCVDy6S5rdQ5Hr2tQ==/109951167806255912.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1089,
+                "name": "Swing",
+                "cover": "https://p1.music.126.net/E22-JNMauaG53fb0iiVqLA==/109951167806257420.jpg"
+            },
+            {
+                "id": 1048,
+                "name": "Bebop",
+                "cover": "https://p1.music.126.net/3ITG2Vaspe3dcSjcjfPtwA==/109951167806269530.jpg"
+            },
+            {
+                "id": 1055,
+                "name": "Cool Jazz",
+                "cover": "https://p1.music.126.net/XCZkC2cBYT81exksyN8IMA==/109951167806271063.jpg"
+            },
+            {
+                "id": 11164,
+                "name": "Hard Bop",
+                "cover": "https://p1.music.126.net/ITMlSa2tgUTXMJcVTmqsHQ==/109951167806272590.jpg"
+            },
+            {
+                "id": 11166,
+                "name": "Post-Bop",
+                "cover": "https://p1.music.126.net/rXmYZCosdKJblDGS_lplkg==/109951167806266694.jpg"
+            },
+            {
+                "id": 1076,
+                "name": "Avant-Garde Jazz",
+                "cover": "https://p1.music.126.net/Ebx3lbE8I4KZqeTcuAOBGQ==/109951167806255765.jpg"
+            },
+            {
+                "id": 1030,
+                "name": "Jazz Fusion",
+                "cover": "https://p1.music.126.net/YwoCHY5yccGTbN82Mg0JAQ==/109951167806253264.jpg",
+                "children": [
+                    {
+                        "id": 11167,
+                        "name": "Soul Jazz",
+                        "cover": "https://p1.music.126.net/QL7BXY0-0kxicSIdoeJEXQ==/109951167806256215.jpg"
+                    },
+                    {
+                        "id": 11169,
+                        "name": "Jazz-Funk",
+                        "cover": "https://p1.music.126.net/tOri4sIPl50pAL5FBNVPFg==/109951167806250225.jpg"
+                    },
+                    {
+                        "id": 1173,
+                        "name": "Acid Jazz",
+                        "cover": "https://p1.music.126.net/cRtHZiWjXgPz_dPzG3Vj4w==/109951167806252803.jpg"
+                    },
+                    {
+                        "id": 8187,
+                        "name": "Nu Jazz",
+                        "cover": "https://p1.music.126.net/CsCRJ1LIeejV4gd8chzgOw==/109951167806252502.jpg"
+                    },
+                    {
+                        "id": 1083,
+                        "name": "Smooth Jazz",
+                        "cover": "https://p1.music.126.net/qGt31EFEi2HbnJpPSi6wgg==/109951167806258644.jpg"
+                    },
+                    {
+                        "id": 1301,
+                        "name": "Pop Jazz",
+                        "cover": "https://p1.music.126.net/G-jOUJnsuq8tk2L3h-ImZg==/109951167806259705.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1082,
+                "name": "Contemporary Jazz",
+                "cover": "https://p1.music.126.net/-9FIA8k9znCWmnsdWyuVUQ==/109951167806260577.jpg"
+            },
+            {
+                "id": 1109,
+                "name": "Vocal Jazz",
+                "cover": "https://p1.music.126.net/Q9_ak0VsQZ8vG5K0nXs1Vg==/109951167806253765.jpg"
+            },
+            {
+                "id": 1291,
+                "name": "Latin Jazz",
+                "cover": "https://p1.music.126.net/BcMM8qeT-HW3hWAVG1iH1w==/109951167806257800.jpg",
+                "children": [
+                    {
+                        "id": 10161,
+                        "name": "Afro-Cuban Jazz",
+                        "cover": "https://p1.music.126.net/CoMex9zyjXrkVxV7WdBDmw==/109951167806256187.jpg"
+                    },
+                    {
+                        "id": 1113,
+                        "name": "Bossa Nova",
+                        "cover": "https://p1.music.126.net/xVlILd_jTxuptz9W8MCNHg==/109951167806268717.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 11171,
+                "name": "Jazz Blues",
+                "cover": "https://p1.music.126.net/aw-DISPofjvgG9PVlpGrhA==/109951167806251178.jpg"
+            },
+            {
+                "id": 9173,
+                "name": "Modal Jazz",
+                "cover": "https://p1.music.126.net/8qHQZx_HGlMgHdQCDoskUA==/109951167806259095.jpg"
+            },
+            {
+                "id": 8185,
+                "name": "Chamber Jazz",
+                "cover": "https://p1.music.126.net/Z7WgdQQNElEG9-lSKFVkfg==/109951167806255295.jpg"
+            },
+            {
+                "id": 1111,
+                "name": "Big Band",
+                "cover": "https://p1.music.126.net/nuykXWy31BrorLfYnsEAlQ==/109951167806271700.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1010,
+        "name": "OST",
+        "cover": "http://p1.music.126.net/h2zwaZZVGEKNKl9FHaQ59A==/109951165972475247.jpg",
+        "children": [
+            {
+                "id": 6097,
+                "name": "Variety Shows",
+                "cover": "https://p1.music.126.net/tzibSdxhMhHSV6AcAbnHPQ==/109951167815690325.jpg"
+            },
+            {
+                "id": 1031,
+                "name": "Film OST",
+                "cover": "https://p1.music.126.net/iWp1Zy87vRUUX0JT35jpug==/109951167812580074.jpg",
+                "children": [
+                    {
+                        "id": 6096,
+                        "name": "Original Score",
+                        "cover": "https://p1.music.126.net/f0HPxwrfcGbmKgujkwl5Yg==/109951167815696407.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1126,
+                "name": "Television Music",
+                "cover": "https://p1.music.126.net/xume4o6ZyX_D2pyNZuyvAg==/109951167815688940.jpg"
+            },
+            {
+                "id": 1378,
+                "name": "Games soundtrack",
+                "cover": "https://p1.music.126.net/3Fm9fmPUj4eC0Cu6oTHPgA==/109951167815696358.jpg",
+                "children": [
+                    {
+                        "id": 65097,
+                        "name": "Mobile Game OST",
+                        "cover": "https://p1.music.126.net/dfEg_Gm23ncz3mFO9B29NA==/109951167815694781.jpg"
+                    },
+                    {
+                        "id": 142124,
+                        "name": "Video game soundtracks",
+                        "cover": "https://p1.music.126.net/vXPCzQaNkYMOaWiheHXjrg==/109951167815703612.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1376,
+                "name": "Cartoon OST",
+                "cover": "https://p1.music.126.net/QStEES_gJwJUv4dJd37xBg==/109951167815691808.jpg"
+            },
+            {
+                "id": 337129,
+                "name": "Disney ",
+                "cover": "https://p1.music.126.net/y568C1gRzN61bPoSQ-RYkg==/109951169618076471.jpg"
+            },
+            {
+                "id": 52080,
+                "name": "underscore",
+                "cover": "https://p1.music.126.net/4JkQ3YXr9apiOzVcGGDh6Q==/109951167815703694.jpg"
+            },
+            {
+                "id": 78088,
+                "name": "Glove puppetry",
+                "cover": "https://p1.music.126.net/dXf2CGmvKxBFA6Hn01Q_pg==/109951167815692926.jpg"
+            },
+            {
+                "id": 1504,
+                "name": "Epic Music",
+                "cover": "https://p1.music.126.net/4R7TXyMpvjUxkOdTbFUUgg==/109951167815704524.jpg"
+            },
+            {
+                "id": 1377,
+                "name": "Musical OST",
+                "cover": "https://p1.music.126.net/3n9PI5pVNkPGrarwn9VpcA==/109951167815688346.jpg"
+            },
+            {
+                "id": 76088,
+                "name": "Documentary  OST",
+                "cover": ".jpg"
+            },
+            {
+                "id": 139120,
+                "name": "Radio Drama OST",
+                "cover": "https://p1.music.126.net/Fa90YaEfFMJ1h-vbYhmWYg==/109951167815694766.jpg"
+            },
+            {
+                "id": 4098,
+                "name": "Ad Music",
+                "cover": "https://p1.music.126.net/ixZX3r-fMvkKvrLKC-ol5w==/109951167815700072.jpg"
+            },
+            {
+                "id": 6099,
+                "name": "Sports Program",
+                "cover": "https://p1.music.126.net/_bv9MA1JMlBxA2vO_JNzhg==/109951167815697725.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1026,
+        "name": "Children",
+        "cover": "http://p1.music.126.net/cXGg3hHBQXCOE9E1Y5_Rkg==/109951165972465423.jpg",
+        "children": [
+            {
+                "id": 1221,
+                "name": "Nursery Rhyme",
+                "cover": "https://p1.music.126.net/xR3zJW-w4MmHOrKKM4Ol-w==/109951167806272906.jpg"
+            },
+            {
+                "id": 1292,
+                "name": "Children’s Music",
+                "cover": "https://p1.music.126.net/ym4CN0ovqPmNvQ5uyQNOKQ==/109951167806279571.jpg"
+            },
+            {
+                "id": 1246,
+                "name": "Fetal Music",
+                "cover": "https://p1.music.126.net/kB2BfXLGP8VK8yFZTUtmxw==/109951167806281062.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1006,
+        "name": "Easy Listening",
+        "cover": "http://p5.music.126.net/_Ss4W-6eqBMVJp1Ype-zCw==/109951165924170090.jpg",
+        "children": [
+            {
+                "id": 9135,
+                "name": "Background Music",
+                "cover": "https://p1.music.126.net/OmyUB8I720HFnkEmrSFkrQ==/109951167806269846.jpg"
+            },
+            {
+                "id": 1298,
+                "name": "Pop Easy Listening",
+                "cover": "https://p1.music.126.net/4E5-eA18F8zzZjFA0mgKWw==/109951167806266345.jpg"
+            }
+        ]
+    },
+    {
+        "id": 79088,
+        "name": "Manyao DJ",
+        "cover": "http://p5.music.126.net/bz7FEuoG0Pk-QvydzX0gCA==/109951169246716943.jpg",
+        "children": [
+            {
+                "id": 20080,
+                "name": "Manyao",
+                "cover": "https://p1.music.126.net/sVNDg4q6KO6sGMFBCQ9cOw==/109951167815546264.jpg"
+            },
+            {
+                "id": 21080,
+                "name": "Chinese DJ",
+                "cover": "https://p1.music.126.net/5QoyysFBd6-HX-lnLADUuw==/109951167815547715.jpg"
+            },
+            {
+                "id": 1257,
+                "name": "Hanmai",
+                "cover": "https://p1.music.126.net/UZ2jT51u2Go5saKNyG3Prg==/109951167815546284.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1014,
+        "name": "Alternative/Indie",
+        "cover": "http://p1.music.126.net/iq8nR69LHja1kp_Pf2p-jg==/109951165924160813.jpg",
+        "children": [
+            {
+                "id": 1035,
+                "name": "Indie Pop",
+                "cover": "https://p1.music.126.net/h1xM1edvL8oeJ4Rv1rMTIQ==/109951167815539404.jpg"
+            },
+            {
+                "id": 11153,
+                "name": "Pop Alternative",
+                "cover": "https://p1.music.126.net/jKjOSFUaTM4Lli5-OP1bDg==/109951167815541773.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1077,
+        "name": "Country",
+        "cover": "http://p5.music.126.net/-xJEn-zfr2LnRiQV-wXkTQ==/109951165924170158.jpg",
+        "children": [
+            {
+                "id": 1306,
+                "name": "Traditional Country Music",
+                "cover": "https://p1.music.126.net/-dTkOdBGfPLgN8Ic1FM9IA==/109951167815558286.jpg",
+                "children": [
+                    {
+                        "id": 1305,
+                        "name": "Country Folk",
+                        "cover": "https://p1.music.126.net/o7dSqtXnvmI6Ot8YlHJJig==/109951167815558635.jpg"
+                    },
+                    {
+                        "id": 10116,
+                        "name": "Western Swing",
+                        "cover": "https://p1.music.126.net/jCjUzimyUYsu0b3RLeqLGw==/109951167815569541.jpg"
+                    },
+                    {
+                        "id": 10115,
+                        "name": "Progressive Country",
+                        "cover": "https://p1.music.126.net/oLjIBI1vcDVwbp16igoPwg==/109951167815556202.jpg"
+                    },
+                    {
+                        "id": 9126,
+                        "name": "Nashville Sound",
+                        "cover": "https://p1.music.126.net/3TRLWquA-v2HTjhsRrRepg==/109951167815558457.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1112,
+                "name": "Contemporary Country",
+                "cover": "https://p1.music.126.net/9Ci8ZnJBmPYKGuIlO62ZRg==/109951167815556055.jpg"
+            },
+            {
+                "id": 1105,
+                "name": "Americana",
+                "cover": "https://p1.music.126.net/whDRnKz942PWQYPmPcEvNw==/109951167815557705.jpg"
+            },
+            {
+                "id": 1125,
+                "name": "Bluegrass",
+                "cover": "https://p1.music.126.net/rReaYSEbP0U9W5G7guNHBA==/109951167815563214.jpg"
+            },
+            {
+                "id": 10123,
+                "name": "Country Pop",
+                "cover": "https://p1.music.126.net/bam-xvdsvhSYXWqcvGurvg==/109951167815553872.jpg"
+            },
+            {
+                "id": 1304,
+                "name": "Country Rock",
+                "cover": "https://p1.music.126.net/6jV7q5j0kSBD5WbDdesT_Q==/109951167815556278.jpg"
+            },
+            {
+                "id": 8142,
+                "name": "Rockabilly",
+                "cover": "https://p1.music.126.net/zrXQ4rzCcn2WffbZniqjrA==/109951167815553968.jpg"
+            },
+            {
+                "id": 1078,
+                "name": "Alternative Country",
+                "cover": "https://p1.music.126.net/yRpeXFrwmzEb1EMpoQ9tWQ==/109951167815557830.jpg"
+            },
+            {
+                "id": 8139,
+                "name": "Outlaw Country",
+                "cover": "https://p1.music.126.net/sF7hJk73Ri8QXg3hPHZYlw==/109951167815554880.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1007,
+        "name": "New Age",
+        "cover": "http://p5.music.126.net/vJtThRB3HZPOU5NXgPe4rw==/109951165924172550.jpg",
+        "children": [
+            {
+                "id": 10148,
+                "name": "Meditation",
+                "cover": "https://p1.music.126.net/vVgLuovImw5HwX76q5gRoQ==/109951167815540224.jpg"
+            },
+            {
+                "id": 1117,
+                "name": "Nature New Age",
+                "cover": "https://p1.music.126.net/pc2dqhpD0clzsClpnmoJUg==/109951167815546015.jpg"
+            }
+        ]
+    },
+    {
+        "id": 152124,
+        "name": "Punk",
+        "cover": "http://p5.music.126.net/w7XatOMYKxHjPqFtIrTQ7Q==/109951165924157443.jpg",
+        "children": [
+            {
+                "id": 11192,
+                "name": "Post-Punk",
+                "cover": "https://p1.music.126.net/yhPudcjhILZ6Z2oWUpPtKg==/109951167806174810.jpg",
+                "children": [
+                    {
+                        "id": 1066,
+                        "name": "Dark Wave",
+                        "cover": "https://p1.music.126.net/aeg7F-N-ev2gqubXdPZmyQ==/109951167806185733.jpg"
+                    },
+                    {
+                        "id": 10179,
+                        "name": "Ethereal Wave",
+                        "cover": "https://p1.music.126.net/QRJiGNxN0vQXxxOIZboKDg==/109951167806184322.jpg"
+                    },
+                    {
+                        "id": 1231,
+                        "name": "Goth Rock",
+                        "cover": "https://p1.music.126.net/MOW5UdghOkq77WegUC8tdw==/109951167806181944.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 11197,
+                "name": "Hardcore Punk",
+                "cover": "https://p1.music.126.net/4GAwlYoVvYVQVw2_tAMZhw==/109951167806176739.jpg",
+                "children": [
+                    {
+                        "id": 11195,
+                        "name": "D-Beat",
+                        "cover": "https://p1.music.126.net/N4xQMjnWUMgNHhrireAicQ==/109951167806193011.jpg"
+                    },
+                    {
+                        "id": 8207,
+                        "name": "Crust Punk",
+                        "cover": "https://p1.music.126.net/a7Qp3vogQLR6X5K3zLxVWw==/109951167806177166.jpg"
+                    },
+                    {
+                        "id": 9213,
+                        "name": "Skate Punk",
+                        "cover": "https://p1.music.126.net/ET1G13fxjRASRw6-lfRKaA==/109951167806175189.jpg"
+                    },
+                    {
+                        "id": 11198,
+                        "name": "Thrashcore",
+                        "cover": "https://p1.music.126.net/JiROuPpZOazw20Q3ZVlI-Q==/109951167806183464.jpg"
+                    },
+                    {
+                        "id": 9210,
+                        "name": "Post-Hardcore",
+                        "cover": "https://p1.music.126.net/rkjSSFrRecxIZaLA-b50Xg==/109951167806191178.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 8198,
+                "name": "Electropunk",
+                "cover": "https://p1.music.126.net/z3pl_jknx-WACB4lCezxMQ==/109951167806175346.jpg",
+                "children": [
+                    {
+                        "id": 159121,
+                        "name": "Synth Punk",
+                        "cover": "https://p1.music.126.net/8IYv-gx0zrzEZIipeNvcnA==/109951167806175689.jpg"
+                    },
+                    {
+                        "id": 160122,
+                        "name": "Dance Punk",
+                        "cover": "https://p1.music.126.net/rpdpp4CYNhQh6FSXiJBP9w==/109951167806175250.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 10191,
+                "name": "Emo",
+                "cover": "https://p1.music.126.net/0zhMDXLp119S3YzkNVkJxw==/109951167806186411.jpg",
+                "children": [
+                    {
+                        "id": 10190,
+                        "name": "Screamo",
+                        "cover": "https://p1.music.126.net/EH2cejAqZA3JIqIF7nzP_w==/109951167806189786.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 9211,
+                "name": "Pop Punk",
+                "cover": "https://p1.music.126.net/atBoFirwa1mD2AljcmAesw==/109951167806171955.jpg"
+            },
+            {
+                "id": 1115,
+                "name": "New Wave",
+                "cover": "https://p1.music.126.net/99mVWj1Mth8yXtfn5Ghf4A==/109951167806195141.jpg"
+            },
+            {
+                "id": 11200,
+                "name": "Psychobilly",
+                "cover": "https://p1.music.126.net/FCg_JHrPLT7gxQuwU-pbFQ==/109951167806189819.jpg"
+            },
+            {
+                "id": 10188,
+                "name": "Deathrock",
+                "cover": "https://p1.music.126.net/SElnQcyasnhuCw-_bqSwhw==/109951167806194164.jpg"
+            },
+            {
+                "id": 160121,
+                "name": "Proto-Punk",
+                "cover": "https://p1.music.126.net/cmgoLZBR1hrYGecqaSWaNw==/109951167806179612.jpg"
+            },
+            {
+                "id": 10189,
+                "name": "Garage Punk",
+                "cover": "https://p1.music.126.net/LhYaosS3Eu4LCCEykHrIpg==/109951167806171963.jpg"
+            },
+            {
+                "id": 9212,
+                "name": "Riot Grrrl",
+                "cover": "https://p1.music.126.net/4yuyhogYjAJz7pC5dvTnTg==/109951167806171479.jpg"
+            },
+            {
+                "id": 10187,
+                "name": "Cowpunk",
+                "cover": "https://p1.music.126.net/gAZbFzr5ndHmSP_2Yib_PA==/109951167806182585.jpg"
+            },
+            {
+                "id": 10195,
+                "name": "J-Punk",
+                "cover": "https://p1.music.126.net/M_ZimffrWfCeEhP39iXqpQ==/109951167806194686.jpg"
+            },
+            {
+                "id": 159122,
+                "name": "Punk Rock Revival",
+                "cover": "https://p1.music.126.net/VBHOBzYpxnJ9PuMydwhHZA==/109951167806180096.jpg"
+            },
+            {
+                "id": 10194,
+                "name": "Street Punk",
+                "cover": "https://p1.music.126.net/UcsnbEIKGNz7TTuPPpUO1w==/109951167806177591.jpg"
+            },
+            {
+                "id": 159123,
+                "name": "No Wave",
+                "cover": "https://p1.music.126.net/pfIVrt2RZcLkrM3p1NjHZg==/109951167806203012.jpg"
+            },
+            {
+                "id": 11187,
+                "name": "Coldwave",
+                "cover": "https://p1.music.126.net/CifLLA9S1hCCzDI68S2Wlg==/109951167806190897.jpg"
+            },
+            {
+                "id": 11196,
+                "name": "Art Punk",
+                "cover": "https://p1.music.126.net/CK9yf-7TAOOsU1mh2Hz63A==/109951167806184539.jpg"
+            },
+            {
+                "id": 8208,
+                "name": "Ska Punk",
+                "cover": "https://p1.music.126.net/fGw09NwpnmUypwn6_Xs16g==/109951167806172373.jpg"
+            },
+            {
+                "id": 10192,
+                "name": "Horror Punk",
+                "cover": "https://p1.music.126.net/LPKBiclSZnX-_anCZ8wyLg==/109951167806174795.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1071,
+        "name": "Latin",
+        "cover": "http://p1.music.126.net/2IOu18NJ9CJwmlX2qn2fcg==/109951165924161783.jpg",
+        "children": [
+            {
+                "id": 11140,
+                "name": "Brazilian",
+                "cover": ".jpg",
+                "children": [
+                    {
+                        "id": 10140,
+                        "name": "Forró",
+                        "cover": "https://p1.music.126.net/k1NcVK6iGRKuVa2a4Tr2yw==/109951167815104377.jpg"
+                    },
+                    {
+                        "id": 1184,
+                        "name": "MPB",
+                        "cover": "https://p1.music.126.net/CDRCUaJfAXIzvQnzzSBfXQ==/109951167815111148.jpg"
+                    },
+                    {
+                        "id": 1197,
+                        "name": "Sertanejo",
+                        "cover": "https://p1.music.126.net/erBWA88QGiLVhviLpd9KUA==/109951167815116037.jpg"
+                    },
+                    {
+                        "id": 1188,
+                        "name": "Samba",
+                        "cover": "https://p1.music.126.net/9wFIAXtiGJJ0JfbLz76tpQ==/109951167815106367.jpg"
+                    },
+                    {
+                        "id": 11141,
+                        "name": "Axé",
+                        "cover": "https://p1.music.126.net/GHfQb62eBCcd39zcjpqq8Q==/109951167815106339.jpg"
+                    },
+                    {
+                        "id": 1196,
+                        "name": "Pagode",
+                        "cover": "https://p1.music.126.net/NMSRR_PsV2KxPY53E4vfiA==/109951167815108873.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 10141,
+                "name": "Regional Mexican",
+                "cover": "https://p1.music.126.net/NhV5rFtwzhF9WRU1sD3owQ==/109951167815114220.jpg",
+                "children": [
+                    {
+                        "id": 8160,
+                        "name": "Banda",
+                        "cover": "https://p1.music.126.net/2sB4w_XAyJGMnzT-DdyF0w==/109951167815112333.jpg"
+                    },
+                    {
+                        "id": 9152,
+                        "name": "Norteño",
+                        "cover": "https://p1.music.126.net/8aYA0Z-hYXfU7FZTBykE3g==/109951167815121016.jpg"
+                    },
+                    {
+                        "id": 8161,
+                        "name": "Mariachi",
+                        "cover": "https://p1.music.126.net/Y5UA3UzRzhDuVH4ysgGn2Q==/109951167815111310.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1092,
+                "name": "Latin Tropical",
+                "cover": "https://p1.music.126.net/jUhJh_qX8vJ14432tC6qQA==/109951167815102841.jpg",
+                "children": [
+                    {
+                        "id": 1357,
+                        "name": "Salsa",
+                        "cover": "https://p1.music.126.net/F-8bwAf8QyGj-DWlmb-g_g==/109951167815120671.jpg"
+                    },
+                    {
+                        "id": 1187,
+                        "name": "Merengue",
+                        "cover": "https://p1.music.126.net/BX7R9KEglbKpw6zjUPTJLg==/109951167815117353.jpg"
+                    },
+                    {
+                        "id": 8164,
+                        "name": "Bachata",
+                        "cover": "https://p1.music.126.net/7Lc_psZO_NqwTq5IOFZPSQ==/109951167815120255.jpg"
+                    },
+                    {
+                        "id": 11146,
+                        "name": "Vallenato",
+                        "cover": "https://p1.music.126.net/ynlhtqdeFjzBLzLeEfZLqA==/109951167815121216.jpg"
+                    },
+                    {
+                        "id": 10142,
+                        "name": "Cumbia",
+                        "cover": "https://p1.music.126.net/-bGkpkpFTnr41BdMi6MWcQ==/109951167815123703.jpg"
+                    },
+                    {
+                        "id": 1155,
+                        "name": "Rumba",
+                        "cover": "https://p1.music.126.net/SKY-HelhI8q8uT431y2OdQ==/109951167815126669.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1199,
+                "name": "Latin Urban",
+                "cover": "https://p1.music.126.net/0MIV4tUvy6O7TQ2LdecJeg==/109951167815110060.jpg"
+            },
+            {
+                "id": 1161,
+                "name": "Latin Pop",
+                "cover": "https://p1.music.126.net/vnCPFlTDTNScA8pzGIjR4A==/109951167815111027.jpg"
+            },
+            {
+                "id": 1174,
+                "name": "Tango",
+                "cover": "https://p1.music.126.net/Ztc62PlCagzPO6Z1G1Eukg==/109951167815125210.jpg"
+            },
+            {
+                "id": 1146,
+                "name": "Latin Rock",
+                "cover": "https://p1.music.126.net/MjiJS4AosJMc0zvEOBsuqA==/109951167815107607.jpg"
+            },
+            {
+                "id": 1235,
+                "name": "Latin Hip hop/Rap",
+                "cover": "https://p1.music.126.net/0dmnApdHoiewRbryXBXMEg==/109951167815098950.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1041,
+        "name": "Metal",
+        "cover": "http://p5.music.126.net/bYFNmylPAHSjyozPdagpgw==/109951165924168501.jpg",
+        "children": [
+            {
+                "id": 1056,
+                "name": "Traditional Metal",
+                "cover": "https://p1.music.126.net/o7egPl5SPCJwKraHQdWYtQ==/109951167815087447.jpg",
+                "children": [
+                    {
+                        "id": 11154,
+                        "name": "Heavy Metal",
+                        "cover": "https://p1.music.126.net/U5IAHuvYWf6EVtr72JcAKA==/109951167815084421.jpg"
+                    },
+                    {
+                        "id": 8177,
+                        "name": "Glam Metal",
+                        "cover": "https://p1.music.126.net/BLs2VWdHu8FJHzxkGCDHRg==/109951167815092092.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1165,
+                "name": "Extreme Metal",
+                "cover": "https://p1.music.126.net/vY9y0Giet2kk_V0XVv87aQ==/109951167815102504.jpg",
+                "children": [
+                    {
+                        "id": 1396,
+                        "name": "Death Metal",
+                        "cover": "https://p1.music.126.net/dJinwR4yhH-kmfqknY4o5w==/109951167815073628.jpg"
+                    },
+                    {
+                        "id": 1397,
+                        "name": "Black Metal",
+                        "cover": "https://p1.music.126.net/6Ky8BAClCpS8rjXlTK0rvg==/109951167815091837.jpg"
+                    },
+                    {
+                        "id": 11158,
+                        "name": "Deathcore",
+                        "cover": "https://p1.music.126.net/X3fmgMQj7M3Ns2maW9P_PA==/109951167815094370.jpg"
+                    },
+                    {
+                        "id": 10156,
+                        "name": "Melodic Death Metal",
+                        "cover": "https://p1.music.126.net/mwqLaw_usB-cylnyZiHe9g==/109951167815077440.jpg"
+                    },
+                    {
+                        "id": 9164,
+                        "name": "Blackgaze",
+                        "cover": "https://p1.music.126.net/cMAooA8uu6MWapWfUdp4Vg==/109951167815099712.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1162,
+                "name": "Alternative Metal",
+                "cover": "https://p1.music.126.net/dPLE9p5NxFmrCY6zy3cnMA==/109951167815091204.jpg",
+                "children": [
+                    {
+                        "id": 1503,
+                        "name": "Industrial Metal",
+                        "cover": "https://p1.music.126.net/amUN7fVwNyjoYVcrpaOl8A==/109951167815086275.jpg"
+                    },
+                    {
+                        "id": 1399,
+                        "name": "Nu Metal",
+                        "cover": "https://p1.music.126.net/Bg4sLWy68pr04KpuldUNfg==/109951167815072126.jpg"
+                    },
+                    {
+                        "id": 10151,
+                        "name": "Rap Metal",
+                        "cover": "https://p1.music.126.net/mmHqv2qR977kmXar-fiMCg==/109951167815079981.jpg"
+                    },
+                    {
+                        "id": 11155,
+                        "name": "Funk Metal",
+                        "cover": "https://p1.music.126.net/OOFWgUC1Xq9HmEektIlAcA==/109951167815084341.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1095,
+                "name": "Hardcore Metal",
+                "cover": "https://p1.music.126.net/h3oRN8Co9p7S7v0PF3FvdQ==/109951167815090790.jpg",
+                "children": [
+                    {
+                        "id": 11157,
+                        "name": "Metalcore",
+                        "cover": "https://p1.music.126.net/iGRAcyZzbm-tGrcAekqUcg==/109951167815081759.jpg"
+                    },
+                    {
+                        "id": 11156,
+                        "name": "Speed Metal",
+                        "cover": "https://p1.music.126.net/bPbDGWZIguCAWGUlOJ5kzA==/109951167815080879.jpg"
+                    },
+                    {
+                        "id": 1395,
+                        "name": "Thrash Metal",
+                        "cover": "https://p1.music.126.net/0muT8TSeTSoZztDolOkNJA==/109951167815069821.jpg"
+                    },
+                    {
+                        "id": 8179,
+                        "name": "Groove Metal",
+                        "cover": "https://p1.music.126.net/N2Ov9h9jpqI4F02Lg9IlkA==/109951167815086591.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1141,
+                "name": "Progressive Metal",
+                "cover": "https://p1.music.126.net/f9XMfyAicKeGzUCMepVduQ==/109951167815099046.jpg",
+                "children": [
+                    {
+                        "id": 11161,
+                        "name": "Symphonic Metal",
+                        "cover": "https://p1.music.126.net/Uy503wejnGJ-Z6HVqyiR9Q==/109951167815073473.jpg"
+                    },
+                    {
+                        "id": 8182,
+                        "name": "Neoclassical Metal",
+                        "cover": "https://p1.music.126.net/vRFInY1NcbiXUutmDDUJnQ==/109951167815074200.jpg"
+                    },
+                    {
+                        "id": 9169,
+                        "name": "Djent",
+                        "cover": "https://p1.music.126.net/MPrzeLa-smNaufDv64xhQA==/109951167815084585.jpg"
+                    },
+                    {
+                        "id": 11162,
+                        "name": "Avant-Garde Metal",
+                        "cover": "https://p1.music.126.net/it4TLC287g3QYGAWjbVKqA==/109951167815080215.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 9168,
+                "name": "Doom Metal",
+                "cover": "https://p1.music.126.net/oRsnQdsRqzyUWmSOjmXOPg==/109951167815075817.jpg"
+            },
+            {
+                "id": 1131,
+                "name": "Power Metal",
+                "cover": "https://p1.music.126.net/wkWhDf-8ui9e5a-Ep_J1EA==/109951167815097577.jpg",
+                "children": [
+                    {
+                        "id": 11159,
+                        "name": "Kawaii Metal",
+                        "cover": "https://p1.music.126.net/TOjTmlB0YX8GGsB5KKOHZw==/109951167815078462.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 9166,
+                "name": "Folk Metal",
+                "cover": "https://p1.music.126.net/IqWOGJx6Yq-dffmThOSTjQ==/109951167797160596.jpg"
+            },
+            {
+                "id": 1398,
+                "name": "Gothic Metal",
+                "cover": "https://p1.music.126.net/Pufm9rkaRqSiZv2XaC50uA==/109951167815068727.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1037,
+        "name": "Blues",
+        "cover": "http://p1.music.126.net/3Xi_u_T8UqpZbVO4t-A8-A==/109951169246723846.jpg",
+        "children": [
+            {
+                "id": 10137,
+                "name": "Fusion Blues",
+                "cover": "https://p1.music.126.net/s4wICTCoEl1hL_MN0wFMFQ==/109951167815043535.jpg",
+                "children": [
+                    {
+                        "id": 11139,
+                        "name": "Acoustic Blues",
+                        "cover": "https://p1.music.126.net/jIhvHXB_vxHk6MmHVXdYUw==/109951167815038882.jpg"
+                    },
+                    {
+                        "id": 1300,
+                        "name": "Classic Blues",
+                        "cover": "https://p1.music.126.net/XdkMwsTBYcbDGCWXEq7Mvg==/109951167815049934.jpg"
+                    },
+                    {
+                        "id": 9147,
+                        "name": "Soul Blues",
+                        "cover": "https://p1.music.126.net/e7-oZgT0LIvHKVa-UuhBwA==/109951167815045079.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 9141,
+                "name": "Regional Blues",
+                "cover": "https://p1.music.126.net/ucRPHE095L8rNtuNlcTQSw==/109951167815056689.jpg",
+                "children": [
+                    {
+                        "id": 1099,
+                        "name": "Chicago Blues",
+                        "cover": "https://p1.music.126.net/sEwCV1yAA5wOYPRV4djAzg==/109951167815049333.jpg"
+                    },
+                    {
+                        "id": 1135,
+                        "name": "Delta Blues",
+                        "cover": "https://p1.music.126.net/Q20uTRtNOpDpske2G5lynA==/109951167815054226.jpg"
+                    },
+                    {
+                        "id": 9145,
+                        "name": "West Coast Blues",
+                        "cover": "https://p1.music.126.net/L5hqkpdUAmBGp0Q8SYRs4w==/109951167815052006.jpg"
+                    },
+                    {
+                        "id": 10135,
+                        "name": "East Coast Blues",
+                        "cover": "https://p1.music.126.net/Qy0BJnQKXlYhPh4lkTbRRQ==/109951167815038478.jpg"
+                    },
+                    {
+                        "id": 8152,
+                        "name": "New Orleans Blues",
+                        "cover": "https://p1.music.126.net/N0e0Kk4l_-b0skTtA8qToQ==/109951167815037461.jpg"
+                    },
+                    {
+                        "id": 8153,
+                        "name": "Texas Blues",
+                        "cover": "https://p1.music.126.net/CwaqwLyJ6LBGRe2ru1w2ww==/109951167815045664.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1134,
+                "name": "Country Blues",
+                "cover": "https://p1.music.126.net/cVYLBHlML25oqCbW4_ijPw==/109951167815051260.jpg"
+            },
+            {
+                "id": 1079,
+                "name": "Electric Blues",
+                "cover": "https://p1.music.126.net/Q5TMK3uOUy9tQfh9LwC5Lg==/109951167815049946.jpg"
+            },
+            {
+                "id": 1185,
+                "name": "Contemporary Blues",
+                "cover": "https://p1.music.126.net/v-Ek3xIN-GwTsH1Yc9cQ0w==/109951167815056175.jpg"
+            },
+            {
+                "id": 11137,
+                "name": "Piano Blues",
+                "cover": "https://p1.music.126.net/QO4uYGHVamVjVMADex40Dg==/109951167815035414.jpg"
+            },
+            {
+                "id": 10136,
+                "name": "Urban blues",
+                "cover": "https://p1.music.126.net/xmGYtO5hh1SHRThJJQPYPA==/109951167815052341.jpg"
+            },
+            {
+                "id": 11136,
+                "name": "Jump Blues",
+                "cover": "https://p1.music.126.net/OIoPkTEXmZdcN2SWyNjiVw==/109951167815034391.jpg"
+            },
+            {
+                "id": 8154,
+                "name": "Boogie-Woogie",
+                "cover": "https://p1.music.126.net/nPGEVPrYaTuAyX_3wjfXFw==/109951167815051476.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1043,
+        "name": "Reggae",
+        "cover": "http://p5.music.126.net/piZkji7JhjknNUjZiQCf7Q==/109951169246730073.jpg",
+        "children": [
+            {
+                "id": 1142,
+                "name": "Ska",
+                "cover": "https://p1.music.126.net/BdNBbUTRb-k4TtuNtyVw6Q==/109951167815014829.jpg"
+            },
+            {
+                "id": 1356,
+                "name": "Dancehall",
+                "cover": "https://p1.music.126.net/fk6YAl33-krWlyYnFxKyPw==/109951167815022039.jpg"
+            },
+            {
+                "id": 1097,
+                "name": "Roots Reggae",
+                "cover": "https://p1.music.126.net/mnm0Tia8slpAFJBfRarPZw==/109951167815017137.jpg"
+            },
+            {
+                "id": 1101,
+                "name": "Dub",
+                "cover": "https://p1.music.126.net/I1c2lVC7lmOr4yV_7Yh0sQ==/109951167815025002.jpg"
+            },
+            {
+                "id": 75082,
+                "name": "Reggae rock",
+                "cover": "https://p1.music.126.net/BjNv6LsgkN6mL7mN8-yAbA==/109951167815011404.jpg"
+            },
+            {
+                "id": 1130,
+                "name": "Lovers Rock",
+                "cover": "https://p1.music.126.net/_9D6Y3VpAlaWr9sj3YuLog==/109951167815026506.jpg"
+            },
+            {
+                "id": 8157,
+                "name": "Reggae Fusion",
+                "cover": "https://p1.music.126.net/075tAHsvGpuXz6AWC8VmUQ==/109951167815020121.jpg"
+            }
+        ]
+    },
+    {
+        "id": 1012,
+        "name": "World Music",
+        "cover": "http://p1.music.126.net/EZ30SLbO9_5qhWzaI4a45A==/109951165924161949.jpg",
+        "children": [
+            {
+                "id": 1182,
+                "name": "Korean Traditional Music",
+                "cover": "https://p1.music.126.net/GArVOqT8rTOnb5uLb1Zkpw==/109951167815524310.jpg",
+                "children": [
+                    {
+                        "id": 1222,
+                        "name": "Trot",
+                        "cover": "https://p1.music.126.net/mbiWIBQ_TIkBfUb7Pf8oFA==/109951167815129735.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1054,
+                "name": "Japanese Traditional Music",
+                "cover": "https://p1.music.126.net/DsitSsiCPbI8vokYRYNREA==/109951167815529127.jpg",
+                "children": [
+                    {
+                        "id": 1219,
+                        "name": "Enka",
+                        "cover": "https://p1.music.126.net/1zNqQSBrTwpu1QK8qgrIyw==/109951167815134576.jpg"
+                    },
+                    {
+                        "id": 1202,
+                        "name": "Kayokyoku",
+                        "cover": "https://p1.music.126.net/xv29xgFFM0ZKhbb7DAJEqg==/109951167815135104.jpg"
+                    },
+                    {
+                        "id": 9222,
+                        "name": "Shima Uta",
+                        "cover": "https://p1.music.126.net/Yf7ZHF0bz_srv2KnxmadHA==/109951167815124964.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1367,
+                "name": "Mangolian Traditions",
+                "cover": "https://p1.music.126.net/JFlMZIn6KPNEChjYbc2M4Q==/109951167815529412.jpg",
+                "children": [
+                    {
+                        "id": 1237,
+                        "name": "Throat Singing",
+                        "cover": "https://p1.music.126.net/RN2bQlMfyc1mXZ-Eb0VtnA==/109951167815128332.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1369,
+                "name": "Latin American Traditions",
+                "cover": "https://p1.music.126.net/II_1iksX8BxVi2fJ3Mfmrg==/109951167815539136.jpg",
+                "children": [
+                    {
+                        "id": 1216,
+                        "name": "Caribbean",
+                        "cover": "https://p1.music.126.net/NsP4CWc82tIhDPlAkoQn8w==/109951167815125953.jpg"
+                    },
+                    {
+                        "id": 1366,
+                        "name": "Cuban Traditions",
+                        "cover": "https://p1.music.126.net/12N8_om8_VXVUD5AfxhDuA==/109951167815534276.jpg"
+                    },
+                    {
+                        "id": 1224,
+                        "name": "Calypso",
+                        "cover": "https://p1.music.126.net/78PeLE9w-jS2xQRy1rfH5w==/109951167815129367.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1361,
+                "name": "African Traditions",
+                "cover": "https://p1.music.126.net/eIWskO6JZRlkPVpa0VB_Aw==/109951167815523387.jpg"
+            },
+            {
+                "id": 1205,
+                "name": "Indian",
+                "cover": "https://p1.music.126.net/NJg9BtO4MZJxg6xAR3yBIA==/109951167815529345.jpg",
+                "children": [
+                    {
+                        "id": 1223,
+                        "name": "Bollywood",
+                        "cover": "https://p1.music.126.net/dHrdLuoVQS_FQpPVradshQ==/109951167815133765.jpg"
+                    }
+                ]
+            },
+            {
+                "id": 1186,
+                "name": "Schlager",
+                "cover": "https://p1.music.126.net/zDyShdiy5zVWKQDREvs7xw==/109951167815127484.jpg"
+            },
+            {
+                "id": 1372,
+                "name": "Russian Traditions",
+                "cover": "https://p1.music.126.net/76Iqpck4I-OgZSP-VdRerA==/109951167815527754.jpg"
+            },
+            {
+                "id": 1123,
+                "name": "Flamenco",
+                "cover": "https://p1.music.126.net/NHc-wJLnsb5O_k0Q3zgfsQ==/109951167815130393.jpg"
+            },
+            {
+                "id": 1179,
+                "name": "Fado",
+                "cover": "https://p1.music.126.net/zKUr5MU5wGaC4r1-Yq1Xcg==/109951167815139617.jpg"
+            },
+            {
+                "id": 1195,
+                "name": "Latin Regional Mexican",
+                "cover": "https://p1.music.126.net/wMKcUZgEQBDPWpMDmVcA1A==/109951167815530842.jpg"
+            },
+            {
+                "id": 1364,
+                "name": "Mediterranean Traditions",
+                "cover": "https://p1.music.126.net/70oVtIbuZdfFk8t8HL6cBw==/109951167815539001.jpg"
+            },
+            {
+                "id": 1370,
+                "name": "Celtic Tradtions",
+                "cover": "https://p1.music.126.net/jUD2dqKa_75M39QSGzhKjA==/109951167815529275.jpg"
+            },
+            {
+                "id": 1129,
+                "name": "Chanson",
+                "cover": "https://p1.music.126.net/Qj5uPMf7EZlmxp7g2bC7rQ==/109951167815136722.jpg"
+            },
+            {
+                "id": 1363,
+                "name": "European Traditions",
+                "cover": "https://p1.music.126.net/TjhGzSJqFd9qQZltMGT-dw==/109951167815519495.jpg"
+            },
+            {
+                "id": 1365,
+                "name": "North American Traditions",
+                "cover": "https://p1.music.126.net/phZjVgMDN7kydgorev3gDw==/109951167815526404.jpg"
+            },
+            {
+                "id": 43080,
+                "name": "South American Traditions",
+                "cover": "https://p1.music.126.net/Q5Nigzw26gGttB7XoaxFbQ==/109951167815522486.jpg"
+            }
+        ]
+    }
+]
