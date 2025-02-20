@@ -8,6 +8,7 @@ import { useInView } from "react-intersection-observer"
 import Link from "next/link"
 import { usePlayerStore } from "@/lib/playerStore"
 import { formatFollowers } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 
 type Genre = {
   id: number
@@ -53,6 +54,7 @@ type TabData<T> = {
 }
 
 export default function GenrePage() {
+  const router = useRouter()
   const params = useParams()
   const [genre, setGenre] = useState<Genre | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -93,12 +95,16 @@ export default function GenrePage() {
       setSongs((prev: TabData<Song>) => ({ ...prev, isLoading: true }));
       try {
         const data = await fetchData("song", songs.cursor);
-        setSongs((prev: TabData<Song>) => ({
-          items: [...prev.items, ...data.data.songs],
-          cursor: data.data.page.cursor + data.data.page.size,
-          hasMore: data.data.page.more,
-          isLoading: false
-        }));
+        setSongs((prev: TabData<Song>) => {
+          // Filter out duplicate songs based on id
+          const newSongs = data.data.songs.filter((song: Song) => !prev.items.some(existing => existing.id === song.id));
+          return {
+            items: [...prev.items, ...newSongs],
+            cursor: data.data.page.cursor + data.data.page.size,
+            hasMore: data.data.page.more,
+            isLoading: false
+          };
+        });
       } catch (error) {
         console.error(error);
         setSongs((prev: TabData<Song>) => ({ ...prev, isLoading: false }));
@@ -108,12 +114,16 @@ export default function GenrePage() {
       setAlbums((prev: TabData<Album>) => ({ ...prev, isLoading: true }));
       try {
         const data = await fetchData("album", albums.cursor);
-        setAlbums((prev: TabData<Album>) => ({
-          items: [...prev.items, ...data.data.albums],
-          cursor: data.data.page.cursor + data.data.page.size,
-          hasMore: data.data.page.more,
-          isLoading: false
-        }));
+        setAlbums((prev: TabData<Album>) => {
+          // Filter out duplicate albums based on id
+          const newAlbums = data.data.albums.filter((album: Album) => !prev.items.some(existing => existing.id === album.id));
+          return {
+            items: [...prev.items, ...newAlbums],
+            cursor: data.data.page.cursor + data.data.page.size,
+            hasMore: data.data.page.more,
+            isLoading: false
+          };
+        });
       } catch (error) {
         console.error(error);
         setAlbums((prev: TabData<Album>) => ({ ...prev, isLoading: false }));
@@ -123,12 +133,16 @@ export default function GenrePage() {
       setArtists((prev: TabData<Artist>) => ({ ...prev, isLoading: true }));
       try {
         const data = await fetchData("artist", artists.cursor);
-        setArtists((prev: TabData<Artist>) => ({
-          items: [...prev.items, ...data.data.artists],
-          cursor: data.data.page.cursor + data.data.page.size,
-          hasMore: data.data.page.more,
-          isLoading: false
-        }));
+        setArtists((prev: TabData<Artist>) => {
+          // Filter out duplicate artists based on id
+          const newArtists = data.data.artists.filter((artist: Artist) => !prev.items.some(existing => existing.id === artist.id));
+          return {
+            items: [...prev.items, ...newArtists],
+            cursor: data.data.page.cursor + data.data.page.size,
+            hasMore: data.data.page.more,
+            isLoading: false
+          };
+        });
       } catch (error) {
         console.error(error);
         setArtists((prev: TabData<Artist>) => ({ ...prev, isLoading: false }));
@@ -136,7 +150,7 @@ export default function GenrePage() {
     }
   }  
 
-  // 新增清理函數
+  // Reset state when genre changes
   const resetState = () => {
     setGenre(null)
     setSongs({
@@ -160,7 +174,7 @@ export default function GenrePage() {
     setIsLoading(true)
   }
 
-  // 修改 useEffect，在 params 改變時重置狀態
+  // Fetch data when params change
   useEffect(() => {
     resetState()
 
@@ -185,13 +199,12 @@ export default function GenrePage() {
       loadMore("artist")
     }
 
-    // 清理函數
     return () => {
       resetState()
     }
   }, [params.genreid])
 
-  // Infinite scroll: load more data when the observer comes into view and the active tab has more items
+  // Infinite scroll: load more data when in view
   useEffect(() => {
     if (inView) {
       if (activeTab === "song" && songs.hasMore && !songs.isLoading) {
@@ -240,7 +253,7 @@ export default function GenrePage() {
         <TabsContent value="song" className="space-y-2">
           {songs.items.map((song) => (
             <div 
-              key={`song-${song.id}`}  // 修改 key
+              key={`song-${song.id}`}
               className="flex items-center gap-4 p-4 rounded-xl hover:bg-accent/50 cursor-pointer" 
               onClick={() => setCurrentSong({
                 id: song.id,
@@ -255,7 +268,7 @@ export default function GenrePage() {
                 alt={song.name}
                 className="w-12 h-12 rounded-lg shrink-0"
               />
-              <div className="w-[30%] min-w-0">
+              <div className="lg:w-[30%] min-w-0">
                 <p className="font-medium truncate">{song.name}</p>
                 <p className="text-sm text-muted-foreground truncate">
                   {song.ar.map((artist, index) => (
@@ -293,7 +306,7 @@ export default function GenrePage() {
               {[...Array(12)].map((_, i) => (
                 <div key={`song-loading-${i}`} className="flex items-center gap-4 p-4 rounded-xl">
                   <Skeleton className="w-12 h-12 rounded-lg shrink-0" />
-                  <div className="w-[30%] min-w-0">
+                  <div className="lg:w-[30%] min-w-0">
                     <Skeleton className="h-5 w-[120px] mb-2" />
                     <Skeleton className="h-4 w-[150px]" />
                   </div>
@@ -309,13 +322,10 @@ export default function GenrePage() {
 
         <TabsContent value="album" className="grid grid-cols-2 min-[610px]:grid-cols-3 md:grid-cols-2 min-[900px]:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
           {albums.items.map((album) => (
-            <div
+            <Link
               key={`album-${album.id}`}
               className="bg-card text-card-foreground p-4 rounded-2xl shadow border hover:bg-accent/50 cursor-pointer"
-              onClick={() => {
-                const url = `/artist/${album.artist.id}/album/${album.id}`
-                window.location.href = url
-              }}
+              href={`/artist/${album.artist.id}/album/${album.id}`}
             >
               <div className="relative aspect-square mb-2">
                 <img
@@ -328,8 +338,9 @@ export default function GenrePage() {
               <p 
                 className="text-sm text-muted-foreground truncate hover:underline"
                 onClick={(e) => {
-                  e.stopPropagation()
-                  window.location.href = `/artist/${album.artist.id}`
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push(`/artist/${album.artist.id}`);
                 }}
               >
                 {album.artist.name}
@@ -337,7 +348,7 @@ export default function GenrePage() {
               <p className="text-sm text-muted-foreground truncate">
                 {new Date(album.publishTime).getFullYear()}
               </p>
-            </div>
+            </Link>
           ))}
           {albums.isLoading && (
             <>
@@ -354,13 +365,10 @@ export default function GenrePage() {
 
         <TabsContent value="artist" className="grid grid-cols-2 min-[610px]:grid-cols-3 md:grid-cols-2 min-[900px]:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
           {artists.items.map((artist) => (
-            <div
+            <Link
               key={`artist-${artist.id}`}
               className="bg-card text-card-foreground p-4 rounded-2xl shadow border hover:bg-accent/50 cursor-pointer"
-              onClick={() => {
-                const url = `/artist/${artist.id}`
-                window.location.href = url
-              }}
+              href={`/artist/${artist.id}`}
             >
               <div className="relative aspect-square mb-2">
                 <img
@@ -376,7 +384,7 @@ export default function GenrePage() {
               <p className="text-sm text-muted-foreground truncate">
                 {formatFollowers(artist.fansCount)} followers
               </p>
-            </div>
+            </Link>
           ))}
           {artists.isLoading && (
             <>
@@ -412,7 +420,6 @@ function GenreSkeleton() {
       </div>
 
       <div className="mt-4">
-        {/* Tabs Skeleton */}
         <div className="sticky top-0 z-10 mb-4">
           <div className="max-w-lg mx-auto px-4">
             <div className="w-full h-12 rounded-2xl bg-background/75 backdrop-blur-2xl border shadow-sm p-1 flex">
@@ -423,12 +430,11 @@ function GenreSkeleton() {
           </div>
         </div>
 
-        {/* Songs List Skeleton */}
         <div className="space-y-2">
           {[...Array(12)].map((_, i) => (
             <div key={i} className="flex items-center gap-4 p-4 rounded-xl">
               <Skeleton className="w-12 h-12 rounded-lg shrink-0" />
-              <div className="w-[30%] min-w-0">
+              <div className="lg:w-[30%] min-w-0">
                 <Skeleton className="h-5 w-[120px] mb-2" />
                 <Skeleton className="h-4 w-[150px]" />
               </div>

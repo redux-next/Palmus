@@ -287,7 +287,7 @@ export default function Search() {
                 alt={song.name}
                 className="w-12 h-12 rounded-lg shrink-0"
               />
-              <div className="w-[30%] min-w-0">
+              <div className="lg:w-[30%] min-w-0">
                 <p className="font-medium truncate">{song.name}</p>
                 <p className="text-sm text-muted-foreground truncate">
                   {song.ar?.map((artist, index) => (

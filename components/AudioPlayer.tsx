@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback, useState } from 'react'
 import { usePlayerStore } from '@/lib/playerStore'
 import ColorThief from 'colorthief'
 import { useColorStore } from '@/lib/colorStore'
+import { usePersonalStore } from '@/lib/personalStore'
 
 interface AudioPlayerInterface {
   seek: (time: number) => void
@@ -66,6 +67,36 @@ const AudioPlayer = () => {
 
   const volume = usePlayerStore((state) => state.volume)
   const isMuted = usePlayerStore((state) => state.isMuted)
+
+  const {
+    updateGenreScore,
+    startPlaySession,
+    currentSessionStart,
+    currentGenreId
+  } = usePersonalStore()
+
+  // 新增流派資訊獲取
+  const [currentGenre, setCurrentGenre] = useState<{ id: string; name: string } | null>(null)
+
+  // 當歌曲改變時獲取流派資訊
+  useEffect(() => {
+    const fetchGenre = async () => {
+      if (!currentSong?.id) return
+      
+      try {
+        const response = await fetch(`/api/genre/song?id=${currentSong.id}`)
+        const data = await response.json()
+        if (data.genre) {
+          setCurrentGenre(data.genre)
+          startPlaySession(data.genre.id)
+        }
+      } catch (error) {
+        console.error('無法獲取歌曲流派:', error)
+      }
+    }
+
+    fetchGenre()
+  }, [currentSong?.id, startPlaySession])
 
   // Media Session 初始化
   const initializeMediaSession = useCallback(() => {
@@ -242,7 +273,15 @@ const AudioPlayer = () => {
         setCurrentLyricIndex(result)
       }
     }
-  }, [lyrics, setCurrentTime, setCurrentLyricIndex])
+
+    // 處理流派評分
+    if (currentGenre && currentSessionStart && currentGenreId === currentGenre.id) {
+      const playTime = Math.floor((Date.now() - currentSessionStart) / 1000) // 轉換為秒
+      if (playTime % 30 === 0) { // 每30秒更新一次分數
+        updateGenreScore(currentGenre.id, currentGenre.name, playTime)
+      }
+    }
+  }, [lyrics, setCurrentTime, setCurrentLyricIndex, currentGenre, currentSessionStart, currentGenreId, updateGenreScore])
 
   // 跳轉處理
   const handleSeek = useCallback((time: number) => {
@@ -438,11 +477,38 @@ const AudioPlayer = () => {
     }
   }, [currentSong?.cover])
 
+  // 新增的 useEffect，用來監聽 currentSong 變化：
+  useEffect(() => {
+    if (currentSong) {
+      console.log("Playing", currentSong.id);
+    }
+  }, [currentSong]);
+
   // 監聽音量變化
   useEffect(() => {
     if (!audioRef.current) return
     audioRef.current.volume = isMuted ? 0 : volume
   }, [volume, isMuted])
+
+  // 修改 onEnded 事件處理
+  const handleEnded = useCallback(() => {
+    setCurrentTime(0)
+    // 在歌曲結束時更新最後的播放時間
+    if (currentGenre && currentSessionStart) {
+      const totalPlayTime = Math.floor((Date.now() - currentSessionStart) / 1000)
+      updateGenreScore(currentGenre.id, currentGenre.name, totalPlayTime)
+    }
+    
+    if (currentSong && likedSongs.some(song => song.id === currentSong.id)) {
+      void playNextSong()
+    } else {
+      setIsPlaying(false)
+    }
+    
+    if (navigator.mediaSession) {
+      navigator.mediaSession.setPositionState({ duration: 0, position: 0 })
+    }
+  }, [currentGenre, currentSessionStart, updateGenreScore, currentSong, likedSongs, playNextSong, setIsPlaying, setCurrentTime])
 
   return (
     <audio
@@ -456,17 +522,7 @@ const AudioPlayer = () => {
           setCurrentTime(Number(audioRef.current.currentTime.toFixed(3)))
         }
       }}
-      onEnded={() => {
-        setCurrentTime(0);
-        if (currentSong && likedSongs.some(song => song.id === currentSong.id)) {
-          void playNextSong();
-        } else {
-          setIsPlaying(false);
-        }
-        if (navigator.mediaSession) {
-          navigator.mediaSession.setPositionState({ duration: 0, position: 0 });
-        }
-      }}
+      onEnded={handleEnded}
       // 修改 onError 事件，改用 handleAudioError 處理
       onError={handleAudioError}
     />
