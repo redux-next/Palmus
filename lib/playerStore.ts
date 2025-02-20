@@ -4,9 +4,12 @@ import { persist } from 'zustand/middleware'
 type CurrentSong = {
   id: number
   name: string
-  artists: string
-  albumName: string
-  cover: string
+  artists: Array<{ id: number; name: string }>
+  album: {
+    id: number
+    name: string
+    cover: string
+  }
   musicUrl?: string
 }
 
@@ -18,14 +21,18 @@ type LyricLine = {
 type LikedSong = {
   id: number
   name: string
-  artists: string
-  cover: string
+  artists: Array<{ id: number; name: string }>
+  album: {
+    id: number
+    name: string
+    cover: string
+  }
 }
 
 type LikedAlbum = {
   id: number
   name: string
-  artists: string
+  artists: Array<{ id: number; name: string }>
   cover: string
   songCount: number
 }
@@ -51,7 +58,7 @@ type PlayerStore = {
   likedAlbums: LikedAlbum[]
   analyserData: Uint8Array | null
   isLoading: boolean
-  userInteracted: boolean  // 新增這個狀態
+  userInteracted: boolean
   currentAlbum: {
     id: number;
     songs: Array<{
@@ -67,6 +74,10 @@ type PlayerStore = {
   setVolume: (volume: number) => void
   toggleMute: () => void
   setCurrentSong: (song: CurrentSong) => void
+  updateCurrentSongDetails: (details: {
+    artists: Array<{ id: number; name: string }>;
+    album: { id: number; name: string; cover: string };
+  }) => void
   setMusicUrl: (url: string) => void
   setIsPlaying: (state: boolean) => void
   setDuration: (time: number) => void
@@ -87,7 +98,7 @@ type PlayerStore = {
   playPreviousSong: () => void
   setAnalyserData: (data: Uint8Array | null) => void
   setIsLoading: (state: boolean) => void
-  setUserInteracted: (state: boolean) => void  // 新增這個方法
+  setUserInteracted: (state: boolean) => void
   setCurrentAlbum: (albumId: number, songs: CurrentAlbumSong[]) => void;
   clearCurrentAlbum: () => void;
 }
@@ -101,13 +112,13 @@ export const usePlayerStore = create<PlayerStore>()(
       currentTime: 0,
       lyrics: [],
       currentLyricIndex: -1,
-      audioQuality: 2, // 默認 320kbps
+      audioQuality: 2,
       isLiked: false,
       likedSongs: [],
       likedAlbums: [],
       analyserData: null,
       isLoading: false,
-      userInteracted: false,  // 新增初始狀態
+      userInteracted: false,
       currentAlbum: null,
       volume: 0.5,
       isMuted: false,
@@ -120,19 +131,25 @@ export const usePlayerStore = create<PlayerStore>()(
           currentSong: {
             id: song.id,
             name: song.name,
-            artists: song.artists,
-            albumName: song.albumName,
-            cover: song.cover,
+            artists: [],
+            album: { id: 0, name: '', cover: '' },
           },
-          isPlaying: true,  // 改為 true，這樣點擊歌曲後會自動播放
+          isPlaying: true,
           isLoading: true,
-          userInteracted: true,  // 設置為已互動
-          lyrics: [], // 清空之前的歌詞
-          currentLyricIndex: -1 // 重置歌詞索引
+          userInteracted: true,
+          lyrics: [],
+          currentLyricIndex: -1
         })
-
-        // 不在這裡獲取音樂 URL
       },
+
+      updateCurrentSongDetails: (details) => set((state) => ({
+        currentSong: state.currentSong ? {
+          ...state.currentSong,
+          artists: details.artists,
+          album: details.album
+        } : null
+      })),
+
       setMusicUrl: (url) => set((state) => ({
         currentSong: state.currentSong ? { ...state.currentSong, musicUrl: url } : null,
         isLoading: false
@@ -150,7 +167,18 @@ export const usePlayerStore = create<PlayerStore>()(
       setAudioQuality: (quality) => set({ audioQuality: quality }),
       setIsLiked: (isLiked) => set({ isLiked }),
       addLikedSong: (song) => set((state) => ({
-        likedSongs: [...state.likedSongs, song],
+        likedSongs: [...state.likedSongs, {
+          id: song.id,
+          name: song.name,
+          artists: typeof song.artists === 'string' 
+            ? [{ id: 0, name: song.artists }]
+            : song.artists,
+          album: {
+            id: 0,
+            name: '',
+            cover: song.album.cover
+          }
+        }],
         isLiked: true
       })),
       removeLikedSong: (id) => set((state) => ({
@@ -168,7 +196,15 @@ export const usePlayerStore = create<PlayerStore>()(
         return { likedSongs: items }
       }),
       addLikedAlbum: (album) => set((state) => ({
-        likedAlbums: [...state.likedAlbums, album]
+        likedAlbums: [...state.likedAlbums, {
+          id: album.id,
+          name: album.name,
+          artists: typeof album.artists === 'string'
+            ? [{ id: 0, name: album.artists }]
+            : album.artists,
+          cover: album.cover,
+          songCount: album.songCount
+        }]
       })),
       removeLikedAlbum: (id) => set((state) => ({
         likedAlbums: state.likedAlbums.filter((album) => album.id !== id)
@@ -206,14 +242,19 @@ export const usePlayerStore = create<PlayerStore>()(
           const currentIndex = currentAlbum.songs.findIndex(song => song.id === currentSong.id)
           if (currentIndex !== -1 && currentIndex < currentAlbum.songs.length - 1) {
             const nextSong = currentAlbum.songs[currentIndex + 1]
-            set({ currentSong: nextSong })
+            set({
+              currentSong: {
+                id: nextSong.id,
+                name: nextSong.name,
+                artists: [],
+                album: { id: 0, name: '', cover: '' }
+              }
+            })
             return
           }
         }
 
-        // 如果不在專輯中或是專輯的最後一首，按原來的邏輯播放
         if (!currentSong) {
-          // 如果沒有正在播放的歌曲，隨機播放一首
           if (likedSongs.length > 0) {
             const randomIndex = Math.floor(Math.random() * likedSongs.length)
             const song = likedSongs[randomIndex]
@@ -221,41 +262,34 @@ export const usePlayerStore = create<PlayerStore>()(
               currentSong: {
                 id: song.id,
                 name: song.name,
-                artists: song.artists,
-                albumName: '',
-                cover: song.cover
+                artists: [],
+                album: { id: 0, name: '', cover: song.album.cover }
               }
             })
           }
           return
         }
 
-        // 查找當前歌曲在喜歡列表中的索引
         const currentIndex = likedSongs.findIndex(song => song.id === currentSong.id)
-
         if (currentIndex === -1 || currentIndex === likedSongs.length - 1) {
-          // 如果不在列表中或是最後一首，隨機播放
           const randomIndex = Math.floor(Math.random() * likedSongs.length)
           const song = likedSongs[randomIndex]
           set({
             currentSong: {
               id: song.id,
               name: song.name,
-              artists: song.artists,
-              albumName: '',
-              cover: song.cover
+              artists: [],
+              album: { id: 0, name: '', cover: song.album.cover }
             }
           })
         } else {
-          // 播放下一首
           const nextSong = likedSongs[currentIndex + 1]
           set({
             currentSong: {
               id: nextSong.id,
               name: nextSong.name,
-              artists: nextSong.artists,
-              albumName: '',
-              cover: nextSong.cover
+              artists: [],
+              album: { id: 0, name: '', cover: nextSong.album.cover }
             }
           })
         }
@@ -270,12 +304,18 @@ export const usePlayerStore = create<PlayerStore>()(
           const currentIndex = currentAlbum.songs.findIndex(song => song.id === currentSong.id)
           if (currentIndex > 0) {
             const previousSong = currentAlbum.songs[currentIndex - 1]
-            set({ currentSong: previousSong })
+            set({
+              currentSong: {
+                id: previousSong.id,
+                name: previousSong.name,
+                artists: [],
+                album: { id: 0, name: '', cover: '' }
+              }
+            })
             return
           }
         }
 
-        // 如果不在專輯中或是專輯的第一首，按原來的邏輯播放
         if (!currentSong) {
           if (likedSongs.length > 0) {
             const randomIndex = Math.floor(Math.random() * likedSongs.length)
@@ -284,9 +324,8 @@ export const usePlayerStore = create<PlayerStore>()(
               currentSong: {
                 id: song.id,
                 name: song.name,
-                artists: song.artists,
-                albumName: '',
-                cover: song.cover
+                artists: [],
+                album: { id: 0, name: '', cover: song.album.cover }
               }
             })
           }
@@ -294,30 +333,25 @@ export const usePlayerStore = create<PlayerStore>()(
         }
 
         const currentIndex = likedSongs.findIndex(song => song.id === currentSong.id)
-
         if (currentIndex === -1 || currentIndex === 0) {
-          // 如果不在列表中或是第一首，隨機播放
           const randomIndex = Math.floor(Math.random() * likedSongs.length)
           const song = likedSongs[randomIndex]
           set({
             currentSong: {
               id: song.id,
               name: song.name,
-              artists: song.artists,
-              albumName: '',
-              cover: song.cover
+              artists: [],
+              album: { id: 0, name: '', cover: song.album.cover }
             }
           })
         } else {
-          // 播放上一首
           const previousSong = likedSongs[currentIndex - 1]
           set({
             currentSong: {
               id: previousSong.id,
               name: previousSong.name,
-              artists: previousSong.artists,
-              albumName: '',
-              cover: previousSong.cover
+              artists: [],
+              album: { id: 0, name: '', cover: previousSong.album.cover }
             }
           })
         }

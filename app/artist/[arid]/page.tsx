@@ -31,7 +31,11 @@ type Song = {
   id: number
   name: string
   ar: { id: number; name: string }[]
-  al: { picUrl: string; name: string }
+  al: {
+    id: number;
+    picUrl: string;
+    name: string;
+  }
 }
 
 const getTranslatedType = (type: string) => {
@@ -89,9 +93,15 @@ export default function ArtistPage() {
     setCurrentSong({
       id: song.id,
       name: song.name,
-      artists: song.ar.map(artist => artist.name).join('/'),
-      albumName: song.al.name,
-      cover: song.al.picUrl
+      artists: song.ar.map(artist => ({
+        id: artist.id,
+        name: artist.name
+      })),
+      album: {
+        id: song.al.id,
+        name: song.al.name,
+        cover: song.al.picUrl
+      }
     })
   }
 
@@ -141,8 +151,8 @@ export default function ArtistPage() {
   return (
     <div>
       <div className="relative h-[40vh]">
-        <img 
-          src={artist.cover} 
+        <img
+          src={artist.cover}
           alt={artist.name}
           className="w-full h-full object-cover rounded-t-2xl"
         />
@@ -155,11 +165,11 @@ export default function ArtistPage() {
           )}
         </div>
       </div>
-      
+
       <h2 className="text-xl font-semibold m-4">Popular</h2>
       <div className="space-y-2 mb-8">
         {topSongs.slice(0, 10).map((song) => (
-          <div 
+          <div
             key={song.id}
             className="flex items-center space-x-4 p-4 rounded-xl hover:bg-accent/50 cursor-pointer"
             onClick={() => handleSongClick(song)}

@@ -258,9 +258,12 @@ export default function GenrePage() {
               onClick={() => setCurrentSong({
                 id: song.id,
                 name: song.name,
-                artists: song.ar.map(a => a.name).join('/'),
-                albumName: song.al.name,
-                cover: song.al.picUrl
+                artists: song.ar.map(a => ({ id: a.id, name: a.name })),
+                album: {
+                  id: song.al.id,
+                  name: song.al.name,
+                  cover: song.al.picUrl
+                }
               })}
             >
               <img

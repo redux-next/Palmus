@@ -6,11 +6,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { usePlayerStore } from '@/lib/playerStore'
 import Link from 'next/link'
 import { Heart, GripVertical } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function Library() {
   const { likedSongs, likedAlbums, reorderLikedAlbums } = usePlayerStore()
   const [isDragging, setIsDragging] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const router = useRouter()
 
   // 檢測是否為移動設備
   useEffect(() => {
@@ -28,6 +30,18 @@ export default function Library() {
     if (!result.destination) return
     // 移除原本的 -1 操作，直接使用索引
     reorderLikedAlbums(result.source.index, result.destination.index)
+  }
+
+  const handleArtistClick = (e: React.MouseEvent, artistId: number) => {
+    e.preventDefault()
+    e.stopPropagation()
+    router.push(`/artist/${artistId}`)
+  }
+
+  const handleAlbumClick = (e: React.MouseEvent, artistId: number, albumId: number) => {
+    e.preventDefault()
+    e.stopPropagation()
+    router.push(`/artist/${artistId}/album/${albumId}`)
   }
 
   // 如果不是移動設備，直接渲染非拖拽版本
@@ -65,8 +79,22 @@ export default function Library() {
                       className="w-16 h-16 rounded-xl object-cover"
                     />
                     <div>
-                      <h2 className="font-semibold truncate">{album.name}</h2>
-                      <p className="text-sm text-muted-foreground truncate">{album.artists}</p>
+                      <h2 className="font-semibold truncate">
+                        <span>{album.name}</span>
+                      </h2>
+                      <p className="text-sm text-muted-foreground truncate">
+                        {album.artists.map((artist, index) => (
+                          <span key={artist.id}>
+                            {index > 0 && " / "}
+                            <span
+                              className="hover:underline cursor-pointer"
+                              onClick={(e) => handleArtistClick(e, artist.id)}
+                            >
+                              {artist.name}
+                            </span>
+                          </span>
+                        ))}
+                      </p>
                       <p className="text-sm text-muted-foreground">
                         {album.songCount} songs
                       </p>
@@ -152,8 +180,38 @@ export default function Library() {
                                       className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
                                     />
                                     <div className="min-w-0">
-                                      <h2 className="font-semibold truncate">{album.name}</h2>
-                                      <p className="text-sm text-muted-foreground truncate">{album.artists}</p>
+                                      <h2 className="font-semibold truncate">
+                                        <span 
+                                          onClick={(e) => {
+                                            e.preventDefault()
+                                            if (!snapshot.isDragging) {
+                                              handleAlbumClick(e, album.artists[0].id, album.id)
+                                            }
+                                          }}
+                                          className="hover:underline cursor-pointer"
+                                        >
+                                          {album.name}
+                                        </span>
+                                      </h2>
+                                      <p className="text-sm text-muted-foreground truncate">
+                                        {album.artists.map((artist, index) => (
+                                          <span key={artist.id}>
+                                            {index > 0 && " / "}
+                                            <span
+                                              className="hover:underline cursor-pointer"
+                                              onClick={(e) => {
+                                                e.preventDefault()
+                                                e.stopPropagation()
+                                                if (!snapshot.isDragging) {
+                                                  handleArtistClick(e, artist.id)
+                                                }
+                                              }}
+                                            >
+                                              {artist.name}
+                                            </span>
+                                          </span>
+                                        ))}
+                                      </p>
                                       <p className="text-sm text-muted-foreground">
                                         {album.songCount} songs
                                       </p>

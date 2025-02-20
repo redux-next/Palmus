@@ -218,9 +218,15 @@ export default function Search() {
     setCurrentSong({
       id: song.id,
       name: song.name,
-      artists: song.ar.map(artist => artist.name).join('/'),
-      albumName: song.al.name,
-      cover: song.al.picUrl
+      artists: song.ar.map(artist => ({
+        id: artist.id,
+        name: artist.name
+      })),
+      album: {
+        id: song.al.id,
+        name: song.al.name,
+        cover: song.al.picUrl
+      }
     })
   }
 

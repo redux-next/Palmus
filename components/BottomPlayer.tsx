@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/Progress"
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import FullScreenPlayer from './FullScreenPlayer'
+import Link from 'next/link'
 
 interface AudioPlayerInterface {
   seek: (time: number) => void
@@ -49,7 +50,7 @@ const BottomPlayer = () => {
         id: currentSong.id,
         name: currentSong.name,
         artists: currentSong.artists,
-        cover: currentSong.cover
+        album: currentSong.album
       })
     }
   }
@@ -66,14 +67,27 @@ const BottomPlayer = () => {
         <div className="flex items-center min-w-0 flex-1">
           <motion.img
             layoutId="cover-image"
-            src={currentSong.cover || "/placeholder.svg"}
+            src={currentSong.album.cover || "/placeholder.svg"}
             alt="Album cover"
             className="w-[60px] h-[60px] rounded-xl shrink-0 object-cover"
           />
           <div className="min-w-0 flex-1 mx-2">
             <motion.div layoutId="song-title">
               <Marquee>
-                {currentSong.name} • <span className="text-muted-foreground">{currentSong.artists}</span>
+                {currentSong.name} • <span className="text-muted-foreground">
+                  {currentSong.artists.map((artist, index) => (
+                    <span key={artist.id}>
+                      {index > 0 && " / "}
+                      <Link
+                        href={`/artist/${artist.id}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="hover:underline"
+                      >
+                        {artist.name}
+                      </Link>
+                    </span>
+                  ))}
+                </span>
               </Marquee>
             </motion.div>
             {lyrics.length > 0 && currentLyricIndex >= 0 && (

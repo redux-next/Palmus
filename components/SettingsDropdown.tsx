@@ -287,14 +287,29 @@ export function SettingsDropdown() {
         if (typeof settings.isDynamicColorEnabled === 'boolean') setDynamicColorEnabled(settings.isDynamicColorEnabled)
         
         if (Array.isArray(settings.likedSongs)) {
-          settings.likedSongs.forEach((song: { id: number; name: string; artists: string; cover: string }) => 
-            usePlayerStore.getState().addLikedSong(song)
-          )
+          settings.likedSongs.forEach((song: { id: number; name: string; artists: string; cover: string }) => {
+            usePlayerStore.getState().addLikedSong({
+              id: song.id,
+              name: song.name,
+              artists: [{ id: 0, name: song.artists }],
+              album: {
+                id: 0,
+                name: '',
+                cover: song.cover
+              }
+            })
+          })
         }
         if (Array.isArray(settings.likedAlbums)) {
-          settings.likedAlbums.forEach((album: { id: number; name: string; artists: string; cover: string; songCount: number }) => 
-            usePlayerStore.getState().addLikedAlbum(album)
-          )
+          settings.likedAlbums.forEach((album: { id: number; name: string; artists: string; cover: string; songCount: number }) => {
+            usePlayerStore.getState().addLikedAlbum({
+              id: album.id,
+              name: album.name,
+              artists: [{ id: 0, name: album.artists }],
+              cover: album.cover,
+              songCount: album.songCount
+            })
+          })
         }
       } catch (error) {
         console.error('Failed to parse settings file:', error)

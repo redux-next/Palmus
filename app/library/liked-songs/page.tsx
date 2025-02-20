@@ -4,6 +4,7 @@ import { usePlayerStore } from '@/lib/playerStore'
 import { Heart, GripVertical, X, Play } from 'lucide-react'
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd'
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function LikedSongs() {
   const likedSongs = usePlayerStore((state) => state.likedSongs)
@@ -18,8 +19,7 @@ export default function LikedSongs() {
       id: song.id,
       name: song.name,
       artists: song.artists,
-      albumName: '',
-      cover: song.cover,
+      album: song.album
     })
   }
 
@@ -88,13 +88,26 @@ export default function LikedSongs() {
                         {String(index + 1).padStart(2, '0')}
                       </span>
                       <img
-                        src={song.cover + "?param=128y128"}
+                        src={song.album.cover + "?param=128y128"}
                         alt={song.name}
                         className="h-12 w-12 rounded-md"
                       />
                       <div className="min-w-0 flex-1">
                         <p className="font-medium truncate">{song.name}</p>
-                        <p className="text-sm text-muted-foreground truncate">{song.artists}</p>
+                        <p className="text-sm text-muted-foreground truncate">
+                          {song.artists.map((artist, index) => (
+                            <span key={artist.id}>
+                              {index > 0 && " / "}
+                              <Link
+                                href={`/artist/${artist.id}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="hover:underline"
+                              >
+                                {artist.name}
+                              </Link>
+                            </span>
+                          ))}
+                        </p>
                       </div>
                       
                       <div className={`

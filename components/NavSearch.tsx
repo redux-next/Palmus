@@ -83,11 +83,16 @@ export function NavSearch() {
     setCurrentSong({
       id: song.id,
       name: song.name,
-      artists: song.artists.map((artist) => artist.name).join('/'),
-      albumName: song.album.name,
-      cover: `/api/image?id=${song.id}`,
+      artists: song.artists.map(artist => ({
+        id: artist.id,
+        name: artist.name
+      })),
+      album: { 
+        id: song.album.id,
+        name: song.album.name,
+        cover: `/api/image?id=${song.id}&param=512y512`
+      }
     })
-    setShowSuggestions(false)
   }
 
   return (

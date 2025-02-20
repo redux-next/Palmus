@@ -38,12 +38,12 @@ interface PaletteType {
   "chart-5": string;
 }
 
-// 在檔案頂端加入快取 (如果尚未定義)
 const paletteCache = new Map<string, { light: PaletteType; dark: PaletteType }>()
 
 const AudioPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null)
   const lastUpdateRef = useRef(0)
+  const [detailFetched, setDetailFetched] = useState(false)
   
   const { 
     currentSong, 
@@ -62,7 +62,8 @@ const AudioPlayer = () => {
     playPreviousSong,
     likedSongs,
     setIsLoading,
-    setLyrics
+    setLyrics,
+    updateCurrentSongDetails
   } = usePlayerStore()
 
   const volume = usePlayerStore((state) => state.volume)
@@ -70,44 +71,62 @@ const AudioPlayer = () => {
 
   const {
     updateGenreScore,
-    startPlaySession,
     currentSessionStart,
     currentGenreId
   } = usePersonalStore()
 
-  // 新增流派資訊獲取
-  const [currentGenre, setCurrentGenre] = useState<{ id: string; name: string } | null>(null)
+  const [currentGenre] = useState<{ id: string; name: string } | null>(null)
 
-  // 當歌曲改變時獲取流派資訊
+  // Fetch detailed song information when song changes
   useEffect(() => {
-    const fetchGenre = async () => {
-      if (!currentSong?.id) return
+    const fetchDetails = async () => {
+      if (!currentSong?.id || detailFetched) return
       
       try {
-        const response = await fetch(`/api/genre/song?id=${currentSong.id}`)
-        const data = await response.json()
-        if (data.genre) {
-          setCurrentGenre(data.genre)
-          startPlaySession(data.genre.id)
+        const detailRes = await fetch(`/api/detail?id=${currentSong.id}`)
+        const detailData = await detailRes.json()
+        
+        if (detailData.code === 200 && detailData.songs?.length > 0) {
+          const songData = detailData.songs[0]
+          const artists = songData.ar.map((ar: { id: number; name: string }) => ({
+            id: ar.id,
+            name: ar.name
+          }))
+          const album = {
+            id: songData.al.id,
+            name: songData.al.name,
+            cover: songData.al.picUrl
+          }
+          updateCurrentSongDetails({ artists, album })
+          setDetailFetched(true)
         }
       } catch (error) {
-        console.error('無法獲取歌曲流派:', error)
+        console.error('Failed to fetch song details:', error)
       }
     }
 
-    fetchGenre()
-  }, [currentSong?.id, startPlaySession])
+    fetchDetails()
+  }, [currentSong?.id, updateCurrentSongDetails, detailFetched])
 
-  // Media Session 初始化
+  // Reset detail fetched state when song changes
+  useEffect(() => {
+    setDetailFetched(false)
+  }, [currentSong?.id])
+
+  // Media Session initialization
   const initializeMediaSession = useCallback(() => {
-    if (!('mediaSession' in navigator) || !currentSong) return
+    if (!('mediaSession' in navigator)) return
 
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: currentSong.name || '未知歌曲',
-      artist: currentSong.artists || '未知藝人',
-      album: currentSong.albumName || '未知專輯',
+      title: currentSong?.name || 'Unknown Track',
+      artist: currentSong?.artists?.map(a => a.name).join(', ') || 'Unknown Artist',
+      album: currentSong?.album?.name || 'Unknown Album',
       artwork: [
-        { src: currentSong.cover || '/default-cover.jpg', sizes: '512x512', type: 'image/jpeg' }
+        { 
+          src: currentSong?.album?.cover || '/default-cover.jpg', 
+          sizes: '512x512', 
+          type: 'image/jpeg' 
+        }
       ]
     })
 
@@ -122,7 +141,7 @@ const AudioPlayer = () => {
       try {
         navigator.mediaSession.setActionHandler(action, handler)
       } catch (error) {
-        console.error('Error fetching playlist:', error)
+        console.error('Error setting media action:', error)
       }
     })
   }, [currentSong, playNextSong, playPreviousSong, setIsPlaying])
@@ -472,10 +491,10 @@ const AudioPlayer = () => {
 
   // 在 useEffect 中監聽 currentSong 變化
   useEffect(() => {
-    if (currentSong?.cover && useColorStore.getState().isDynamicColorEnabled) {
-      extractColors(currentSong.cover)
+    if (currentSong?.album?.cover && useColorStore.getState().isDynamicColorEnabled) {
+      extractColors(currentSong.album.cover)
     }
-  }, [currentSong?.cover])
+  }, [currentSong?.album?.cover])
 
   // 新增的 useEffect，用來監聽 currentSong 變化：
   useEffect(() => {
@@ -523,7 +542,6 @@ const AudioPlayer = () => {
         }
       }}
       onEnded={handleEnded}
-      // 修改 onError 事件，改用 handleAudioError 處理
       onError={handleAudioError}
     />
   )

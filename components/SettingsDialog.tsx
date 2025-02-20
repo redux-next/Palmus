@@ -146,8 +146,12 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
           usePlayerStore.getState().addLikedSong({
             id: parseInt(song.id),
             name: song.name,
-            artists: song.artist,
-            cover: ''
+            artists: [{ id: 0, name: song.artist }],
+            album: {
+              id: 0,
+              name: '',
+              cover: ''
+            }
           })
         })
       }
@@ -156,7 +160,7 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
           usePlayerStore.getState().addLikedAlbum({
             id: parseInt(album.id),
             name: album.name,
-            artists: album.artist,
+            artists: [{ id: 0, name: album.artist }],
             cover: '',
             songCount: 0
           })

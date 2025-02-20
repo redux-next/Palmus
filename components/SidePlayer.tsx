@@ -10,6 +10,7 @@ import { LyricDisplay } from '@/components/ui/LyricDisplay'
 import { Slider } from "@/components/ui/slider"
 import { useState, useCallback } from 'react'
 import { TooltipButton } from './ui/TooltipButton'
+import Link from 'next/link'
 
 const MusicPlayer = () => {
   const currentSong = usePlayerStore((state) => state.currentSong)
@@ -42,7 +43,7 @@ const MusicPlayer = () => {
         id: currentSong.id,
         name: currentSong.name,
         artists: currentSong.artists,
-        cover: currentSong.cover
+        album: currentSong.album
       })
     }
   }
@@ -75,7 +76,7 @@ const MusicPlayer = () => {
       <LyricDisplay />
       <div className="flex items-center space-x-4">
         <img
-          src={currentSong.cover || "/placeholder.svg"}
+          src={currentSong.album.cover || "/placeholder.svg"}
           alt="Album cover"
           width={60}
           height={60}
@@ -84,7 +85,37 @@ const MusicPlayer = () => {
         <div className="min-w-0 flex-1">
           <div className="w-full">
             <Marquee className="font-semibold">{currentSong.name}</Marquee>
-            <Marquee className="text-sm text-muted-foreground">{currentSong.artists}</Marquee>
+            <Marquee className="text-sm text-muted-foreground">
+              {currentSong.artists.map((artist, index) => (
+                <span key={artist.id}>
+                  {index > 0 && " / "}
+                  <Link
+                    href={`/artist/${artist.id}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowVolumeSlider(false);
+                    }}
+                    className="hover:underline"
+                  >
+                    {artist.name}
+                  </Link>
+                </span>
+              ))}
+            </Marquee>
+            <Marquee className="text-sm text-muted-foreground">
+              {currentSong.artists && currentSong.artists.length > 0 && (
+                <Link
+                  href={`/artist/${currentSong.artists[0].id}/album/${currentSong.album.id}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowVolumeSlider(false);
+                  }}
+                  className="hover:underline"
+                >
+                  {currentSong.album.name}
+                </Link>
+              )}
+            </Marquee>
           </div>
         </div>
       </div>

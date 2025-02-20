@@ -81,9 +81,15 @@ export default function AlbumPage() {
     setCurrentSong({
       id: song.id,
       name: song.name,
-      artists: song.ar.map(artist => artist.name).join('/'),
-      albumName: song.al.name,
-      cover: `/api/image?id=${song.id}&param=512y512`,
+      artists: song.ar.map(artist => ({
+        id: artist.id,
+        name: artist.name
+      })),
+      album: {
+        id: song.al.id,
+        name: song.al.name,
+        cover: `/api/image?id=${song.id}`
+      }
     })
   }
 
@@ -95,17 +101,11 @@ export default function AlbumPage() {
         name: song.name,
         artists: song.ar.map(artist => artist.name).join('/'),
         albumName: song.al.name,
-        cover: `/api/image?id=${song.id}&param=512y512`,
+        cover: `/api/image?id=${song.id}`
       })))
       // 播放第一首歌
       const firstSong = songs[0]
-      setCurrentSong({
-        id: firstSong.id,
-        name: firstSong.name,
-        artists: firstSong.ar.map(artist => artist.name).join('/'),
-        albumName: firstSong.al.name,
-        cover: `/api/image?id=${firstSong.id}&param=512y512`,
-      })
+      handleSongClick(firstSong)
     }
   }
 
@@ -119,7 +119,10 @@ export default function AlbumPage() {
       addLikedAlbum({
         id: Number(params.alid),
         name: album.name,
-        artists: album.artist.name,
+        artists: [{
+          id: album.artist.id,
+          name: album.artist.name
+        }],
         cover: album.picUrl,
         songCount: album.size
       })

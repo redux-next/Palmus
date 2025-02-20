@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/Progress"
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState, useCallback } from 'react'
 import { Slider } from "@/components/ui/slider"
+import Link from 'next/link'
 
 interface AudioPlayerInterface {
   seek: (time: number) => void
@@ -45,7 +46,7 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
         id: currentSong.id,
         name: currentSong.name,
         artists: currentSong.artists,
-        cover: currentSong.cover
+        album: currentSong.album
       })
     }
   }
@@ -91,7 +92,7 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
         <div className="flex-1 flex flex-col items-center justify-center space-y-8">
           <motion.img
             layoutId="cover-image"
-            src={currentSong?.cover || "/placeholder.svg"}
+            src={currentSong?.album.cover || "/placeholder.svg"}
             alt="Album cover"
             className="w-64 h-64 rounded-2xl shadow-xl"
           />
@@ -108,7 +109,33 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
               layoutId="song-artist"
               className="text-muted-foreground"
             >
-              {currentSong?.artists}
+              {currentSong?.artists.map((artist, index) => (
+                <span key={artist.id}>
+                  {index > 0 && " / "}
+                  <Link
+                    href={`/artist/${artist.id}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="hover:underline"
+                  >
+                    {artist.name}
+                  </Link>
+                </span>
+              ))}
+            </motion.div>
+
+            <motion.div
+              layoutId="album-name"
+              className="text-sm text-muted-foreground"
+            >
+              {currentSong?.artists && currentSong.artists.length > 0 && (
+                <Link
+                  href={`/artist/${currentSong.artists[0].id}/album/${currentSong.album.id}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="hover:underline"
+                >
+                  {currentSong.album.name}
+                </Link>
+              )}
             </motion.div>
           </div>
 

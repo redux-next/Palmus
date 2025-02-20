@@ -52,9 +52,15 @@ export default function Home() {
     setCurrentSong({
       id: songId,
       name: songName,
-      artists: songArtists,
-      albumName,
-      cover: songCover
+      artists: [{
+        id: 0,  // 這裡可能需要從 API 獲取完整的藝術家資訊
+        name: songArtists
+      }],
+      album: {
+        id: 0,  // 這裡可能需要從 API 獲取完整的專輯資訊
+        name: albumName,
+        cover: songCover
+      }
     })
   }
 

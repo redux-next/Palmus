@@ -94,29 +94,29 @@ export default function LibraryAlbumPage() {
     setCurrentSong({
       id: song.id,
       name: song.name,
-      artists: song.ar.map(artist => artist.name).join('/'),
-      albumName: song.al.name,
-      cover: `/api/image?id=${song.id}&param=512y512`,
+      artists: song.ar.map(artist => ({
+        id: artist.id,
+        name: artist.name
+      })),
+      album: {
+        id: song.al.id,
+        name: song.al.name,
+        cover: `/api/image?id=${song.id}&param=512y512`
+      }
     })
   }
 
   const handlePlayAlbum = () => {
     if (songs.length > 0) {
-      setCurrentAlbum(Number(params.alid), songs.map(song => ({
+      setCurrentAlbum(Number(realAlbumId), songs.map(song => ({
         id: song.id,
         name: song.name,
         artists: song.ar.map(artist => artist.name).join('/'),
         albumName: song.al.name,
-        cover: `/api/image?id=${song.id}&param=512y512`,
-      })));
+        cover: `/api/image?id=${song.id}&param=512y512`
+      })))
       const firstSong = songs[0]
-      setCurrentSong({
-        id: firstSong.id,
-        name: firstSong.name,
-        artists: firstSong.ar.map(artist => artist.name).join('/'),
-        albumName: firstSong.al.name,
-        cover: `/api/image?id=${firstSong.id}&param=512y512`,
-      })
+      handleSongClick(firstSong)
     }
   }
 
@@ -124,13 +124,16 @@ export default function LibraryAlbumPage() {
     e.stopPropagation()
     if (!album) return
 
-    if (isLikedAlbum(Number(params.alid))) {
-      removeLikedAlbum(Number(params.alid))
+    if (isLikedAlbum(Number(realAlbumId))) {
+      removeLikedAlbum(Number(realAlbumId))
     } else {
       addLikedAlbum({
-        id: Number(params.alid),
+        id: Number(realAlbumId),
         name: album.name,
-        artists: album.artist.name,
+        artists: [{
+          id: album.artist.id,
+          name: album.artist.name
+        }],
         cover: album.picUrl,
         songCount: album.size
       })
