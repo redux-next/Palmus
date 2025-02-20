@@ -1,8 +1,43 @@
 import { NextResponse } from 'next/server';
 import genreData from './genre.json';
 
+interface Genre {
+    id: number;
+    name: string;
+    cover?: string;
+    children?: Genre[];
+}
+
+interface Resource {
+    resourceType: string;
+    uiElement?: {
+        mainTitle?: {
+            action?: {
+                clickAction?: {
+                    targetUrl?: string;
+                }
+            }
+        }
+    }
+}
+
+interface Creative {
+    resources?: Resource[];
+}
+
+interface Block {
+    code: string;
+    creatives: Creative[];
+}
+
+interface ApiResponse {
+    data?: {
+        blocks?: Block[];
+    }
+}
+
 // 遞迴查找流派 ID
-function findGenreById(genres: any[], id: string): any {
+function findGenreById(genres: Genre[], id: string): Genre | null {
     for (const genre of genres) {
         if (genre.id.toString() === id) {
             return genre;
@@ -24,12 +59,12 @@ export async function GET(request: Request) {
 
     try {
         const res = await fetch(`https://api.palmus.co.uk/song/wiki/summary?id=${id}`);
-        const json = await res.json();
+        const json: ApiResponse = await res.json();
         let genreTagId: string | null = null;
         
         // 尋找 code 為 SONG_PLAY_ABOUT_SONG_BASIC 的 block
         const basicBlock = (json?.data?.blocks || []).find(
-            (block: any) => block.code === 'SONG_PLAY_ABOUT_SONG_BASIC'
+            (block: Block) => block.code === 'SONG_PLAY_ABOUT_SONG_BASIC'
         );
         
         if (basicBlock && Array.isArray(basicBlock.creatives)) {
@@ -64,7 +99,8 @@ export async function GET(request: Request) {
                 cover: genreInfo?.cover || null
             }
         });
-    } catch (error) {
+    } catch (error: unknown) {
+        console.error('Error fetching song data:', error);
         return NextResponse.json({ error: 'Server error' }, { status: 500 });
     }
 }
