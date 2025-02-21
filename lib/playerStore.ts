@@ -174,8 +174,8 @@ export const usePlayerStore = create<PlayerStore>()(
             ? [{ id: 0, name: song.artists }]
             : song.artists,
           album: {
-            id: 0,
-            name: '',
+            id: song.album.id,
+            name: song.album.name,
             cover: song.album.cover
           }
         }],

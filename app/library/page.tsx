@@ -38,12 +38,6 @@ export default function Library() {
     router.push(`/artist/${artistId}`)
   }
 
-  const handleAlbumClick = (e: React.MouseEvent, artistId: number, albumId: number) => {
-    e.preventDefault()
-    e.stopPropagation()
-    router.push(`/artist/${artistId}/album/${albumId}`)
-  }
-
   // 如果不是移動設備，直接渲染非拖拽版本
   if (!isMobile) {
     return (
@@ -181,17 +175,7 @@ export default function Library() {
                                     />
                                     <div className="min-w-0">
                                       <h2 className="font-semibold truncate">
-                                        <span 
-                                          onClick={(e) => {
-                                            e.preventDefault()
-                                            if (!snapshot.isDragging) {
-                                              handleAlbumClick(e, album.artists[0].id, album.id)
-                                            }
-                                          }}
-                                          className="hover:underline cursor-pointer"
-                                        >
-                                          {album.name}
-                                        </span>
+                                        <span>{album.name}</span>
                                       </h2>
                                       <p className="text-sm text-muted-foreground truncate">
                                         {album.artists.map((artist, index) => (

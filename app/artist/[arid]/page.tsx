@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { usePlayerStore } from "@/lib/playerStore"
 import Link from "next/link"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { motion, AnimatePresence } from "framer-motion"
 
 type Album = {
   id: number
@@ -30,6 +31,7 @@ type Artist = {
 type Song = {
   id: number
   name: string
+  dt: number  // 加入歌曲時長欄位
   ar: { id: number; name: string }[]
   al: {
     id: number;
@@ -49,7 +51,28 @@ export default function ArtistPage() {
   const [topSongs, setTopSongs] = useState<Song[]>([])
   const [albums, setAlbums] = useState<Album[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [showAllSongs, setShowAllSongs] = useState(false)  // 新增這行
   const { setCurrentSong } = usePlayerStore()
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+    },
+    exit: {
+      opacity: 0,
+    }
+  }
+
+  const item = {
+    hidden: { opacity: 0 },
+    show: { 
+      opacity: 1, 
+    },
+    exit: { 
+      opacity: 0,
+    }
+  }
 
   useEffect(() => {
     const fetchArtistData = async () => {
@@ -57,7 +80,7 @@ export default function ArtistPage() {
         const [artistResponse, popularResponse, albumsResponse] = await Promise.all([
           fetch(`/api/artist?id=${params.arid}`),
           fetch(`/api/artist/popular?id=${params.arid}`),
-          fetch(`/api/artist/album/list?id=${params.arid}`)
+          fetch(`/api/artist/album/list?id=${params.arid}`),
         ])
 
         const artistData = await artistResponse.json()
@@ -148,6 +171,8 @@ export default function ArtistPage() {
 
   if (!artist) return null
 
+  const displayedSongs = showAllSongs ? topSongs.slice(0, 20) : topSongs.slice(0, 10)  // 修改這行
+
   return (
     <div>
       <div className="relative h-[40vh]">
@@ -167,21 +192,23 @@ export default function ArtistPage() {
       </div>
 
       <h2 className="text-xl font-semibold m-4">Popular</h2>
+
       <div className="space-y-2 mb-8">
-        {topSongs.slice(0, 10).map((song) => (
+        {/* First 10 songs without animation */}
+        {displayedSongs.slice(0, 10).map((song) => (
           <div
             key={song.id}
-            className="flex items-center space-x-4 p-4 rounded-xl hover:bg-accent/50 cursor-pointer"
+            className="flex items-center gap-4 p-4 rounded-xl hover:bg-accent/50 cursor-pointer"
             onClick={() => handleSongClick(song)}
           >
             <img
               src={song.al.picUrl + "?param=100y100"}
               alt={song.name}
-              className="w-12 h-12 rounded-lg"
+              className="w-12 h-12 rounded-lg shrink-0"
             />
-            <div>
-              <p className="font-medium">{song.name}</p>
-              <p className="text-sm text-muted-foreground">
+            <div className="lg:w-[30%] min-w-0">
+              <p className="font-medium truncate">{song.name}</p>
+              <p className="text-sm text-muted-foreground truncate">
                 {song.ar.map((artist, index) => (
                   <span key={artist.id}>
                     {index > 0 && " / "}
@@ -196,8 +223,92 @@ export default function ArtistPage() {
                 ))}
               </p>
             </div>
+            <div className="hidden lg:block w-[30%] min-w-0">
+              <p className="text-sm text-muted-foreground truncate text-center">
+                <Link
+                  href={`/artist/${song.ar[0].id}/album/${song.al.id}`}
+                  className="hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {song.al.name}
+                </Link>
+              </p>
+            </div>
+            <div className="text-sm text-muted-foreground ml-auto">
+              {Math.floor(song.dt / 1000 / 60)}:{String(Math.floor(song.dt / 1000 % 60)).padStart(2, '0')}
+            </div>
           </div>
         ))}
+
+        {/* Songs after 10 with animation */}
+        <AnimatePresence mode="wait">
+          {showAllSongs && (
+            <motion.div
+              variants={container}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              className="space-y-2"
+            >
+              {displayedSongs.slice(10).map((song) => (
+                <motion.div
+                  key={song.id}
+                  variants={item}
+                  className="flex items-center gap-4 p-4 rounded-xl hover:bg-accent/50 cursor-pointer"
+                  onClick={() => handleSongClick(song)}
+                >
+                  <img
+                    src={song.al.picUrl + "?param=100y100"}
+                    alt={song.name}
+                    className="w-12 h-12 rounded-lg shrink-0"
+                  />
+                  <div className="lg:w-[30%] min-w-0">
+                    <p className="font-medium truncate">{song.name}</p>
+                    <p className="text-sm text-muted-foreground truncate">
+                      {song.ar.map((artist, index) => (
+                        <span key={artist.id}>
+                          {index > 0 && " / "}
+                          <Link
+                            href={`/artist/${artist.id}`}
+                            className="hover:underline hover:text-primary"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {artist.name}
+                          </Link>
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                  <div className="hidden lg:block w-[30%] min-w-0">
+                    <p className="text-sm text-muted-foreground truncate text-center">
+                      <Link
+                        href={`/artist/${song.ar[0].id}/album/${song.al.id}`}
+                        className="hover:underline"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {song.al.name}
+                      </Link>
+                    </p>
+                  </div>
+                  <div className="text-sm text-muted-foreground ml-auto">
+                    {Math.floor(song.dt / 1000 / 60)}:{String(Math.floor(song.dt / 1000 % 60)).padStart(2, '0')}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {topSongs.length > 10 && (
+          <div className="flex justify-start pt-4 pl-4">
+            <button
+              onClick={() => setShowAllSongs(!showAllSongs)}
+              className="text-sm font-bold text-muted-foreground hover:text-primary hover:underline pr-4 py-2"
+            >
+              {showAllSongs ? 'Show Less' : 'Show More'}
+            </button>
+          </div>
+        )}
       </div>
 
       <section className="space-y-4">
