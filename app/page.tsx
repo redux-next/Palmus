@@ -272,7 +272,7 @@ export default function Home() {
               Get Your Personal Music Recommendations
             </h2>
             <p className="text-lg text-muted-foreground">
-              Start exploring and listening to music you love. We'll analyze your taste to create perfect playlists just for you.
+              Start exploring and listening to music you love. We&apos;ll analyze your taste to create perfect playlists just for you.
             </p>
             <div className="flex items-center justify-center gap-4 pt-4">
               <Link 
