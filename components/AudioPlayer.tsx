@@ -71,11 +71,14 @@ const AudioPlayer = () => {
 
   const {
     updateGenreScore,
+    updateArtistScore,
     currentSessionStart,
-    currentGenreId
+    currentGenreId,
+    startPlaySession,
+    startArtistSession
   } = usePersonalStore()
 
-  const [currentGenre] = useState<{ id: string; name: string } | null>(null)
+  const [currentGenre, setCurrentGenre] = useState<{ id: string; name: string } | null>(null)
 
   // Fetch detailed song information when song changes
   useEffect(() => {
@@ -83,8 +86,13 @@ const AudioPlayer = () => {
       if (!currentSong?.id || detailFetched) return
       
       try {
-        const detailRes = await fetch(`/api/detail?id=${currentSong.id}`)
-        const detailData = await detailRes.json()
+        const [detailRes, genreRes] = await Promise.all([
+          fetch(`/api/detail?id=${currentSong.id}`),
+          fetch(`/api/genre/song?id=${currentSong.id}`)
+        ]);
+        
+        const detailData = await detailRes.json();
+        const genreData = await genreRes.json();
         
         if (detailData.code === 200 && detailData.songs?.length > 0) {
           const songData = detailData.songs[0]
@@ -98,19 +106,41 @@ const AudioPlayer = () => {
             cover: songData.al.picUrl
           }
           updateCurrentSongDetails({ artists, album })
+          
+          // 處理流派資訊
+          if (genreData && genreData.genre) {
+            console.log('Genre data received:', genreData.genre)
+            setCurrentGenre({
+              id: genreData.genre.id.toString(),
+              name: genreData.genre.name
+            })
+            startPlaySession(genreData.genre.id.toString())
+          }
+
+          // 開始追踪主要藝術家的播放數據
+          if (artists.length > 0) {
+            const mainArtist = artists[0]
+            startArtistSession(mainArtist.id)
+          }
+          
           setDetailFetched(true)
         }
       } catch (error) {
-        console.error('Failed to fetch song details:', error)
+        console.error('Failed to fetch song details or genre:', error)
       }
     }
 
     fetchDetails()
-  }, [currentSong?.id, updateCurrentSongDetails, detailFetched])
+  }, [currentSong?.id, updateCurrentSongDetails, detailFetched, startPlaySession, startArtistSession])
 
   // Reset detail fetched state when song changes
   useEffect(() => {
     setDetailFetched(false)
+  }, [currentSong?.id])
+
+  // Reset genre information when song changes
+  useEffect(() => {
+    setCurrentGenre(null)
   }, [currentSong?.id])
 
   // Media Session initialization
@@ -293,14 +323,20 @@ const AudioPlayer = () => {
       }
     }
 
-    // 處理流派評分
-    if (currentGenre && currentSessionStart && currentGenreId === currentGenre.id) {
-      const playTime = Math.floor((Date.now() - currentSessionStart) / 1000) // 轉換為秒
-      if (playTime % 30 === 0) { // 每30秒更新一次分數
+    // 處理流派和藝術家評分
+    if (!currentSessionStart) return;
+    const playTime = Math.floor((Date.now() - currentSessionStart) / 1000)
+    if (playTime % 30 === 0) { // 每30秒更新一次分數
+      if (currentGenre && currentSessionStart && currentGenreId === currentGenre.id) {
         updateGenreScore(currentGenre.id, currentGenre.name, playTime)
       }
+      
+      if (currentSong?.artists?.[0]) {
+        const mainArtist = currentSong.artists[0]
+        updateArtistScore(mainArtist, playTime)
+      }
     }
-  }, [lyrics, setCurrentTime, setCurrentLyricIndex, currentGenre, currentSessionStart, currentGenreId, updateGenreScore])
+  }, [lyrics, setCurrentTime, setCurrentLyricIndex, currentGenre, currentSessionStart, currentGenreId, updateGenreScore, updateArtistScore, currentSong])
 
   // 跳轉處理
   const handleSeek = useCallback((time: number) => {

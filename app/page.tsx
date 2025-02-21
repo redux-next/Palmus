@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { usePlayerStore } from '@/lib/playerStore'
+import { usePersonalStore } from '@/lib/personalStore'
 import { Skeleton } from "@/components/ui/skeleton"
 import Link from "next/link"
 
@@ -27,16 +28,28 @@ type Artist = {
   albumSize: number
 }
 
+type PersonalizedSection = {
+  title: string
+  type: 'artist' | 'genre'
+  id: string | number
+  name: string
+  songs: Song[]
+  loading: boolean
+}
+
 export default function Home() {
   const [charts, setCharts] = useState<ChartSection[]>([
-    { title: "Billboard Top 30", songs: [], loading: true },
-    { title: "UK Top 30", songs: [], loading: true },
-    { title: "Beatport Top 30", songs: [], loading: true },
+    { title: "Billboard Top 50", songs: [], loading: true },
+    { title: "UK Top 50", songs: [], loading: true },
+    { title: "Beatport Top 50", songs: [], loading: true },
   ])
   const [topArtists, setTopArtists] = useState<Artist[]>([])
   const [artistsLoading, setArtistsLoading] = useState(true)
+  const [personalizedSections, setPersonalizedSections] = useState<PersonalizedSection[]>([])
 
   const { setCurrentSong } = usePlayerStore()
+  const { getTopArtists, getTopGenres } = usePersonalStore()
+
   // 移除不需要的 store 方法
 
   // 新增事件委派處理器
@@ -48,7 +61,7 @@ export default function Home() {
     const songArtists = card.getAttribute("data-song-artists") || ""
     const albumName = card.getAttribute("data-album-name") || ""
     const songCover = card.getAttribute("data-song-cover") || ""
-    
+
     setCurrentSong({
       id: songId,
       name: songName,
@@ -75,9 +88,9 @@ export default function Home() {
         ])
 
         setCharts([
-          { title: "Billboard Top 30", songs: billboardData.songs || [], loading: false },
-          { title: "UK top 30", songs: ukData.songs || [], loading: false },
-          { title: "Beatport Top 30", songs: beatportData.songs || [], loading: false },
+          { title: "Billboard Top 50", songs: billboardData.songs || [], loading: false },
+          { title: "UK top 50", songs: ukData.songs || [], loading: false },
+          { title: "Beatport Top 50", songs: beatportData.songs || [], loading: false },
         ])
       } catch (error) {
         console.error('Error fetching charts:', error)
@@ -105,19 +118,183 @@ export default function Home() {
     fetchTopArtists()
   }, [])
 
+  // 獲取個人化推薦
+  useEffect(() => {
+    const fetchPersonalizedContent = async () => {
+      const sections: PersonalizedSection[] = []
+
+      // 獲取前 3 個最常聽的藝術家
+      const topArtists = getTopArtists(3)
+      // 獲取前 2 個最常聽的流派
+      const topGenres = getTopGenres(2)
+
+      // 為每個藝術家獲取熱門歌曲
+      for (const artist of topArtists) {
+        sections.push({
+          title: `Top picks from ${artist.name}`,
+          type: 'artist',
+          id: artist.id,
+          name: artist.name,
+          songs: [],
+          loading: true
+        })
+      }
+
+      // 為每個流派獲取歌曲
+      for (const genre of topGenres) {
+        sections.push({
+          title: `More ${genre.name} for you`,
+          type: 'genre',
+          id: genre.id,
+          name: genre.name,
+          songs: [],
+          loading: true
+        })
+      }
+
+      setPersonalizedSections(sections)
+
+      // 獲取每個部分的歌曲
+      const updatedSections = await Promise.all(
+        sections.map(async (section) => {
+          try {
+            const endpoint = section.type === 'artist'
+              ? `/api/artist/popular?id=${section.id}`
+              : `/api/genre/list?id=${section.id}&type=song`
+
+            const response = await fetch(endpoint)
+            const data = await response.json()
+
+            return {
+              ...section,
+              songs: section.type === 'artist'
+                ? data.songs || []
+                : data.data?.songs || [],
+              loading: false
+            }
+          } catch (error) {
+            console.error(`Error fetching ${section.type} songs:`, error)
+            return { ...section, loading: false }
+          }
+        })
+      )
+
+      setPersonalizedSections(updatedSections.filter(section => section.songs.length > 0))
+    }
+
+    fetchPersonalizedContent()
+  }, [getTopArtists, getTopGenres])
+
+  // 新增一個函數來檢查是否有個人化數據
+  const hasPersonalizedData = personalizedSections.length > 0
+
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-bold">Discover</h1>
-      
+
+      {/* 個人化推薦部分 */}
+      {hasPersonalizedData ? (
+        <div className="space-y-8">
+          {personalizedSections.map((section) => (
+            <section key={`${section.type}-${section.id}`} className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-semibold">
+                  {section.type === 'artist' 
+                    ? <>Top picks from <Link className="text-primary font-bold hover:underline" href={`/artist/${section.id}`}>{section.name}</Link></>
+                    : <>More <Link className="text-primary font-bold hover:underline" href={`/genre/${section.id}`}>{section.name}</Link> for you</>
+                  }
+                </h3>
+                <Link 
+                  href={section.type === 'artist' ? `/artist/${section.id}` : `/genre/${section.id}`}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  View all
+                </Link>
+              </div>
+              <ScrollArea>
+                {section.loading ? (
+                  <div className="flex gap-4">
+                    {Array.from({ length: 30 }).map((_, i) => (
+                      <div key={i} className="shrink-0 w-[200px]">
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="h-4 w-3/4 mt-2" />
+                        <Skeleton className="h-3 w-1/2 mt-1" />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex gap-4" onClick={handleContainerClick}>
+                    {section.songs.map((song) => (
+                      <div
+                        key={song.id}
+                        className="bg-card text-card-foreground p-4 rounded-2xl shadow border shrink-0 w-[200px] cursor-pointer hover:bg-accent/50 transition-colors"
+                        data-song-id={song.id}
+                        data-song-name={song.name}
+                        data-song-artists={song.ar.map(artist => artist.name).join('/')}
+                        data-album-name={song.al.name}
+                        data-song-cover={song.al.picUrl}
+                      >
+                        <div className="aspect-square">
+                          <img
+                            src={song.al.picUrl + "?param=200y200"}
+                            alt={song.name}
+                            className="w-full h-full object-cover rounded-lg"
+                            loading="lazy"
+                          />
+                        </div>
+                        <h3 className="font-medium mt-2 truncate">{song.name}</h3>
+                        <p className="text-sm text-muted-foreground truncate">
+                          {song.ar.map((artist, index) => (
+                            <span key={artist.id}>
+                              {index > 0 && " / "}
+                              <Link
+                                href={`/artist/${artist.id}`}
+                                className="hover:underline hover:text-primary"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                {artist.name}
+                              </Link>
+                            </span>
+                          ))}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </ScrollArea>
+            </section>
+          ))}
+        </div>
+      ) : (
+        <div className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl p-8">
+          <div className="relative z-10 max-w-2xl mx-auto text-center space-y-4">
+            <h2 className="text-2xl font-bold text-foreground/90">
+              Get Your Personal Music Recommendations
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Start exploring and listening to music you love. We'll analyze your taste to create perfect playlists just for you.
+            </p>
+            <div className="flex items-center justify-center gap-4 pt-4">
+              <Link 
+                href="/search" 
+                className="inline-flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-lg font-medium transition-colors"
+              >
+                Discover Music
+              </Link>
+            </div>
+          </div>
+          <div className="absolute inset-0 bg-grid-white/5" />
+        </div>
+      )}
+
       {/* Charts Sections */}
       {charts.map((chart, index) => (
         <section key={index} className="space-y-4">
           <h2 className="text-xl font-semibold">{chart.title}</h2>
           <ScrollArea>
             {chart.loading ? (
-              // 載入中的骨架屏
               <div className="flex gap-4">
-                {Array.from({ length: 10 }).map((_, i) => (
+                {Array.from({ length: 30 }).map((_, i) => (
                   <div key={i} className="shrink-0 w-[200px]">
                     <Skeleton className="aspect-square rounded-xl" />
                     <Skeleton className="h-4 w-3/4 mt-2" />
@@ -132,7 +309,6 @@ export default function Home() {
                   <div
                     key={song.id}
                     className="bg-card text-card-foreground p-4 rounded-2xl shadow border shrink-0 w-[200px] cursor-pointer hover:bg-accent/50 transition-colors"
-                    // 新增 data attributes
                     data-song-id={song.id}
                     data-song-name={song.name}
                     data-song-artists={song.ar.map(artist => artist.name).join('/')}

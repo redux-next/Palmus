@@ -10,14 +10,29 @@ interface GenreScore {
   lastPlayed: number     // timestamp
 }
 
+interface ArtistScore {
+  id: number
+  name: string
+  score: number
+  playCount: number
+  totalPlayTime: number
+  lastPlayed: number
+}
+
 interface PersonalStore {
   genreScores: GenreScore[]
+  artistScores: ArtistScore[]
   currentSessionStart: number | null
   currentGenreId: string | null
+  currentArtistId: number | null
   updateGenreScore: (genreId: string, genreName: string, playTime: number) => void
+  updateArtistScore: (artist: { id: number; name: string }, playTime: number) => void
   startPlaySession: (genreId: string) => void
+  startArtistSession: (artistId: number) => void
   getTopGenres: (limit?: number) => GenreScore[]
+  getTopArtists: (limit?: number) => ArtistScore[]
   getGenreScore: (genreId: string) => number
+  getArtistScore: (artistId: number) => number
   resetScores: () => void
 }
 
@@ -31,11 +46,17 @@ export const usePersonalStore = create<PersonalStore>()(
   persist(
     (set, get) => ({
       genreScores: [],
+      artistScores: [],
       currentSessionStart: null,
       currentGenreId: null,
+      currentArtistId: null,
 
       updateGenreScore: (genreId: string, genreName: string, playTime: number) => {
-        if (playTime < MINIMUM_PLAY_TIME) return
+        console.log(`Updating genre score: ${genreName} (${genreId}), playTime: ${playTime}s`)
+        if (playTime < MINIMUM_PLAY_TIME) {
+          console.log('Play time too short, ignoring update')
+          return
+        }
 
         set(state => {
           const now = Date.now()
@@ -99,16 +120,94 @@ export const usePersonalStore = create<PersonalStore>()(
         })
       },
 
+      updateArtistScore: (artist, playTime) => {
+        console.log(`Updating artist score: ${artist.name} (${artist.id}), playTime: ${playTime}s`)
+        if (playTime < MINIMUM_PLAY_TIME) {
+          console.log('Play time too short, ignoring update')
+          return
+        }
+
+        set(state => {
+          const now = Date.now()
+          let artistScores = [...state.artistScores]
+          
+          // Apply time decay to all artists
+          artistScores = artistScores.map(artist => {
+            const daysSinceLastPlay = (now - artist.lastPlayed) / (1000 * 60 * 60 * 24)
+            const decayedScore = artist.score * Math.pow(1 - DECAY_RATE, daysSinceLastPlay)
+            return {
+              ...artist,
+              score: decayedScore
+            }
+          })
+
+          const artistIndex = artistScores.findIndex(a => a.id === artist.id)
+          const playTimeScore = playTime * PLAY_TIME_WEIGHT / 300 // Normalize to 5 minutes
+
+          if (artistIndex === -1) {
+            // New artist
+            const initialScore = Math.min(playTimeScore, 3)
+            artistScores.push({
+              id: artist.id,
+              name: artist.name,
+              score: initialScore,
+              playCount: 1,
+              totalPlayTime: playTime,
+              lastPlayed: now
+            })
+          } else {
+            // Update existing artist
+            artistScores[artistIndex] = {
+              ...artistScores[artistIndex],
+              score: Math.min(
+                artistScores[artistIndex].score + playTimeScore,
+                MAX_SCORE
+              ),
+              playCount: artistScores[artistIndex].playCount + 1,
+              totalPlayTime: artistScores[artistIndex].totalPlayTime + playTime,
+              lastPlayed: now
+            }
+          }
+
+          // Normalize scores
+          const totalScore = artistScores.reduce((sum, artist) => sum + artist.score, 0)
+          if (totalScore > 0) {
+            artistScores = artistScores.map(artist => ({
+              ...artist,
+              score: (artist.score * MAX_SCORE) / totalScore
+            }))
+          }
+
+          // Remove artists with very low scores
+          artistScores = artistScores.filter(artist => artist.score > MIN_SCORE_THRESHOLD)
+
+          return { artistScores }
+        })
+      },
+
       startPlaySession: (genreId: string) => {
+        console.log(`Starting new play session for genre: ${genreId}`)
         set({
           currentSessionStart: Date.now(),
           currentGenreId: genreId
         })
       },
 
+      startArtistSession: (artistId) => {
+        console.log(`Starting new artist session for: ${artistId}`)
+        set({ currentArtistId: artistId })
+      },
+
       getTopGenres: (limit = 5) => {
         const { genreScores } = get()
         return [...genreScores]
+          .sort((a, b) => b.score - a.score)
+          .slice(0, limit)
+      },
+
+      getTopArtists: (limit = 5) => {
+        const { artistScores } = get()
+        return [...artistScores]
           .sort((a, b) => b.score - a.score)
           .slice(0, limit)
       },
@@ -119,11 +218,19 @@ export const usePersonalStore = create<PersonalStore>()(
         return genre?.score ?? 0
       },
 
+      getArtistScore: (artistId) => {
+        const { artistScores } = get()
+        const artist = artistScores.find(a => a.id === artistId)
+        return artist?.score ?? 0
+      },
+
       resetScores: () => {
         set({
           genreScores: [],
+          artistScores: [],
           currentSessionStart: null,
-          currentGenreId: null
+          currentGenreId: null,
+          currentArtistId: null
         })
       }
     }),
