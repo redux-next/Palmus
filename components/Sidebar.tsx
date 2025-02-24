@@ -33,14 +33,20 @@ const Sidebar = () => {
   return (
     <aside className={cn(
       "hidden md:flex flex-col m-4",
+      "transition-all duration-300 ease-in-out",
       isCollapsed ? "min-w-[5rem] max-w-[5rem]" : "min-w-72 max-w-72"
     )}>
       <nav className="bg-card text-card-foreground p-4 rounded-3xl shadow-lg border flex flex-col h-[calc(100vh-2rem)] relative">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute -right-3 top-1/2 transform -translate-y-1/2 bg-card border rounded-full p-1.5 hover:bg-accent transition-colors"
+          className="absolute -right-4 top-1/2 transform -translate-y-1/2 bg-card border rounded-full p-1.5 hover:bg-accent transition-all duration-300 z-50"
         >
-          {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+          <div className={cn(
+            "transition-transform duration-300",
+            isCollapsed ? "rotate-0" : "rotate-180"
+          )}>
+            <ChevronRight size={16} />
+          </div>
         </button>
 
         <div className="flex flex-col min-h-0 flex-1">
@@ -75,7 +81,11 @@ const Sidebar = () => {
           </ul>
 
           {!isCollapsed && (
-            <div className="pl-2 my-2 flex-1 min-h-0">
+            <div className={cn(
+              "pl-2 my-2 flex-1 min-h-0",
+              "transition-opacity duration-300",
+              isCollapsed ? "opacity-0" : "opacity-100"
+            )}>
               <div className="relative h-full">
                 <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
                   <div className="library-list pl-4 pb-2 relative before:absolute before:left-2 before:top-0 before:bottom-4 before:w-[2px] before:bg-border/80">

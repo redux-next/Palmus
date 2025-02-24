@@ -33,9 +33,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AudioPlayer />
-          <div className="flex h-dvh bg-background text-foreground">
+          <div className="flex h-dvh bg-background text-foreground overflow-x-hidden">
             <Sidebar />
-            <div className="flex flex-col flex-grow">
+            <div className="flex flex-col flex-grow min-w-0">
               <header className="p-4 flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -50,7 +50,7 @@ export default function RootLayout({
               </header>
               <main 
                 id="main" 
-                className="w-screen md:w-[calc(100vw_-_var(--sidebar-width))] flex-grow overflow-auto p-4 scroll-hide flex flex-col pb-28 md:pb-4"
+                className="flex-grow overflow-y-auto overflow-x-hidden p-4 scroll-hide flex flex-col pb-28 md:pb-4"
               >
                 {children}
                 <SpeedInsights />
