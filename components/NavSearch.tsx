@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Input } from "./ui/input"
 import Link from "next/link"
 import { usePlayerStore } from "@/lib/playerStore"
+import { useRouter } from "next/navigation"
 
 type Suggestion = {
   result: {
@@ -39,6 +40,7 @@ type Song = {
 }
 
 export function NavSearch() {
+  const router = useRouter()
   const [keyword, setKeyword] = useState("")
   const [suggestions, setSuggestions] = useState<Suggestion | null>(null)
   const [showSuggestions, setShowSuggestions] = useState(false)
@@ -174,16 +176,17 @@ export function NavSearch() {
                 >
                   <div className="font-medium">{album.name}</div>
                   <div className="text-sm text-muted-foreground">
-                    <Link
-                      href={`/artist/${album.artist.id}`}
+                    <span
                       onClick={(e) => {
                         e.stopPropagation();
+                        e.preventDefault();
                         setShowSuggestions(false);
+                        router.push(`/artist/${album.artist.id}`);
                       }}
                       className="hover:underline"
                     >
                       {album.artist.name}
-                    </Link>
+                    </span>
                   </div>
                 </Link>
               ))}

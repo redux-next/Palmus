@@ -204,12 +204,6 @@ export default function Home() {
                     : <>More <Link className="text-primary font-bold hover:underline" href={`/genre/${section.id}`}>{section.name}</Link> for you</>
                   }
                 </h3>
-                <Link 
-                  href={section.type === 'artist' ? `/artist/${section.id}` : `/genre/${section.id}`}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  View all
-                </Link>
               </div>
               <ScrollArea>
                 {section.loading ? (

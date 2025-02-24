@@ -48,7 +48,13 @@ export default function RootLayout({
                   <SettingsDropdown />
                 </div>
               </header>
-              <main id="main" className="w-screen md:w-[calc(100vw_-_20rem)] flex-grow overflow-auto p-4 scroll-hide flex flex-col pb-28 md:pb-4">{children}<SpeedInsights /></main>
+              <main 
+                id="main" 
+                className="w-screen md:w-[calc(100vw_-_var(--sidebar-width))] flex-grow overflow-auto p-4 scroll-hide flex flex-col pb-28 md:pb-4"
+              >
+                {children}
+                <SpeedInsights />
+              </main>
               <BottomNavigation />
             </div>
           </div>

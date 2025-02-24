@@ -109,7 +109,6 @@ const AudioPlayer = () => {
           
           // 處理流派資訊
           if (genreData && genreData.genre) {
-            console.log('Genre data received:', genreData.genre)
             setCurrentGenre({
               id: genreData.genre.id.toString(),
               name: genreData.genre.name
@@ -153,7 +152,7 @@ const AudioPlayer = () => {
       album: currentSong?.album?.name || 'Unknown Album',
       artwork: [
         { 
-          src: currentSong?.album?.cover || '/default-cover.jpg', 
+          src: currentSong?.album?.cover || '/placeholder.svg', 
           sizes: '512x512', 
           type: 'image/jpeg' 
         }

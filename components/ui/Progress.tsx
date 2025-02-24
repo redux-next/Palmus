@@ -55,7 +55,7 @@ export function Progress({ value, max, onValueChange, className = "" }: Progress
       className={`relative h-1 rounded-full cursor-pointer group ${className}`}
       onClick={handleClick}
     >
-      <div className="absolute inset-0 bg-secondary/80 rounded-full" />
+      <div className="absolute inset-0 bg-secondary rounded-full" />
       <div 
         className="absolute inset-0 bg-primary rounded-full transition-all duration-100"
         style={{ width: `${(value / max) * 100}%` }}

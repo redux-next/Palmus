@@ -84,7 +84,13 @@
     --chart-2 1s ease,
     --chart-3 1s ease,
     --chart-4 1s ease,
-    --chart-5 1s ease;
+    --chart-5 1s ease,
+    --sidebar-width 0.3s ease;
+  --sidebar-width: 20rem;
+}
+
+[data-sidebar-collapsed="true"] {
+  --sidebar-width: 7rem;
 }
 
 @keyframes marquee {

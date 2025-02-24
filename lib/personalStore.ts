@@ -77,12 +77,11 @@ export const usePersonalStore = create<PersonalStore>()(
           const playTimeScore = playTime * PLAY_TIME_WEIGHT / 300 // Normalize to 5 minutes
 
           if (genreIndex === -1) {
-            // New genre
-            const initialScore = Math.min(playTimeScore, 3) // Max initial score is 3
+            // New genre - start with 0 score
             genreScores.push({
               id: genreId,
               name: genreName,
-              score: initialScore,
+              score: 0,
               playCount: 1,
               totalPlayTime: playTime,
               lastPlayed: now
@@ -101,16 +100,16 @@ export const usePersonalStore = create<PersonalStore>()(
             }
           }
 
-          // Calculate total score and normalize
-          const totalScore = genreScores.reduce((sum, genre) => sum + genre.score, 0)
-          
-          if (totalScore > 0) {
-            // Normalize scores to make total = MAX_SCORE
-            const normalizer = MAX_SCORE / totalScore
-            genreScores = genreScores.map(genre => ({
-              ...genre,
-              score: genre.score * normalizer
-            }))
+          // Only normalize if there are scores > 0
+          const hasPositiveScores = genreScores.some(genre => genre.score > 0)
+          if (hasPositiveScores) {
+            const totalScore = genreScores.reduce((sum, genre) => sum + genre.score, 0)
+            if (totalScore > 0) {
+              genreScores = genreScores.map(genre => ({
+                ...genre,
+                score: genre.score * MAX_SCORE / totalScore
+              }))
+            }
           }
 
           // Remove genres with very low scores
@@ -145,12 +144,11 @@ export const usePersonalStore = create<PersonalStore>()(
           const playTimeScore = playTime * PLAY_TIME_WEIGHT / 300 // Normalize to 5 minutes
 
           if (artistIndex === -1) {
-            // New artist
-            const initialScore = Math.min(playTimeScore, 3)
+            // New artist - start with 0 score
             artistScores.push({
               id: artist.id,
               name: artist.name,
-              score: initialScore,
+              score: 0,
               playCount: 1,
               totalPlayTime: playTime,
               lastPlayed: now
@@ -169,13 +167,16 @@ export const usePersonalStore = create<PersonalStore>()(
             }
           }
 
-          // Normalize scores
-          const totalScore = artistScores.reduce((sum, artist) => sum + artist.score, 0)
-          if (totalScore > 0) {
-            artistScores = artistScores.map(artist => ({
-              ...artist,
-              score: (artist.score * MAX_SCORE) / totalScore
-            }))
+          // Only normalize if there are scores > 0
+          const hasPositiveScores = artistScores.some(artist => artist.score > 0)
+          if (hasPositiveScores) {
+            const totalScore = artistScores.reduce((sum, artist) => sum + artist.score, 0)
+            if (totalScore > 0) {
+              artistScores = artistScores.map(artist => ({
+                ...artist,
+                score: artist.score * MAX_SCORE / totalScore
+              }))
+            }
           }
 
           // Remove artists with very low scores
