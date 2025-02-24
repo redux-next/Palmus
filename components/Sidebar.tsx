@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd'
 import Link from "next/link"
-import { Home, Search, Library, Heart, ListVideo, GripVertical, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Home, Search, Library, Heart, ListVideo, GripVertical, ChevronRight } from 'lucide-react'
 import SidePlayer from "@/components/SidePlayer"
 import { usePlayerStore } from "@/lib/playerStore"
 import { cn } from "@/lib/utils"
