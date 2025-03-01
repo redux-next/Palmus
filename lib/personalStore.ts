@@ -52,9 +52,7 @@ export const usePersonalStore = create<PersonalStore>()(
       currentArtistId: null,
 
       updateGenreScore: (genreId: string, genreName: string, playTime: number) => {
-        console.log(`Updating genre score: ${genreName} (${genreId}), playTime: ${playTime}s`)
         if (playTime < MINIMUM_PLAY_TIME) {
-          console.log('Play time too short, ignoring update')
           return
         }
 
@@ -77,11 +75,11 @@ export const usePersonalStore = create<PersonalStore>()(
           const playTimeScore = playTime * PLAY_TIME_WEIGHT / 300 // Normalize to 5 minutes
 
           if (genreIndex === -1) {
-            // New genre - start with 0 score
+            // 新增流派 - 設定初始分數為1
             genreScores.push({
               id: genreId,
               name: genreName,
-              score: 0,
+              score: 1, // 改為固定初始分數1，不是0
               playCount: 1,
               totalPlayTime: playTime,
               lastPlayed: now
@@ -120,9 +118,7 @@ export const usePersonalStore = create<PersonalStore>()(
       },
 
       updateArtistScore: (artist, playTime) => {
-        console.log(`Updating artist score: ${artist.name} (${artist.id}), playTime: ${playTime}s`)
         if (playTime < MINIMUM_PLAY_TIME) {
-          console.log('Play time too short, ignoring update')
           return
         }
 
@@ -144,11 +140,11 @@ export const usePersonalStore = create<PersonalStore>()(
           const playTimeScore = playTime * PLAY_TIME_WEIGHT / 300 // Normalize to 5 minutes
 
           if (artistIndex === -1) {
-            // New artist - start with 0 score
+            // 新增藝術家 - 設定初始分數為1
             artistScores.push({
               id: artist.id,
               name: artist.name,
-              score: 0,
+              score: 1, // 改為固定初始分數1
               playCount: 1,
               totalPlayTime: playTime,
               lastPlayed: now
@@ -187,7 +183,6 @@ export const usePersonalStore = create<PersonalStore>()(
       },
 
       startPlaySession: (genreId: string) => {
-        console.log(`Starting new play session for genre: ${genreId}`)
         set({
           currentSessionStart: Date.now(),
           currentGenreId: genreId
@@ -195,7 +190,6 @@ export const usePersonalStore = create<PersonalStore>()(
       },
 
       startArtistSession: (artistId) => {
-        console.log(`Starting new artist session for: ${artistId}`)
         set({ currentArtistId: artistId })
       },
 

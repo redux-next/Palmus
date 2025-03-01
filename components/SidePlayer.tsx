@@ -103,10 +103,10 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
         <AnimatePresence>
           {isHovered && (
             <motion.div
-              initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
+              initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
-              transition={{ duration: 0.3}}
+              exit={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+              transition={{ duration: 0.3 }}
               className="absolute bottom-full left-0 mb-2 bg-background/75 backdrop-blur-2xl border shadow-lg rounded-xl p-4 w-72 z-50"
             >
               <div className="flex items-center space-x-4">
@@ -129,6 +129,11 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
                           </Link>
                         </span>
                       ))}
+                    </Marquee>
+                    <Marquee className="text-xs text-muted-foreground">
+                      <Link href={`/artist/${currentSong.artists[0].id}/album/${currentSong.album.id}`} className="hover:underline">
+                        {currentSong.album.name}
+                      </Link>
                     </Marquee>
                   </div>
                 </div>
@@ -163,20 +168,20 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
                       {showVolumeSlider && (
                         <motion.div
                           className="absolute bottom-full left-1/2 bg-background border rounded-lg py-4 px-1 h-32 w-8 shadow-lg flex items-center justify-center"
-                          initial={{ 
-                            opacity: 0, 
+                          initial={{
+                            opacity: 0,
                             y: 10,
                             x: "-50%",
                             filter: 'blur(5px)',
                           }}
-                          animate={{ 
-                            opacity: 1, 
+                          animate={{
+                            opacity: 1,
                             y: 0,
                             x: "-50%",
-                            filter: 'blur(0px)' 
+                            filter: 'blur(0px)'
                           }}
-                          exit={{ 
-                            opacity: 0, 
+                          exit={{
+                            opacity: 0,
                             y: 10,
                             x: "-50%",
                             filter: 'blur(5px)'
@@ -198,7 +203,7 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
                       )}
                     </AnimatePresence>
                   </div>
-                  
+
                   <TooltipButton
                     icon={<SkipBack />}
                     tooltip="Previous"
@@ -257,6 +262,11 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
                 </span>
               ))}
             </Marquee>
+            <Marquee className="text-sm text-muted-foreground">
+              <Link href={`/artist/${currentSong.artists[0].id}/album/${currentSong.album.id}`} className="hover:underline">
+                {currentSong.album.name}
+              </Link>
+            </Marquee>
           </div>
         </div>
       </div>
@@ -289,20 +299,20 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
               {showVolumeSlider && (
                 <motion.div
                   className="absolute bottom-full left-1/2 bg-background border rounded-lg py-4 px-1 h-32 w-8 shadow-lg flex items-center justify-center"
-                  initial={{ 
-                    opacity: 0, 
+                  initial={{
+                    opacity: 0,
                     y: 10,
                     x: "-50%",
                     filter: 'blur(5px)',
                   }}
-                  animate={{ 
-                    opacity: 1, 
+                  animate={{
+                    opacity: 1,
                     y: 0,
                     x: "-50%",
-                    filter: 'blur(0px)' 
+                    filter: 'blur(0px)'
                   }}
-                  exit={{ 
-                    opacity: 0, 
+                  exit={{
+                    opacity: 0,
                     y: 10,
                     x: "-50%",
                     filter: 'blur(5px)'
@@ -324,7 +334,7 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
               )}
             </AnimatePresence>
           </div>
-          
+
           <TooltipButton
             icon={<SkipBack />}
             tooltip="Previous"

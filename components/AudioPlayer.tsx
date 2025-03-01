@@ -301,11 +301,11 @@ const AudioPlayer = () => {
     setCurrentTime(current)
     
     if (lyrics.length === 0) return
-
+  
     let low = 0
     let high = lyrics.length - 1
     let result = -1
-
+  
     while (low <= high) {
       const mid = Math.floor((low + high) / 2)
       if (lyrics[mid].time <= current) {
@@ -321,22 +321,30 @@ const AudioPlayer = () => {
         setCurrentLyricIndex(result)
       }
     }
-
-    // 處理流派和藝術家評分
+  
+    // 處理流派和藝術家評分 - 進一步優化更新邏輯
     if (!currentSessionStart) return;
+    
+    // 獲取播放時間
     const playTime = Math.floor((Date.now() - currentSessionStart) / 1000)
-    if (playTime % 30 === 0) { // 每30秒更新一次分數
-      if (currentGenre && currentSessionStart && currentGenreId === currentGenre.id) {
+    
+    // 固定更新間隔：30秒時立即更新一次，之後每10秒更新一次
+    if (playTime === 30 || (playTime > 30 && playTime % 10 === 0)) {
+      // 流派評分更新
+      if (currentGenre) {
         updateGenreScore(currentGenre.id, currentGenre.name, playTime)
+        console.log(`已觸發流派評分更新: ${currentGenre.name}, 播放時間: ${playTime}秒`)
       }
       
+      // 藝術家評分更新
       if (currentSong?.artists?.[0]) {
         const mainArtist = currentSong.artists[0]
         updateArtistScore(mainArtist, playTime)
+        console.log(`已觸發藝術家評分更新: ${mainArtist.name}, 播放時間: ${playTime}秒`)
       }
     }
-  }, [lyrics, setCurrentTime, setCurrentLyricIndex, currentGenre, currentSessionStart, currentGenreId, updateGenreScore, updateArtistScore, currentSong])
-
+  }, [lyrics, setCurrentTime, setCurrentLyricIndex, currentGenre, currentSessionStart, updateGenreScore, updateArtistScore, currentSong])
+  
   // 跳轉處理
   const handleSeek = useCallback((time: number) => {
     if (!audioRef.current) return
@@ -544,13 +552,26 @@ const AudioPlayer = () => {
     audioRef.current.volume = isMuted ? 0 : volume
   }, [volume, isMuted])
 
-  // 修改 onEnded 事件處理
+  // 修改 onEnded 事件處理，確保結束時也更新兩種評分
   const handleEnded = useCallback(() => {
     setCurrentTime(0)
-    // 在歌曲結束時更新最後的播放時間
-    if (currentGenre && currentSessionStart) {
+    
+    // 在歌曲結束時更新最後的播放時間和評分
+    if (currentSessionStart) {
       const totalPlayTime = Math.floor((Date.now() - currentSessionStart) / 1000)
-      updateGenreScore(currentGenre.id, currentGenre.name, totalPlayTime)
+      
+      // 更新流派評分
+      if (currentGenre) {
+        updateGenreScore(currentGenre.id, currentGenre.name, totalPlayTime)
+        console.log(`歌曲結束時更新流派評分: ${currentGenre.name}, 總播放時間: ${totalPlayTime}秒`)
+      }
+      
+      // 更新藝術家評分
+      if (currentSong?.artists?.[0]) {
+        const mainArtist = currentSong.artists[0]
+        updateArtistScore(mainArtist, totalPlayTime)
+        console.log(`歌曲結束時更新藝術家評分: ${mainArtist.name}, 總播放時間: ${totalPlayTime}秒`)
+      }
     }
     
     if (currentSong && likedSongs.some(song => song.id === currentSong.id)) {
@@ -562,7 +583,7 @@ const AudioPlayer = () => {
     if (navigator.mediaSession) {
       navigator.mediaSession.setPositionState({ duration: 0, position: 0 })
     }
-  }, [currentGenre, currentSessionStart, updateGenreScore, currentSong, likedSongs, playNextSong, setIsPlaying, setCurrentTime])
+  }, [currentGenre, currentSessionStart, updateGenreScore, currentSong, likedSongs, playNextSong, setIsPlaying, setCurrentTime, updateArtistScore])
 
   return (
     <audio
