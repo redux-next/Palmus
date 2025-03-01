@@ -332,14 +332,12 @@ const AudioPlayer = () => {
       // 流派評分更新
       if (currentGenre) {
         updateGenreScore(currentGenre.id, currentGenre.name, playTime)
-        console.log(`已觸發流派評分更新: ${currentGenre.name}, 播放時間: ${playTime}秒`)
       }
       
       // 藝術家評分更新
       if (currentSong?.artists?.[0]) {
         const mainArtist = currentSong.artists[0]
         updateArtistScore(mainArtist, playTime)
-        console.log(`已觸發藝術家評分更新: ${mainArtist.name}, 播放時間: ${playTime}秒`)
       }
     }
   }, [lyrics, setCurrentTime, setCurrentLyricIndex, currentGenre, currentSessionStart, updateGenreScore, updateArtistScore, currentSong])

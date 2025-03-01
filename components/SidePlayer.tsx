@@ -73,6 +73,10 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
 
   if (!currentSong) return null
 
+  // 確保安全存取藝術家 ID
+  const artistId = currentSong.artists && currentSong.artists.length > 0 ? currentSong.artists[0].id : 'unknown';
+  const albumLink = `/artist/${artistId}/album/${currentSong.album.id}`;
+
   if (collapsed) {
     const progress = duration > 0 ? currentTime / duration : 0;
 
@@ -130,8 +134,8 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
                         </span>
                       ))}
                     </Marquee>
-                    <Marquee className="text-xs text-muted-foreground">
-                      <Link href={`/artist/${currentSong.artists[0].id}/album/${currentSong.album.id}`} className="hover:underline">
+                    <Marquee className="text-sm text-muted-foreground">
+                      <Link href={albumLink} className="hover:underline">
                         {currentSong.album.name}
                       </Link>
                     </Marquee>
@@ -263,7 +267,7 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
               ))}
             </Marquee>
             <Marquee className="text-sm text-muted-foreground">
-              <Link href={`/artist/${currentSong.artists[0].id}/album/${currentSong.album.id}`} className="hover:underline">
+              <Link href={albumLink} className="hover:underline">
                 {currentSong.album.name}
               </Link>
             </Marquee>

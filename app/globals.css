@@ -95,16 +95,17 @@
 
 @keyframes marquee {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-33.33%); }
-}
-
-.animate-marquee {
-  animation: marquee linear infinite;
+  100% { transform: translateX(-67.8%); }
 }
 
 .marquee-content {
   display: inline-block;
-  animation: marquee 15s linear infinite;
+  animation: marquee linear infinite;
+  animation-delay: 0s;
+  will-change: transform;
+  transform: translateZ(0); /* 強制 GPU 加速 */
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .marquee-content:hover {
