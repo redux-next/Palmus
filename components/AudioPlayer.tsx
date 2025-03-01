@@ -73,7 +73,6 @@ const AudioPlayer = () => {
     updateGenreScore,
     updateArtistScore,
     currentSessionStart,
-    currentGenreId,
     startPlaySession,
     startArtistSession
   } = usePersonalStore()
