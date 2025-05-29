@@ -30,7 +30,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={inter.className + "bg-background overflow-hidden"}> 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AudioPlayer />
           <div className="flex h-dvh bg-background text-foreground overflow-x-hidden">

@@ -12,6 +12,7 @@ import { useState, useCallback } from 'react'
 import { TooltipButton } from './ui/TooltipButton'
 import Link from 'next/link'
 import { CircleProgress } from '@/components/ui/CircleProgress'
+import FullLyrics from "@/components/FullLyrics"
 
 const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
   const currentSong = usePlayerStore((state) => state.currentSong)
@@ -30,6 +31,7 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
   const toggleMute = usePlayerStore((state) => state.toggleMute)
   const [showVolumeSlider, setShowVolumeSlider] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [showMeshFull, setShowMeshFull] = useState(false)
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying)
@@ -100,6 +102,7 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
             width={40}
             height={40}
             className="rounded-xl shrink-0 cursor-pointer"
+            onClick={() => setShowMeshFull(true)}
           />
         </div>
 
@@ -237,6 +240,13 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        <FullLyrics
+          open={showMeshFull}
+          onClose={() => setShowMeshFull(false)}
+          imageUrl={currentSong.album.cover || "/placeholder.svg"}
+          fps={30}
+        />
       </div>
     )
   }
@@ -252,6 +262,7 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
           width={collapsed ? 40 : 60}
           height={collapsed ? 40 : 60}
           className="rounded-xl shrink-0 cursor-pointer"
+          onClick={() => setShowMeshFull(true)}
         />
         <div className="min-w-0 flex-1">
           <div className="w-full">
@@ -365,6 +376,13 @@ const MusicPlayer = ({ collapsed }: { collapsed?: boolean }) => {
           />
         </div>
       </div>
+
+      <FullLyrics
+        open={showMeshFull}
+        onClose={() => setShowMeshFull(false)}
+        imageUrl={currentSong.album.cover || "/placeholder.svg"}
+        fps={30}
+      />
     </div>
   )
 }

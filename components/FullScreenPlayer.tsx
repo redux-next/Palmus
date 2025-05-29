@@ -1,9 +1,11 @@
 "use client"
 
-import { Play, Pause, Heart, ChevronDown, SkipBack, SkipForward, Volume2, Volume1, VolumeX } from 'lucide-react'
+import { Play, Pause, Heart, ChevronDown, SkipBack, SkipForward, Volume2, Volume1, VolumeX, Maximize2 } from 'lucide-react'
 import { usePlayerStore } from '@/lib/playerStore'
 import { formatTime } from '@/components/ui/formatTime'
 import { Progress } from "@/components/ui/Progress"
+import Meshbg from '@/components/meshbg'
+import FullLyrics from "@/components/FullLyrics"
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState, useCallback } from 'react'
 import { Slider } from "@/components/ui/slider"
@@ -34,6 +36,7 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
   const isMuted = usePlayerStore((state) => state.isMuted)
   const setVolume = usePlayerStore((state) => state.setVolume)
   const [showVolumeSlider, setShowVolumeSlider] = useState(false)
+  const [showMeshFull, setShowMeshFull] = useState(false)
 
   const handleLikeToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -78,18 +81,17 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-background z-50"
+      className="fixed inset-0 bg-background z-50 overflow-y-auto"
     >
-      <div className="h-full flex flex-col p-6">
-        <motion.button
-          layoutId="close-button"
+      <div className="min-h-full flex flex-col p-6">
+        <button
           onClick={onClose}
           className="mb-4"
         >
           <ChevronDown size={24} />
-        </motion.button>
+        </button>
 
-        <div className="flex-1 flex flex-col items-center justify-center space-y-8">
+        <div className="h-[90dvh] flex flex-col items-center justify-center space-y-8">
           <motion.img
             layoutId="cover-image"
             src={currentSong?.album.cover || "/placeholder.svg"}
@@ -98,15 +100,13 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
           />
 
           <div className="w-full text-center space-y-2">
-            <motion.div
-              layoutId="song-title"
+            <div
               className="text-2xl font-semibold"
             >
               {currentSong?.name}
-            </motion.div>
+            </div>
 
-            <motion.div
-              layoutId="song-artist"
+            <div
               className="text-muted-foreground"
             >
               {currentSong?.artists.map((artist, index) => (
@@ -121,10 +121,9 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
                   </Link>
                 </span>
               ))}
-            </motion.div>
+            </div>
 
-            <motion.div
-              layoutId="album-name"
+            <div
               className="text-sm text-muted-foreground"
             >
               {currentSong?.artists && currentSong.artists.length > 0 && (
@@ -136,22 +135,11 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
                   {currentSong.album.name}
                 </Link>
               )}
-            </motion.div>
+            </div>
           </div>
 
-          {lyrics.length > 0 && (
-            <motion.div
-              layoutId="lyrics-container"
-              className="w-full max-h-32 overflow-y-auto text-center"
-            >
-              {currentLyricIndex >= 0 && (
-                <p className="text-lg">{lyrics[currentLyricIndex]?.text}</p>
-              )}
-            </motion.div>
-          )}
-
           <div className="w-full space-y-2">
-            <motion.div layoutId="progress-container" className="w-full">
+            <div className="w-full">
               <Progress
                 value={currentTime}
                 max={duration}
@@ -162,22 +150,20 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
                 <span>{formatTime(currentTime)}</span>
                 <span>{formatTime(duration)}</span>
               </div>
-            </motion.div>
+            </div>
           </div>
 
-          <motion.div
-            layoutId="controls-container"
+          <div
             className="flex items-center justify-center w-full max-w-md mx-auto px-4"
           >
             <div className="flex items-center space-x-6">
               <div className="relative flex items-center">
-                <motion.button
+                <button
                   className="p-2"
                   onClick={handleVolumeClick}
-                  whileTap={{ scale: 0.8 }}
                 >
                   {getVolumeIcon()}
-                </motion.button>
+                </button>
                 <AnimatePresence>
                   {showVolumeSlider && (
                     <motion.div
@@ -201,50 +187,98 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
                 </AnimatePresence>
               </div>
 
-              <motion.button
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
+              <button
                 className="p-2"
                 onClick={playPreviousSong}
-                whileTap={{ scale: 0.8 }}
               >
                 <SkipBack size={24} />
-              </motion.button>
+              </button>
 
-              <motion.button
-                layoutId="play-button"
+              <button
                 onClick={() => setIsPlaying(!isPlaying)}
                 className="h-14 w-14 rounded-[19px] bg-primary text-background flex items-center justify-center"
-                whileTap={{ scale: 0.8 }}
               >
                 {isPlaying ? <Pause size={24} /> : <Play size={24} />}
-              </motion.button>
+              </button>
 
-              <motion.button
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
+              <button
                 className="p-2"
                 onClick={playNextSong}
-                whileTap={{ scale: 0.8 }}
               >
                 <SkipForward size={24} />
-              </motion.button>
+              </button>
 
-              <motion.button
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
+              <button
                 className={`p-2 flex items-center justify-center ${isLiked ? 'text-primary' : ''}`}
                 onClick={handleLikeToggle}
-                whileTap={{ scale: 0.8 }}
               >
                 <Heart fill={isLiked ? "currentColor" : "none"} size={24} />
-              </motion.button>
+              </button>
             </div>
-          </motion.div>
+          </div>
         </div>
+
+        {/* 歌詞卡片區塊，放在播放按鈕下方 */}
+        {lyrics.length > 0 && (
+          <div className="w-full flex justify-center mt-6 pb-6">
+            <div className="relative w-full max-w-xl rounded-xl overflow-hidden">
+              {/* Meshbg 作為背景 */}
+              <div className="absolute inset-0 z-0 pointer-events-none rounded-xl brightness-75 contrast-125">
+                <Meshbg imageUrl={currentSong?.album.cover || "/placeholder.svg"} fps={30} />
+              </div>
+              {/* 歌詞卡片內容 */}
+              <div className="relative z-10 rounded-xl shadow-lg px-6 py-4 border border-border">
+                <div className="flex flex-col items-center space-y-1 font-semibold">
+                  {lyrics
+                    .slice(
+                      Math.max(
+                        0,
+                        currentLyricIndex - 2
+                      ),
+                      Math.max(
+                        0,
+                        currentLyricIndex - 2
+                      ) + 5
+                    )
+                    .map((line, idx) => {
+                      const realIdx = Math.max(0, currentLyricIndex - 2) + idx
+                      const isCurrent = realIdx === currentLyricIndex
+                      return (
+                        <span
+                          key={realIdx}
+                          className={`w-full text-center transition-all ${
+                            isCurrent
+                              ? "text-white"
+                              : "text-white/30"
+                          }`}
+                        >
+                          {line.text}
+                        </span>
+                      )
+                    })}
+                </div>
+                {/* Zoom in button */}
+                <button
+                  className="absolute bottom-3 right-3 z-20 bg-background/70 hover:bg-background/90 rounded-full p-2 shadow transition"
+                  onClick={() => setShowMeshFull(true)}
+                  title="Fullscreen"
+                  type="button"
+                >
+                  <Maximize2 size={20} />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 全螢幕 Meshbg canvas（共用元件） */}
+        <FullLyrics
+          open={showMeshFull}
+          onClose={() => setShowMeshFull(false)}
+          imageUrl={currentSong?.album.cover || "/placeholder.svg"}
+          fps={30}
+        />
+
       </div>
     </motion.div>
   )

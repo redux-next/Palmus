@@ -7,9 +7,10 @@ interface ProgressProps {
   max: number
   onValueChange: (value: number) => void
   className?: string
+  dynamic?: boolean
 }
 
-export function Progress({ value, max, onValueChange, className = "" }: ProgressProps) {
+export function Progress({ value, max, onValueChange, className = "", dynamic = true }: ProgressProps) {
   const progressRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
 
@@ -55,13 +56,13 @@ export function Progress({ value, max, onValueChange, className = "" }: Progress
       className={`relative h-1 rounded-full cursor-pointer group ${className}`}
       onClick={handleClick}
     >
-      <div className="absolute inset-0 bg-secondary rounded-full" />
+      <div className={`absolute inset-0 rounded-full ${dynamic ? 'bg-secondary' : 'bg-white/30'}`} />
       <div 
-        className="absolute inset-0 bg-primary rounded-full transition-all duration-100"
+        className={`absolute inset-0 rounded-full transition-all duration-100 ${dynamic ? 'bg-primary' : 'bg-white'}`}
         style={{ width: `${(value / max) * 100}%` }}
       >
         <div 
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"
+          className={`absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity ${dynamic ? 'bg-primary' : 'bg-white'}`}
           onMouseDown={handleDragStart}
         />
       </div>

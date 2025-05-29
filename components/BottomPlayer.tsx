@@ -9,13 +9,20 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import FullScreenPlayer from './FullScreenPlayer'
 import Link from 'next/link'
+import React from "react"
 
 interface AudioPlayerInterface {
   seek: (time: number) => void
 }
 
+const isIOS = () => {
+  if (typeof window === "undefined") return false
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as Window & { MSStream?: unknown }).MSStream
+}
+
 const BottomPlayer = () => {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [ios, setIOS] = React.useState(false)
   const currentSong = usePlayerStore((state) => state.currentSong)
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const isLiked = usePlayerStore((state) => currentSong ? state.isLikedSong(currentSong.id) : false)
@@ -26,6 +33,10 @@ const BottomPlayer = () => {
   const duration = usePlayerStore((state) => state.duration)
   const lyrics = usePlayerStore((state) => state.lyrics)
   const currentLyricIndex = usePlayerStore((state) => state.currentLyricIndex)
+
+  React.useEffect(() => {
+    setIOS(isIOS())
+  }, [])
 
   const handlePlayPause = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -57,12 +68,12 @@ const BottomPlayer = () => {
 
   if (!currentSong) return null
 
+
   return (
     <>
-      <motion.div
-        layoutId="bottom-player"
+      <div
         onClick={() => setIsExpanded(true)}
-        className="fixed bottom-[50px] left-0 right-0 p-2 m-4 rounded-2xl bg-background/75 backdrop-blur-2xl border flex items-center justify-between cursor-pointer z-30"
+        className={`fixed ${ios ? 'bottom-[70px]' : 'bottom-[50px]'} left-0 right-0 p-2 m-4 rounded-2xl bg-background/75 backdrop-blur-2xl border flex items-center justify-between cursor-pointer z-30`}
       >
         <div className="flex items-center min-w-0 flex-1">
           <motion.img
@@ -72,7 +83,7 @@ const BottomPlayer = () => {
             className="w-[60px] h-[60px] rounded-xl shrink-0 object-cover"
           />
           <div className="min-w-0 flex-1 mx-2">
-            <motion.div layoutId="song-title">
+            <div>
               <Marquee>
                 {currentSong.name} • <span className="text-muted-foreground">
                   {currentSong.artists.map((artist, index) => (
@@ -89,15 +100,15 @@ const BottomPlayer = () => {
                   ))}
                 </span>
               </Marquee>
-            </motion.div>
+            </div>
             {lyrics.length > 0 && currentLyricIndex >= 0 && (
-              <motion.div layoutId="lyrics-container">
+              <div>
                 <Marquee className="text-sm text-muted-foreground mt-0.5">
                   {lyrics[currentLyricIndex]?.text}
                 </Marquee>
-              </motion.div>
+              </div>
             )}
-            <motion.div layoutId="progress-container" className="flex items-center space-x-2 mt-1">
+            <div className="flex items-center space-x-2 mt-1">
               <span className="text-xs text-muted-foreground">{formatTime(currentTime)}</span>
               <Progress
                 value={currentTime}
@@ -106,27 +117,24 @@ const BottomPlayer = () => {
                 className="flex-grow"
               />
               <span className="text-xs text-muted-foreground">{formatTime(duration)}</span>
-            </motion.div>
+            </div>
           </div>
         </div>
-        <motion.div layoutId="controls-container" className="flex items-center space-x-2 shrink-0">
-          <motion.button
+        <div className="flex items-center space-x-2 shrink-0">
+          <button
             className={`p-2 flex items-center justify-center ${isLiked ? 'text-primary' : ''}`}
             onClick={handleLikeToggle}
-            whileTap={{ scale: 0.8 }}
           >
             <Heart fill={isLiked ? "currentColor" : "none"} />
-          </motion.button>
-          <motion.button
-            layoutId="play-button"
+          </button>
+          <button
             className="p-2 flex items-center justify-center"
             onClick={handlePlayPause}
-            whileTap={{ scale: 0.8 }}
           >
             {isPlaying ? <Pause size={24} /> : <Play size={24} />}
-          </motion.button>
-        </motion.div>
-      </motion.div>
+          </button>
+        </div>
+      </div>
 
       <AnimatePresence>
         {isExpanded && (

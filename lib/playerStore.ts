@@ -172,7 +172,7 @@ export const usePlayerStore = create<PlayerStore>()(
           name: song.name,
           artists: typeof song.artists === 'string' 
             ? [{ id: 0, name: song.artists }]
-            : song.artists,
+            : song.artists || [],
           album: {
             id: song.album.id,
             name: song.album.name,
@@ -247,7 +247,7 @@ export const usePlayerStore = create<PlayerStore>()(
                 id: nextSong.id,
                 name: nextSong.name,
                 artists: [],
-                album: { id: 0, name: '', cover: '' }
+                album: { id: 0, name: '', cover: nextSong.cover || '' }
               }
             })
             return
@@ -263,7 +263,7 @@ export const usePlayerStore = create<PlayerStore>()(
                 id: song.id,
                 name: song.name,
                 artists: [],
-                album: { id: 0, name: '', cover: song.album.cover }
+                album: { id: 0, name: '', cover: song.album?.cover || '' }
               }
             })
           }
@@ -279,7 +279,7 @@ export const usePlayerStore = create<PlayerStore>()(
               id: song.id,
               name: song.name,
               artists: [],
-              album: { id: 0, name: '', cover: song.album.cover }
+              album: { id: 0, name: '', cover: song.album?.cover || '' }
             }
           })
         } else {
@@ -289,7 +289,7 @@ export const usePlayerStore = create<PlayerStore>()(
               id: nextSong.id,
               name: nextSong.name,
               artists: [],
-              album: { id: 0, name: '', cover: nextSong.album.cover }
+              album: { id: 0, name: '', cover: nextSong.album?.cover || '' }
             }
           })
         }
@@ -309,7 +309,7 @@ export const usePlayerStore = create<PlayerStore>()(
                 id: previousSong.id,
                 name: previousSong.name,
                 artists: [],
-                album: { id: 0, name: '', cover: '' }
+                album: { id: 0, name: '', cover: previousSong.cover || '' }
               }
             })
             return
@@ -325,7 +325,7 @@ export const usePlayerStore = create<PlayerStore>()(
                 id: song.id,
                 name: song.name,
                 artists: [],
-                album: { id: 0, name: '', cover: song.album.cover }
+                album: { id: 0, name: '', cover: song.album?.cover || '' }
               }
             })
           }
@@ -341,7 +341,7 @@ export const usePlayerStore = create<PlayerStore>()(
               id: song.id,
               name: song.name,
               artists: [],
-              album: { id: 0, name: '', cover: song.album.cover }
+              album: { id: 0, name: '', cover: song.album?.cover || '' }
             }
           })
         } else {
@@ -351,7 +351,7 @@ export const usePlayerStore = create<PlayerStore>()(
               id: previousSong.id,
               name: previousSong.name,
               artists: [],
-              album: { id: 0, name: '', cover: previousSong.album.cover }
+              album: { id: 0, name: '', cover: previousSong.album?.cover || '' }
             }
           })
         }

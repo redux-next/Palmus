@@ -4,12 +4,26 @@ import Link from "next/link"
 import { Home, Search, Library } from 'lucide-react'
 import { usePathname } from "next/navigation"
 import BottomPlayer from "@/components/BottomPlayer"
+import React from "react"
+
+const isIOS = () => {
+  if (typeof window === "undefined") return false
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !((window as unknown) as { MSStream?: unknown }).MSStream
+}
 
 const BottomNavigation = () => {
   const pathname = usePathname()
+  const [ios, setIOS] = React.useState(false)
+
+  React.useEffect(() => {
+    setIOS(isIOS())
+  }, [])
 
   return (
-    <nav className="md:hidden border-t">
+    <nav
+      className="md:hidden border-t"
+      style={ios ? { paddingBottom: 20 } : undefined}
+    >
       <BottomPlayer />
       <ul className="flex justify-around">
         <li className="flex-1">
