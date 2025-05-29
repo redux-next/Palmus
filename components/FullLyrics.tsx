@@ -1,7 +1,3 @@
-"use client"
-
-import type React from "react"
-
 import { AnimatePresence, motion } from "framer-motion"
 import { X, Play, Pause, Heart, SkipBack, SkipForward, Volume2, Volume1, VolumeX } from "lucide-react"
 import Meshbg from "@/components/meshbg"
@@ -9,7 +5,7 @@ import { usePlayerStore } from "@/lib/playerStore"
 import { formatTime } from "@/components/ui/formatTime"
 import { Progress } from "@/components/ui/Progress"
 import { Slider } from "@/components/ui/slider"
-import { useState, useCallback, useEffect, useRef } from "react"
+import { useState, useCallback, useEffect, useRef, useLayoutEffect } from "react"
 import Link from "next/link"
 
 interface AudioPlayerInterface {
@@ -26,11 +22,6 @@ interface FullLyricsProps {
 interface Artist {
   id: string | number
   name: string
-}
-
-interface LyricLine {
-  text: string
-  time?: number
 }
 
 const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
@@ -52,44 +43,89 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   const [showVolumeSlider, setShowVolumeSlider] = useState(false)
   const lyricsContainerRef = useRef<HTMLDivElement>(null)
   const lyricsRefs = useRef<(HTMLDivElement | null)[]>([])
+  const lyricHeightsRef = useRef<{ [key: number]: number }>({})
+  const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
-  // 計算透明度
-  const calculateOpacity = useCallback(
-    (index: number) => {
-      if (index === currentLyricIndex) return 1
-      const distance = Math.abs(index - currentLyricIndex)
-      return Math.max(0.15, 1 - distance * 0.15)
-    },
-    [currentLyricIndex],
-  )
+  // Get visible lyrics with 5 lines above and below
+  const getVisibleLyrics = useCallback(() => {
+    if (!lyrics || lyrics.length === 0) return []
+    
+    const startIndex = Math.max(0, currentLyricIndex - 5)
+    const endIndex = Math.min(lyrics.length, currentLyricIndex + 6)
+    
+    return lyrics.slice(startIndex, endIndex).map((line, index) => ({
+      ...line,
+      originalIndex: startIndex + index
+    }))
+  }, [lyrics, currentLyricIndex])
 
-  // 計算模糊效果
-  const calculateBlur = useCallback(
-    (index: number) => {
-      if (index === currentLyricIndex) return 0
-      const distance = Math.abs(index - currentLyricIndex)
-      return Math.min(distance * 2, 10)
-    },
-    [currentLyricIndex],
-  )
-
-  useEffect(() => {
-    if (lyricsContainerRef.current && lyrics && lyrics.length > 0 && currentLyricIndex >= 0) {
-      const currentLyricElement = lyricsRefs.current[currentLyricIndex]
-      if (currentLyricElement) {
-        const lyricTop = currentLyricElement.offsetTop
-        // Scroll so the current lyric is about 25% from the top of the container
-        const containerHeight = lyricsContainerRef.current.clientHeight
-        const targetScrollTop = lyricTop - containerHeight * 0.3
-
-        // 平滑滾動到目標位置
-        lyricsContainerRef.current.scrollTo({
-          top: targetScrollTop,
-          behavior: "smooth",
-        })
-      }
+  // Calculate line offset with proper spacing
+  const calculateLineOffset = useCallback((originalIndex: number) => {
+    const TARGET_Y = window.innerHeight * 0.25  // 25% from top
+    const LINE_GAP = window.innerWidth < 1024 ? 24 : 64
+    const direction = originalIndex > currentLyricIndex ? 1 : -1
+    
+    if (originalIndex === currentLyricIndex) return TARGET_Y
+    
+    let offset = 0
+    const start = Math.min(originalIndex, currentLyricIndex)
+    const end = Math.max(originalIndex, currentLyricIndex)
+    
+    for (let i = start; i < end; i++) {
+      const height = lyricHeightsRef.current[i] || 
+                    (window.innerWidth < 1024 ? 36 : 48)
+      offset += height + LINE_GAP
     }
-  }, [currentLyricIndex, lyrics])
+    
+    return TARGET_Y + (offset * direction)
+  }, [currentLyricIndex])
+
+  // Calculate opacity
+  const calculateOpacity = useCallback((index: number) => {
+    if (index === currentLyricIndex) return 1
+    const distance = Math.abs(index - currentLyricIndex)
+    return Math.max(0.15, 1 - distance * 0.15)
+  }, [currentLyricIndex])
+
+  // Calculate blur
+  const calculateBlur = useCallback((index: number) => {
+    if (index === currentLyricIndex) return 0
+    const distance = Math.abs(index - currentLyricIndex)
+    return Math.min(distance * 2, 10)
+  }, [currentLyricIndex])
+
+  // Measure lyric heights and handle resizing
+  useLayoutEffect(() => {
+    const measureHeights = () => {
+      getVisibleLyrics().forEach((line) => {
+        const element = lyricsRefs.current[line.originalIndex]
+        if (element) {
+          const height = element.getBoundingClientRect().height
+          lyricHeightsRef.current[line.originalIndex] = height
+        }
+      })
+    }
+    
+    measureHeights()
+    
+    // Setup resize observer
+    if (!resizeObserverRef.current) {
+      resizeObserverRef.current = new ResizeObserver(measureHeights)
+    }
+    
+    if (lyricsContainerRef.current) {
+      resizeObserverRef.current.observe(lyricsContainerRef.current)
+    }
+    
+    return () => {
+      resizeObserverRef.current?.disconnect()
+    }
+  }, [getVisibleLyrics, currentLyricIndex])
+
+  // Reset measurements when lyrics change
+  useEffect(() => {
+    lyricHeightsRef.current = {}
+  }, [lyrics])
 
   const handleLikeToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -131,6 +167,8 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
     if (volume < 0.5) return <Volume1 size={24} />
     return <Volume2 size={24} />
   }
+
+  const visibleLyrics = getVisibleLyrics()
 
   return (
     <AnimatePresence>
@@ -280,39 +318,59 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
             <div className="w-full lg:w-1/2 flex flex-col justify-center p-4 lg:p-16 lg:pl-0 lg:py-0 relative">
               <div
                 ref={lyricsContainerRef}
-                className="h-[calc(100dvh-120px)] lg:h-[100dvh] overflow-y-auto relative pr-2 py-32 lg:py-64 scroll-hide"
-                style={{
-                  maskImage: window.innerWidth < 1024 ? 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%)' : undefined,
-                  WebkitMaskImage: window.innerWidth < 1024 ? 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%)' : undefined,
-                }}
+                className="h-[calc(100dvh-120px)] lg:h-[100dvh] overflow-hidden relative"
               >
-                {lyrics?.length > 0 ? (
-                  lyrics.map((line: LyricLine, index: number) => (
-                    <div
-                      key={`${index}-${line.text}`}
-                      ref={(el) => {
-                        lyricsRefs.current[index] = el
-                      }}
-                      className="mb-8 lg:mb-16 px-2 lg:px-4"
-                    >
-                      <div
-                        className={`line-main text-3xl lg:text-4xl xl:text-5xl font-black text-left whitespace-pre-wrap transition-all duration-500 ${
-                          index === currentLyricIndex ? "text-white" : "text-white/40"
-                        }`}
-                        style={{
-                          lineHeight: "1.3",
-                          filter: `blur(${calculateBlur(index)}px)`,
-                          opacity: calculateOpacity(index),
-                        }}
-                      >
-                        {line.text}
-                      </div>
-                      <div className="line-sub">{/* leave it for now */}</div>
+                <AnimatePresence>
+                  {visibleLyrics.length > 0 ? (
+                    visibleLyrics.map((line) => {
+                      const { originalIndex } = line
+                      return (
+                        <motion.div
+                          key={`${originalIndex}-${line.text}`}
+                          ref={(el) => { 
+                            lyricsRefs.current[originalIndex] = el 
+                          }}
+                          initial={{
+                            y: calculateLineOffset(originalIndex),
+                            opacity: 0,
+                            filter: `blur(${calculateBlur(originalIndex)}px)`,
+                          }}
+                          animate={{
+                            y: calculateLineOffset(originalIndex),
+                            opacity: calculateOpacity(originalIndex),
+                            filter: `blur(${calculateBlur(originalIndex)}px)`,
+                          }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 80,
+                            damping: 18,
+                            mass: 3,
+                            delay: Math.abs(originalIndex - currentLyricIndex) * 0.1
+                          }}
+                          className="absolute left-0 right-0 px-4"
+                          style={{
+                            transformOrigin: 'left center',
+                          }}
+                        >
+                          <div
+                            className={`line-main text-3xl lg:text-4xl xl:text-5xl font-black text-left whitespace-pre-wrap break-words max-w-full transition-colors duration-500 ${
+                              originalIndex === currentLyricIndex 
+                                ? "text-white" 
+                                : "text-white/40"
+                            }`}
+                            style={{ lineHeight: 1.3 }}
+                          >
+                            {line.text}
+                          </div>
+                        </motion.div>
+                      )
+                    })
+                  ) : (
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white/60 text-xl text-center">
+                      No lyrics available
                     </div>
-                  ))
-                ) : (
-                  <div className="text-white/60 text-xl text-center">No lyrics available</div>
-                )}
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>
