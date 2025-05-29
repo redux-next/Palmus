@@ -5,8 +5,9 @@ import { usePlayerStore } from "@/lib/playerStore"
 import { formatTime } from "@/components/ui/formatTime"
 import { Progress } from "@/components/ui/Progress"
 import { Slider } from "@/components/ui/slider"
-import { useState, useCallback, useEffect, useRef, useLayoutEffect } from "react"
+import { useState, useCallback, useEffect, useRef, useLayoutEffect, useMemo } from "react"
 import Link from "next/link"
+import React from "react"
 
 interface AudioPlayerInterface {
   seek: (time: number) => void
@@ -45,14 +46,28 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   const lyricsRefs = useRef<(HTMLDivElement | null)[]>([])
   const lyricHeightsRef = useRef<{ [key: number]: number }>({})
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
+  const animationFrameRef = useRef<number>(0)
+  const lastLyricIndexRef = useRef(currentLyricIndex)
 
-  // Get visible lyrics with 5 lines above and below
-  const getVisibleLyrics = useCallback(() => {
+  // Debounce helper
+  const debounce = useCallback(<T extends unknown[]>(
+    func: (...args: T) => void, 
+    wait: number
+  ) => {
+    let timeout: NodeJS.Timeout
+    return (...args: T) => {
+      clearTimeout(timeout)
+      timeout = setTimeout(() => func(...args), wait)
+    }
+  }, [])
+
+  // Memoize expensive calculations
+  const getVisibleLyrics = useMemo(() => {
     if (!lyrics || lyrics.length === 0) return []
-    
+
     const startIndex = Math.max(0, currentLyricIndex - 5)
     const endIndex = Math.min(lyrics.length, currentLyricIndex + 6)
-    
+
     return lyrics.slice(startIndex, endIndex).map((line, index) => ({
       ...line,
       originalIndex: startIndex + index
@@ -62,21 +77,21 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   // Calculate line offset with proper spacing
   const calculateLineOffset = useCallback((originalIndex: number) => {
     const TARGET_Y = window.innerHeight * 0.25  // 25% from top
-    const LINE_GAP = window.innerWidth < 1024 ? 24 : 64
+    const LINE_GAP = window.innerWidth < 1024 ? 48 : 64
     const direction = originalIndex > currentLyricIndex ? 1 : -1
-    
+
     if (originalIndex === currentLyricIndex) return TARGET_Y
-    
+
     let offset = 0
     const start = Math.min(originalIndex, currentLyricIndex)
     const end = Math.max(originalIndex, currentLyricIndex)
-    
+
     for (let i = start; i < end; i++) {
-      const height = lyricHeightsRef.current[i] || 
-                    (window.innerWidth < 1024 ? 36 : 48)
+      const height = lyricHeightsRef.current[i] ||
+        (window.innerWidth < 1024 ? 36 : 48)
       offset += height + LINE_GAP
     }
-    
+
     return TARGET_Y + (offset * direction)
   }, [currentLyricIndex])
 
@@ -96,36 +111,48 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
 
   // Measure lyric heights and handle resizing
   useLayoutEffect(() => {
-    const measureHeights = () => {
-      getVisibleLyrics().forEach((line) => {
-        const element = lyricsRefs.current[line.originalIndex]
-        if (element) {
-          const height = element.getBoundingClientRect().height
-          lyricHeightsRef.current[line.originalIndex] = height
-        }
+    // Debounced height measurement
+    const measureHeights = debounce(() => {
+      cancelAnimationFrame(animationFrameRef.current)
+      animationFrameRef.current = requestAnimationFrame(() => {
+        getVisibleLyrics.forEach((line) => {
+          const element = lyricsRefs.current[line.originalIndex]
+          if (element) {
+            const height = element.getBoundingClientRect().height
+            lyricHeightsRef.current[line.originalIndex] = height
+          }
+        })
       })
-    }
-    
+    }, 100)
+
     measureHeights()
-    
+
     // Setup resize observer
     if (!resizeObserverRef.current) {
       resizeObserverRef.current = new ResizeObserver(measureHeights)
     }
-    
+
     if (lyricsContainerRef.current) {
       resizeObserverRef.current.observe(lyricsContainerRef.current)
     }
-    
+
     return () => {
       resizeObserverRef.current?.disconnect()
+      cancelAnimationFrame(animationFrameRef.current)
     }
-  }, [getVisibleLyrics, currentLyricIndex])
+  }, [getVisibleLyrics, currentLyricIndex, debounce])
 
   // Reset measurements when lyrics change
   useEffect(() => {
     lyricHeightsRef.current = {}
   }, [lyrics])
+
+  // Skip animation when rapidly changing lyrics
+  const shouldAnimate = useMemo(() => {
+    const diff = Math.abs(currentLyricIndex - lastLyricIndexRef.current)
+    lastLyricIndexRef.current = currentLyricIndex
+    return diff < 10 // Only animate for reasonable jumps
+  }, [currentLyricIndex])
 
   const handleLikeToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -168,7 +195,14 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
     return <Volume2 size={24} />
   }
 
-  const visibleLyrics = getVisibleLyrics()
+  const visibleLyricsWithStyles = useMemo(() => {
+    return getVisibleLyrics.map(line => ({
+      ...line,
+      offset: calculateLineOffset(line.originalIndex),
+      opacity: calculateOpacity(line.originalIndex),
+      blur: calculateBlur(line.originalIndex),
+    }))
+  }, [getVisibleLyrics, calculateLineOffset, calculateOpacity, calculateBlur])
 
   return (
     <AnimatePresence>
@@ -194,7 +228,7 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
             <X size={28} />
           </button>
 
-          <div className="relative z-10 w-full h-full flex flex-col lg:flex-row">
+          <div className="full-player relative z-10 w-full h-full flex flex-col lg:flex-row">
             {/* 左側：圖片與控制區 (lg螢幕) / 上方：圖片與歌曲資訊 (小螢幕) */}
             <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 lg:p-12">
               {/* Mobile layout - Apple Music iOS style */}
@@ -319,49 +353,53 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
               <div
                 ref={lyricsContainerRef}
                 className="h-[calc(100dvh-120px)] lg:h-[100dvh] overflow-hidden relative"
+                style={{
+                  maskImage: window.innerWidth < 1024 ? 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%)' : undefined,
+                  WebkitMaskImage: window.innerWidth < 1024 ? 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%)' : undefined,
+                }}
               >
                 <AnimatePresence>
-                  {visibleLyrics.length > 0 ? (
-                    visibleLyrics.map((line) => {
-                      const { originalIndex } = line
+                  {visibleLyricsWithStyles.length > 0 ? (
+                    visibleLyricsWithStyles.map((line) => {
+                      const { originalIndex, text, offset, opacity, blur } = line
                       return (
                         <motion.div
-                          key={`${originalIndex}-${line.text}`}
-                          ref={(el) => { 
-                            lyricsRefs.current[originalIndex] = el 
+                          key={`${originalIndex}-${text}`}
+                          ref={(el) => {
+                            lyricsRefs.current[originalIndex] = el
                           }}
-                          initial={{
-                            y: calculateLineOffset(originalIndex),
+                          initial={shouldAnimate ? {
+                            y: offset,
                             opacity: 0,
-                            filter: `blur(${calculateBlur(originalIndex)}px)`,
-                          }}
+                            filter: `blur(${blur}px)`,
+                          } : false}
                           animate={{
-                            y: calculateLineOffset(originalIndex),
-                            opacity: calculateOpacity(originalIndex),
-                            filter: `blur(${calculateBlur(originalIndex)}px)`,
+                            y: offset,
+                            opacity,
+                            filter: `blur(${blur}px)`,
                           }}
-                          transition={{
+                          transition={shouldAnimate ? {
                             type: "spring",
                             stiffness: 80,
                             damping: 18,
                             mass: 3,
                             delay: Math.abs(originalIndex - currentLyricIndex) * 0.1
-                          }}
-                          className="absolute left-0 right-0 px-4"
+                          } : { duration: 0 }}
+                          className="line absolute left-0 right-0 px-4"
                           style={{
                             transformOrigin: 'left center',
                           }}
                         >
                           <div
-                            className={`line-main text-3xl lg:text-4xl xl:text-5xl font-black text-left whitespace-pre-wrap break-words max-w-full transition-colors duration-500 ${
-                              originalIndex === currentLyricIndex 
-                                ? "text-white" 
+                            className={`line-main text-3xl lg:text-4xl xl:text-5xl font-black text-left whitespace-pre-wrap break-words max-w-full transition-colors duration-500 ${originalIndex === currentLyricIndex
+                                ? "text-white"
                                 : "text-white/40"
-                            }`}
+                              }`}
                             style={{ lineHeight: 1.3 }}
                           >
-                            {line.text}
+                            {text}
                           </div>
+                          <div className="line-sub"></div>
                         </motion.div>
                       )
                     })
@@ -380,4 +418,4 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   )
 }
 
-export default FullLyrics
+export default React.memo(FullLyrics)

@@ -89,6 +89,11 @@
   --sidebar-width: 20rem;
 }
 
+@font-face {
+  font-family: SF-Pro;
+  src: url(/assets/sf-pro.woff2) format('woff2');
+}
+
 [data-sidebar-collapsed="true"] {
   --sidebar-width: 7rem;
 }
@@ -136,6 +141,10 @@
   }
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+.full-player {
+  font-family: 'SF-Pro', sans-serif;
 }
 
 nextjs-portal {

@@ -227,7 +227,10 @@ const AudioPlayer = () => {
               setMusicUrl(data.music_url)
             }
             
-            if (data.lrc) {
+            let lyricsSet = false
+            
+            // 嘗試使用原始歌詞
+            if (data.lrc && data.lrc.trim()) {
               const lines = data.lrc.split('\n')
               const timeRegex = /\[(\d+):(\d{2})([:.](\d{2,3}))?\]/g
 
@@ -252,9 +255,97 @@ const AudioPlayer = () => {
                 )
                 .sort((a: { time: number }, b: { time: number }) => a.time - b.time)
 
-              setLyrics(parsedLyrics)
-            } else {
-              setLyrics([])
+              if (parsedLyrics.length > 0) {
+                setLyrics(parsedLyrics)
+                lyricsSet = true
+                console.log('使用原始歌詞，共', parsedLyrics.length, '行')
+              }
+            }
+            
+            // 如果沒有歌詞，嘗試使用歌詞API
+            if (!lyricsSet) {
+              console.log('原始歌詞不存在，嘗試使用歌詞API')
+              
+              // 確保歌曲詳情已載入
+              if (currentSong?.name && currentSong?.artists?.[0]?.name) {
+                try {
+                  const albumName = currentSong?.album?.name || ''
+                  const duration = Math.floor(data.duration || 0)
+                  
+                  console.log('調用歌詞API:', {
+                    title: currentSong.name,
+                    artist: currentSong.artists[0].name,
+                    album: albumName,
+                    duration
+                  })
+                  
+                  const lyricsResponse = await fetch(
+                    `/api/lyrics?title=${encodeURIComponent(currentSong.name)}&artist=${encodeURIComponent(currentSong.artists[0].name)}&album=${encodeURIComponent(albumName)}&duration=${duration}`
+                  )
+                  
+                  console.log('歌詞API回應狀態:', lyricsResponse.status)
+                  
+                  if (lyricsResponse.ok) {
+                    const lyricsData = await lyricsResponse.json()
+                    console.log('歌詞API回應:', lyricsData)
+                    
+                    if (lyricsData.instrumental) {
+                      // 純音樂，設置特殊歌詞
+                      setLyrics([{ time: 0, text: 'This is pure music' }])
+                      console.log('設置純音樂標示')
+                    } else if (lyricsData.syncedLyrics) {
+                      // 解析同步歌詞
+                      const lines = lyricsData.syncedLyrics.split('\n')
+                      const timeRegex = /\[(\d+):(\d{2})([:.](\d{2,3}))?\]/g
+
+                      const parsedLyrics = lines
+                        .flatMap((line: string) => {
+                          const matches = Array.from(line.matchAll(timeRegex))
+                          const text = line.replace(timeRegex, '').trim()
+                          
+                          return matches.map(match => {
+                            const minutes = parseInt(match[1])
+                            const seconds = parseInt(match[2])
+                            const fraction = match[4] ? parseInt(match[4]) : 0
+                            
+                            const time = minutes * 60 + seconds + 
+                              (match[4]?.length === 3 ? fraction / 1000 : fraction / 100)
+                            
+                            return { time: Number(time.toFixed(3)), text }
+                          })
+                        })
+                        .filter((line: { text: string }): line is { time: number; text: string } => 
+                          !!line && line.text !== ''
+                        )
+                        .sort((a: { time: number }, b: { time: number }) => a.time - b.time)
+
+                      if (parsedLyrics.length > 0) {
+                        setLyrics(parsedLyrics)
+                        console.log('使用API同步歌詞，共', parsedLyrics.length, '行')
+                      } else {
+                        setLyrics([])
+                        console.log('API同步歌詞解析失敗')
+                      }
+                    } else if (lyricsData.plainLyrics) {
+                      // 如果只有純文字歌詞，設置為無時間戳的歌詞
+                      setLyrics([{ time: 0, text: lyricsData.plainLyrics }])
+                      console.log('使用API純文字歌詞')
+                    } else {
+                      setLyrics([])
+                      console.log('API沒有回傳歌詞')
+                    }
+                  } else {
+                    setLyrics([])
+                    console.log('歌詞API請求失敗')
+                  }
+                } catch (lyricsError) {
+                  console.error('獲取歌詞API失敗:', lyricsError)
+                  setLyrics([])
+                }
+              } else {
+                console.log('歌曲詳情尚未載入，無法調用歌詞API')
+                setLyrics([])
+              }
             }
 
             setIsLoading(false)
@@ -270,7 +361,7 @@ const AudioPlayer = () => {
     }
 
     refreshMusicUrl()
-  }, [currentSong?.id, audioQuality, userInteracted, setLyrics, setIsLoading, setMusicUrl])
+  }, [currentSong?.id, currentSong?.name, currentSong?.artists, audioQuality, userInteracted, setLyrics, setIsLoading, setMusicUrl])
 
   // 播放控制
   useEffect(() => {
