@@ -1,10 +1,11 @@
 "use client"
 
 import { useEffect, useRef, useCallback, useState } from 'react'
-import { usePlayerStore } from '@/lib/playerStore'
+import { usePlayerStore, type YRCLine, type LyricLine } from '@/lib/playerStore'
 import ColorThief from 'colorthief'
 import { useColorStore } from '@/lib/colorStore'
 import { usePersonalStore } from '@/lib/personalStore'
+import { parseLRC, parseYRC } from 'native-lyrics-tools'
 
 interface AudioPlayerInterface {
   seek: (time: number) => void
@@ -51,10 +52,10 @@ const AudioPlayer = () => {
     isLoading,
     userInteracted,
     setUserInteracted,
-    setIsPlaying, 
-    setCurrentTime, 
+    setIsPlaying,    setCurrentTime, 
     setDuration,
-    lyrics,
+    lrc,
+    yrc,
     setCurrentLyricIndex,
     audioQuality,
     setMusicUrl,
@@ -62,7 +63,9 @@ const AudioPlayer = () => {
     playPreviousSong,
     likedSongs,
     setIsLoading,
-    setLyrics,
+    setLrc,
+    setYrc,
+    setTlyric,
     updateCurrentSongDetails
   } = usePlayerStore()
 
@@ -211,7 +214,99 @@ const AudioPlayer = () => {
 
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [isPlaying, setIsPlaying])
+  }, [isPlaying, setIsPlaying])  // 初始化 OpenCC 轉換器（簡體轉繁體）
+  const converter = useRef<((text: string) => string) | null>(null)
+  const [openCCReady, setOpenCCReady] = useState(false)
+  
+  useEffect(() => {
+    // 動態導入 OpenCC 轉換器
+    const initOpenCC = async () => {
+      try {
+        // 檢查是否在瀏覽器環境
+        if (typeof window === 'undefined') return
+        
+        const OpenCC = await import('opencc-js')
+        if (OpenCC && OpenCC.Converter) {
+          converter.current = OpenCC.Converter({ from: 'cn', to: 'tw' })
+          setOpenCCReady(true)
+          console.log('OpenCC 初始化成功')
+        } else {
+          console.warn('OpenCC.Converter 不可用')
+        }
+      } catch (error) {
+        console.error('OpenCC 初始化失敗:', error)
+        converter.current = null
+        setOpenCCReady(false)
+      }
+    }
+    
+    initOpenCC()
+  }, [])
+
+  // 轉換中文文本為繁體中文
+  const convertToTraditional = useCallback((text: string): string => {
+    if (!openCCReady || !converter.current || !text) return text
+    try {
+      return converter.current(text)
+    } catch (error) {
+      console.error('OpenCC 轉換失敗:', error)
+      return text
+    }
+  }, [openCCReady])
+
+  // 轉換歌詞行
+  const convertLyricLines = useCallback((lines: LyricLine[]): LyricLine[] => {
+    if (!openCCReady) return lines
+    
+    return lines.map(line => ({
+      ...line,
+      words: line.words.map(word => ({
+        ...word,
+        word: convertToTraditional(word.word)
+      }))
+    }))
+  }, [convertToTraditional, openCCReady])
+
+  // 轉換 YRC 歌詞行
+  const convertYRCLines = useCallback((lines: YRCLine[]): YRCLine[] => {
+    if (!openCCReady) return lines
+    
+    return lines.map(line => ({
+      ...line,
+      words: line.words.map(word => ({
+        ...word,
+        word: convertToTraditional(word.word)
+      }))
+    }))
+  }, [convertToTraditional, openCCReady])
+
+  // 檢查歌詞是否只包含元數據或無效內容
+  const isValidLyrics = useCallback((lyrics: LyricLine[]): boolean => {
+    if (!lyrics || lyrics.length === 0) return false;
+    
+    // 檢查是否有任何有效的歌詞內容
+    for (const line of lyrics) {
+      if (line.words && line.words.length > 0) {
+        for (const word of line.words) {
+          const content = word.word?.trim();
+          if (content && content.length > 0) {
+            // 檢查是否不是純元數據
+            try {
+              const parsed = JSON.parse(content);              // 如果能解析為 JSON 且包含元數據格式，跳過
+              if (parsed && typeof parsed === 'object' && 'c' in parsed) {
+                continue;
+              }
+            } catch {
+              // 不是 JSON，視為有效歌詞
+              return true;
+            }
+          }
+        }
+      }
+    }
+    
+    return false;
+  }, [])
 
   // 獲取音樂URL和歌詞
   useEffect(() => {
@@ -229,123 +324,142 @@ const AudioPlayer = () => {
             
             let lyricsSet = false
             
-            // 嘗試使用原始歌詞
-            if (data.lrc && data.lrc.trim()) {
-              const lines = data.lrc.split('\n')
-              const timeRegex = /\[(\d+):(\d{2})([:.](\d{2,3}))?\]/g
+            // 嘗試從新的統一歌詞 API 獲取所有歌詞類型
+            try {
+              const lyricsResponse = await fetch(`/api/lyrics?id=${currentSong.id}`)
+              if (lyricsResponse.ok) {
+                const lyricsData = await lyricsResponse.json()
+                
+                // 處理 YRC 歌詞（如果存在）
+                if (lyricsData.yrc?.lyric) {
+                  try {
+                    const parsedYrc = parseYRC(lyricsData.yrc.lyric)
+                    const convertedYrc = openCCReady ? convertYRCLines(parsedYrc) : parsedYrc
+                    setYrc(convertedYrc)
+                    console.log(`使用 parseYRC 解析歌詞${openCCReady ? '並轉換為繁體中文' : ''}，共`, convertedYrc.length, '行')
+                  } catch (err) {
+                    console.error('parseYRC 解析失敗:', err)
+                    setYrc([])
+                  }
+                } else {
+                  setYrc([])
+                }
 
-              const parsedLyrics = lines
-                .flatMap((line: string) => {
-                  const matches = Array.from(line.matchAll(timeRegex))
-                  const text = line.replace(timeRegex, '').trim()
-                  
-                  return matches.map(match => {
-                    const minutes = parseInt(match[1])
-                    const seconds = parseInt(match[2])
-                    const fraction = match[4] ? parseInt(match[4]) : 0
-                    
-                    const time = minutes * 60 + seconds + 
-                      (match[4]?.length === 3 ? fraction / 1000 : fraction / 100)
-                    
-                    return { time: Number(time.toFixed(3)), text }
-                  })
-                })
-                .filter((line: { text: string }): line is { time: number; text: string } => 
-                  !!line && line.text !== ''
-                )
-                .sort((a: { time: number }, b: { time: number }) => a.time - b.time)
+                // 處理翻譯歌詞（如果存在）
+                if (lyricsData.tlyric?.lyric) {
+                  try {
+                    const parsedTlyric = parseLRC(lyricsData.tlyric.lyric)
+                    const convertedTlyric = openCCReady ? convertLyricLines(parsedTlyric) : parsedTlyric
+                    setTlyric(convertedTlyric)
+                    console.log(`解析翻譯歌詞${openCCReady ? '並轉換為繁體中文' : ''}，共`, convertedTlyric.length, '行')
+                  } catch (err) {
+                    console.error('翻譯歌詞解析失敗:', err)
+                    setTlyric([])
+                  }
+                } else {
+                  setTlyric([])
+                }
 
-              if (parsedLyrics.length > 0) {
-                setLyrics(parsedLyrics)
-                lyricsSet = true
-                console.log('使用原始歌詞，共', parsedLyrics.length, '行')
+                // 處理 LRC 歌詞（必需）
+                if (lyricsData.lrc?.lyric) {
+                  try {
+                    const parsedLrc = parseLRC(lyricsData.lrc.lyric)
+                    const convertedLrc = openCCReady ? convertLyricLines(parsedLrc) : parsedLrc
+                    
+                    // 檢查歌詞是否有效
+                    if (isValidLyrics(convertedLrc)) {
+                      setLrc(convertedLrc)
+                      lyricsSet = true
+                      console.log(`使用統一API解析LRC歌詞${openCCReady ? '並轉換為繁體中文' : ''}，共`, convertedLrc.length, '行')
+                    } else {
+                      console.log('統一API的LRC歌詞無效或只包含元數據')
+                      setLrc([])
+                    }
+                  } catch (err) {
+                    console.error('統一API LRC解析失敗:', err)
+                    setLrc([])
+                  }
+                } else {
+                  setLrc([])
+                }
+              }
+            } catch (lyricsError) {
+              console.error('獲取統一歌詞API失敗:', lyricsError)
+            }
+
+            // 如果統一API沒有有效的LRC歌詞，嘗試從播放API獲取
+            if (!lyricsSet && data.lrc && data.lrc.trim()) {
+              try {
+                const parsed = parseLRC(data.lrc)
+                const convertedLrc = openCCReady ? convertLyricLines(parsed) : parsed
+                
+                // 檢查歌詞是否有效
+                if (isValidLyrics(convertedLrc)) {
+                  setLrc(convertedLrc)
+                  lyricsSet = true
+                  console.log(`使用播放API解析LRC歌詞${openCCReady ? '並轉換為繁體中文' : ''}，共`, convertedLrc.length, '行')
+                } else {
+                  console.log('播放API的LRC歌詞無效或只包含元數據')
+                  setLrc([])
+                }
+              } catch (err) {
+                console.error('播放API LRC解析失敗:', err)
+                setLrc([])
               }
             }
             
-            // 如果沒有歌詞，嘗試使用歌詞API
+            // 最後嘗試 LRCLib API（必需有歌詞）
             if (!lyricsSet) {
-              console.log('原始歌詞不存在，嘗試使用歌詞API')
+              console.log('前面的歌詞來源都沒有有效結果，嘗試使用 LRCLib API')
               
-              // 確保歌曲詳情已載入
               if (currentSong?.name && currentSong?.artists?.[0]?.name) {
                 try {
                   const albumName = currentSong?.album?.name || ''
                   const duration = Math.floor(data.duration || 0)
                   
-                  console.log('調用歌詞API:', {
-                    title: currentSong.name,
-                    artist: currentSong.artists[0].name,
-                    album: albumName,
-                    duration
-                  })
-                  
-                  const lyricsResponse = await fetch(
-                    `/api/lyrics?title=${encodeURIComponent(currentSong.name)}&artist=${encodeURIComponent(currentSong.artists[0].name)}&album=${encodeURIComponent(albumName)}&duration=${duration}`
+                  const lrclibResponse = await fetch(
+                    `/api/lyrics/lrclib?title=${encodeURIComponent(currentSong.name)}&artist=${encodeURIComponent(currentSong.artists[0].name)}&album=${encodeURIComponent(albumName)}&duration=${duration}`
                   )
                   
-                  console.log('歌詞API回應狀態:', lyricsResponse.status)
-                  
-                  if (lyricsResponse.ok) {
-                    const lyricsData = await lyricsResponse.json()
-                    console.log('歌詞API回應:', lyricsData)
+                  if (lrclibResponse.ok) {
+                    const lrclibData = await lrclibResponse.json()
                     
-                    if (lyricsData.instrumental) {
-                      // 純音樂，設置特殊歌詞
-                      setLyrics([{ time: 0, text: 'This is pure music' }])
+                    if (lrclibData.instrumental) {
+                      // 顯示純音樂標示，但不設置為找不到歌詞
+                      setLrc([])
+                      lyricsSet = true
                       console.log('設置純音樂標示')
-                    } else if (lyricsData.syncedLyrics) {
-                      // 解析同步歌詞
-                      const lines = lyricsData.syncedLyrics.split('\n')
-                      const timeRegex = /\[(\d+):(\d{2})([:.](\d{2,3}))?\]/g
-
-                      const parsedLyrics = lines
-                        .flatMap((line: string) => {
-                          const matches = Array.from(line.matchAll(timeRegex))
-                          const text = line.replace(timeRegex, '').trim()
-                          
-                          return matches.map(match => {
-                            const minutes = parseInt(match[1])
-                            const seconds = parseInt(match[2])
-                            const fraction = match[4] ? parseInt(match[4]) : 0
-                            
-                            const time = minutes * 60 + seconds + 
-                              (match[4]?.length === 3 ? fraction / 1000 : fraction / 100)
-                            
-                            return { time: Number(time.toFixed(3)), text }
-                          })
-                        })
-                        .filter((line: { text: string }): line is { time: number; text: string } => 
-                          !!line && line.text !== ''
-                        )
-                        .sort((a: { time: number }, b: { time: number }) => a.time - b.time)
-
-                      if (parsedLyrics.length > 0) {
-                        setLyrics(parsedLyrics)
-                        console.log('使用API同步歌詞，共', parsedLyrics.length, '行')
-                      } else {
-                        setLyrics([])
-                        console.log('API同步歌詞解析失敗')
+                    } else if (lrclibData.syncedLyrics) {
+                      try {
+                        const parsed = parseLRC(lrclibData.syncedLyrics)
+                        const convertedLrc = openCCReady ? convertLyricLines(parsed) : parsed
+                        setLrc(convertedLrc)
+                        lyricsSet = true
+                        console.log(`使用LRCLib API解析歌詞${openCCReady ? '並轉換為繁體中文' : ''}，共`, convertedLrc.length, '行')
+                      } catch (err) {
+                        console.error('LRCLib API歌詞解析失敗:', err)
+                        setLrc([])
                       }
-                    } else if (lyricsData.plainLyrics) {
-                      // 如果只有純文字歌詞，設置為無時間戳的歌詞
-                      setLyrics([{ time: 0, text: lyricsData.plainLyrics }])
-                      console.log('使用API純文字歌詞')
-                    } else {
-                      setLyrics([])
-                      console.log('API沒有回傳歌詞')
                     }
-                  } else {
-                    setLyrics([])
-                    console.log('歌詞API請求失敗')
                   }
-                } catch (lyricsError) {
-                  console.error('獲取歌詞API失敗:', lyricsError)
-                  setLyrics([])
+                } catch (lrclibError) {
+                  console.error('獲取LRCLib API失敗:', lrclibError)
                 }
-              } else {
-                console.log('歌曲詳情尚未載入，無法調用歌詞API')
-                setLyrics([])
               }
+            }
+
+            // 如果所有方式都無法獲取歌詞，設置錯誤狀態
+            if (!lyricsSet) {
+              setLrc([{ 
+                start_time: 0, 
+                end_time: 999999999, 
+                words: [{ 
+                  start_time: 0, 
+                  end_time: 999999999, 
+                  word: "We can't find the lyrics :(" 
+                }] 
+              }])
+              console.log('無法獲取有效歌詞，顯示錯誤訊息')
             }
 
             setIsLoading(false)
@@ -361,7 +475,7 @@ const AudioPlayer = () => {
     }
 
     refreshMusicUrl()
-  }, [currentSong?.id, currentSong?.name, currentSong?.artists, audioQuality, userInteracted, setLyrics, setIsLoading, setMusicUrl])
+  }, [currentSong?.id, currentSong?.name, currentSong?.artists, audioQuality, userInteracted, setLrc, setYrc, setTlyric, setIsLoading, setMusicUrl, convertLyricLines, convertYRCLines, openCCReady, isValidLyrics])
 
   // 播放控制
   useEffect(() => {
@@ -382,23 +496,29 @@ const AudioPlayer = () => {
     handlePlay()
   }, [isPlaying, isLoading, currentSong?.musicUrl])
 
-  // 優化 handleTimeUpdate：使用 lastUpdateRef 限制頻繁更新
+  // 優化 handleTimeUpdate：使用 YRC 或 LRC 歌詞
   const handleTimeUpdate = useCallback(() => {
     if (!audioRef.current) return
     const current = Number(audioRef.current.currentTime.toFixed(3))
-    if (Math.abs(current - lastUpdateRef.current) < 0.2) return // 每次間隔小於 200ms 則跳過
+    if (Math.abs(current - lastUpdateRef.current) < 0.2) return
     lastUpdateRef.current = current
     setCurrentTime(current)
     
-    if (lyrics.length === 0) return
+    // 暫時只使用 LRC 歌詞來確保一致性
+    const currentLyrics = lrc
+    if (currentLyrics.length === 0) return
   
+    // 將時間轉換為毫秒以匹配歌詞格式
+    const currentMs = current * 1000
+    
     let low = 0
-    let high = lyrics.length - 1
+    let high = currentLyrics.length - 1
     let result = -1
   
     while (low <= high) {
       const mid = Math.floor((low + high) / 2)
-      if (lyrics[mid].time <= current) {
+      const startTime = (currentLyrics[mid] as LyricLine).start_time
+      if (startTime <= currentMs) {
         result = mid
         low = mid + 1
       } else {
@@ -406,12 +526,17 @@ const AudioPlayer = () => {
       }
     }
     if (result !== -1) {
-      const nextLyric = lyrics[result + 1]
-      if (!nextLyric || current < nextLyric.time) {
+      const nextLyric = currentLyrics[result + 1]
+      if (!nextLyric) {
         setCurrentLyricIndex(result)
+      } else {
+        const nextStartTime = (nextLyric as LyricLine).start_time
+        if (currentMs < nextStartTime) {
+          setCurrentLyricIndex(result)
+        }
       }
     }
-  
+
     // 處理流派和藝術家評分 - 進一步優化更新邏輯
     if (!currentSessionStart) return;
     
@@ -431,7 +556,7 @@ const AudioPlayer = () => {
         updateArtistScore(mainArtist, playTime)
       }
     }
-  }, [lyrics, setCurrentTime, setCurrentLyricIndex, currentGenre, currentSessionStart, updateGenreScore, updateArtistScore, currentSong])
+  }, [lrc, yrc, setCurrentTime, setCurrentLyricIndex, currentGenre, currentSessionStart, updateGenreScore, updateArtistScore, currentSong])
   
   // 跳轉處理
   const handleSeek = useCallback((time: number) => {

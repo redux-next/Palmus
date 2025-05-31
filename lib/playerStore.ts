@@ -13,9 +13,24 @@ type CurrentSong = {
   musicUrl?: string
 }
 
-type LyricLine = {
-  time: number
-  text: string
+export type LyricLine = {
+  start_time: number
+  end_time: number
+  words: Array<{
+    start_time: number
+    end_time: number
+    word: string
+  }>
+}
+
+export type YRCLine = {
+  startTime: number
+  endTime: number
+  words: Array<{
+    startTime: number
+    endTime: number
+    word: string
+  }>
 }
 
 type LikedSong = {
@@ -50,9 +65,12 @@ type PlayerStore = {
   isPlaying: boolean
   duration: number
   currentTime: number
-  lyrics: LyricLine[]
+  lrc: LyricLine[]
+  yrc: YRCLine[]
+  tlyric: LyricLine[]
   currentLyricIndex: number
   audioQuality: number
+  showTranslatedLyrics: boolean
   isLiked: boolean
   likedSongs: LikedSong[]
   likedAlbums: LikedAlbum[]
@@ -82,9 +100,12 @@ type PlayerStore = {
   setIsPlaying: (state: boolean) => void
   setDuration: (time: number) => void
   setCurrentTime: (time: number) => void
-  setLyrics: (lyrics: LyricLine[]) => void
+  setLrc: (lrc: LyricLine[]) => void
+  setYrc: (yrc: YRCLine[]) => void
+  setTlyric: (tlyric: LyricLine[]) => void
   setCurrentLyricIndex: (index: number) => void
   setAudioQuality: (quality: number) => void
+  setShowTranslatedLyrics: (show: boolean) => void
   setIsLiked: (isLiked: boolean) => void
   addLikedSong: (song: LikedSong) => void
   removeLikedSong: (id: number) => void
@@ -110,9 +131,12 @@ export const usePlayerStore = create<PlayerStore>()(
       isPlaying: false,
       duration: 0,
       currentTime: 0,
-      lyrics: [],
+      lrc: [],
+      yrc: [],
+      tlyric: [],
       currentLyricIndex: -1,
       audioQuality: 2,
+      showTranslatedLyrics: false,
       isLiked: false,
       likedSongs: [],
       likedAlbums: [],
@@ -137,7 +161,9 @@ export const usePlayerStore = create<PlayerStore>()(
           isPlaying: true,
           isLoading: true,
           userInteracted: true,
-          lyrics: [],
+          lrc: [],
+          yrc: [],
+          tlyric: [],
           currentLyricIndex: -1
         })
       },
@@ -157,14 +183,12 @@ export const usePlayerStore = create<PlayerStore>()(
       setIsPlaying: (state) => set({ isPlaying: state }),
       setDuration: (time) => set({ duration: time }),
       setCurrentTime: (time) => set({ currentTime: time }),
-      setLyrics: (lyrics) => set({
-        lyrics: lyrics.map(line => ({
-          ...line,
-          text: line.text.replace(/&nbsp;/g, ' ')
-        }))
-      }),
+      setLrc: (lrc) => set({ lrc }),
+      setYrc: (yrc) => set({ yrc }),
+      setTlyric: (tlyric) => set({ tlyric }),
       setCurrentLyricIndex: (index) => set({ currentLyricIndex: index }),
       setAudioQuality: (quality) => set({ audioQuality: quality }),
+      setShowTranslatedLyrics: (show) => set({ showTranslatedLyrics: show }),
       setIsLiked: (isLiked) => set({ isLiked }),
       addLikedSong: (song) => set((state) => ({
         likedSongs: [...state.likedSongs, {
@@ -234,7 +258,7 @@ export const usePlayerStore = create<PlayerStore>()(
       clearCurrentAlbum: () => set({ currentAlbum: null }),
 
       playNextSong: () => {
-        set({ isLoading: true })
+        set({ isLoading: true, lrc: [], yrc: [], tlyric: [], currentLyricIndex: -1 })
         const state = get()
         const { currentSong, currentAlbum, likedSongs } = state
 
@@ -296,7 +320,7 @@ export const usePlayerStore = create<PlayerStore>()(
       },
 
       playPreviousSong: () => {
-        set({ isLoading: true })
+        set({ isLoading: true, lrc: [], yrc: [], tlyric: [], currentLyricIndex: -1 })
         const state = get()
         const { currentSong, currentAlbum, likedSongs } = state
 

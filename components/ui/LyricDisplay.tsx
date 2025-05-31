@@ -1,21 +1,21 @@
 import { usePlayerStore } from '@/lib/playerStore'
 
 export function LyricDisplay() {
-  const { lyrics, currentLyricIndex } = usePlayerStore()
+  const { lrc, currentLyricIndex } = usePlayerStore()
 
-  if (lyrics.length === 0) return null
+  if (lrc.length === 0) return null
 
-  const cleanText = (text: string) => {
-    return text
+  const cleanText = (words: Array<{ start_time: number; end_time: number; word: string }>) => {
+    return words?.[0]?.word
       ?.replace(/&nbsp;/g, ' ')
       ?.replace(/\u00A0/g, ' ')
       ?.replace(/\s+/g, ' ')
       ?.trim() || ''
   }
 
-  const prevLine = currentLyricIndex > 0 ? cleanText(lyrics[currentLyricIndex - 1]?.text) : ""
-  const currentLine = cleanText(lyrics[currentLyricIndex]?.text || "")
-  const nextLine = currentLyricIndex < lyrics.length - 1 ? cleanText(lyrics[currentLyricIndex + 1]?.text) : ""
+  const prevLine = currentLyricIndex > 0 ? cleanText(lrc[currentLyricIndex - 1]?.words) : ""
+  const currentLine = cleanText(lrc[currentLyricIndex]?.words || [])
+  const nextLine = currentLyricIndex < lrc.length - 1 ? cleanText(lrc[currentLyricIndex + 1]?.words) : ""
 
   return (
     <div className="space-y-2 py-4 text-center">

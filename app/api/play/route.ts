@@ -30,7 +30,7 @@ export async function GET(request: Request) {
     const randomIP = generateRandomIP();
     const randomUA = getRandomUserAgent();
 
-    const url = `https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?id=${id}&type=json&br=${br}`;
+    const url = `https://node.api.xfabe.com/api/wangyi/music?type=json&id=${id}&br=${br}`;
     const response = await fetch(url, {
       headers: {
         'X-Forwarded-For': randomIP,
@@ -40,17 +40,29 @@ export async function GET(request: Request) {
     });
     const data = await response.json()
     
+    // 檢查 API 回應是否成功
+    if (data.code !== 200 || !data.data) {
+      return NextResponse.json({ error: 'Music not found' }, { status: 404 });
+    }
+
+    // 轉換新格式為舊格式
+    const transformedData = {
+      code: data.code,
+      music_url: data.data.url,
+      title: data.data.name,
+      artist: data.data.artistsname,
+      album: data.data.album,
+      pic: data.data.picurl,
+      duration: data.data.duration
+    };
+    
     // 修改 music_url：僅保留副檔名前的內容
-    if (data.music_url) {
-      const m = data.music_url.match(/^(.*\.(?:mp3|wav|flac|mp4|m4a))/i);
-      if (m) data.music_url = m[1];
+    if (transformedData.music_url) {
+      const m = transformedData.music_url.match(/^(.*\.(?:mp3|wav|flac|mp4|m4a))/i);
+      if (m) transformedData.music_url = m[1];
     }
     
-    // 刪除 id 和 link 屬性
-    delete data.id;
-    delete data.link;
-    
-    return NextResponse.json(data)
+    return NextResponse.json(transformedData)
   } catch (error) {
     console.error('Error fetching playlist:', error)
     return NextResponse.json({ error: 'Failed to fetch playlist' }, { status: 500 })

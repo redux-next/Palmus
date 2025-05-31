@@ -25,7 +25,7 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
   const currentTime = usePlayerStore((state) => state.currentTime)
   const duration = usePlayerStore((state) => state.duration)
-  const lyrics = usePlayerStore((state) => state.lyrics)
+  const lrc = usePlayerStore((state) => state.lrc)
   const currentLyricIndex = usePlayerStore((state) => state.currentLyricIndex)
   const playNextSong = usePlayerStore((state) => state.playNextSong)
   const playPreviousSong = usePlayerStore((state) => state.playPreviousSong)
@@ -219,7 +219,7 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
         </div>
 
         {/* 歌詞卡片區塊，放在播放按鈕下方 */}
-        {lyrics.length > 0 && (
+        {lrc.length > 0 && (
           <div className="w-full flex justify-center mt-6 pb-6">
             <div className="relative w-full max-w-xl rounded-xl overflow-hidden">
               {/* Meshbg 作為背景 */}
@@ -229,7 +229,7 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
               {/* 歌詞卡片內容 */}
               <div className="relative z-10 rounded-xl shadow-lg px-6 py-4 border border-border">
                 <div className="flex flex-col items-center space-y-1 font-semibold">
-                  {lyrics
+                  {lrc
                     .slice(
                       Math.max(
                         0,
@@ -237,10 +237,9 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
                       ),
                       Math.max(
                         0,
-                        currentLyricIndex - 2
-                      ) + 5
+                        currentLyricIndex - 2                ) + 5
                     )
-                    .map((line, idx) => {
+                    .map((line: import('@/lib/playerStore').LyricLine, idx: number) => {
                       const realIdx = Math.max(0, currentLyricIndex - 2) + idx
                       const isCurrent = realIdx === currentLyricIndex
                       return (
@@ -252,7 +251,7 @@ const FullScreenPlayer = ({ onClose }: FullScreenPlayerProps) => {
                               : "text-white/30"
                           }`}
                         >
-                          {line.text}
+                          {line.words?.[0]?.word || ''}
                         </span>
                       )
                     })}

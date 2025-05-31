@@ -18,12 +18,13 @@ export async function GET(request: Request) {
         code: 200,
         data: {
           videoPlayUrl: data.data.videoPlayUrl,
-          needTransition: data.data.needTransition
+          needTransition: data.data.needTransition || false
         }
       })
     }
     
-    return NextResponse.json({ code: 200, data: {} })
+    // Return empty data if no dynamic cover available
+    return NextResponse.json({ code: 200, data: null })
   } catch (error) {
     console.error('Error fetching dynamic cover:', error)
     return NextResponse.json({ error: 'Failed to fetch dynamic cover' }, { status: 500 })

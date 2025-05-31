@@ -31,7 +31,7 @@ const BottomPlayer = () => {
   const removeLikedSong = usePlayerStore((state) => state.removeLikedSong)
   const currentTime = usePlayerStore((state) => state.currentTime)
   const duration = usePlayerStore((state) => state.duration)
-  const lyrics = usePlayerStore((state) => state.lyrics)
+  const lrc = usePlayerStore((state) => state.lrc)
   const currentLyricIndex = usePlayerStore((state) => state.currentLyricIndex)
 
   React.useEffect(() => {
@@ -101,10 +101,10 @@ const BottomPlayer = () => {
                 </span>
               </Marquee>
             </div>
-            {lyrics.length > 0 && currentLyricIndex >= 0 && (
+            {lrc.length > 0 && currentLyricIndex >= 0 && (
               <div>
                 <Marquee className="text-sm text-muted-foreground mt-0.5">
-                  {lyrics[currentLyricIndex]?.text}
+                  {lrc[currentLyricIndex]?.words?.[0]?.word || ''}
                 </Marquee>
               </div>
             )}

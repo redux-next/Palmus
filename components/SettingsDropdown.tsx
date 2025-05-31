@@ -117,6 +117,8 @@ export function SettingsDropdown() {
   const { theme, setTheme } = useTheme()
   const audioQuality = usePlayerStore((state) => state.audioQuality)
   const setAudioQuality = usePlayerStore((state) => state.setAudioQuality)
+  const showTranslatedLyrics = usePlayerStore((state) => state.showTranslatedLyrics)
+  const setShowTranslatedLyrics = usePlayerStore((state) => state.setShowTranslatedLyrics)
   const isDynamicColorEnabled = useColorStore((state) => state.isDynamicColorEnabled)
   const setDynamicColorEnabled = useColorStore((state) => state.setDynamicColorEnabled)
   const likedSongs = usePlayerStore((state) => state.likedSongs)
@@ -129,6 +131,7 @@ export function SettingsDropdown() {
     const settings = {
       theme,
       audioQuality,
+      showTranslatedLyrics,
       isDynamicColorEnabled,
       likedSongs,
       likedAlbums
@@ -168,6 +171,7 @@ export function SettingsDropdown() {
     likedAlbums.forEach(album => usePlayerStore.getState().removeLikedAlbum(album.id))
     setTheme('system')
     setAudioQuality(2)
+    setShowTranslatedLyrics(false)
     setDynamicColorEnabled(true)
   }
 
@@ -189,6 +193,7 @@ export function SettingsDropdown() {
   interface Settings {
     theme?: string;
     audioQuality?: number;
+    showTranslatedLyrics?: boolean;
     isDynamicColorEnabled?: boolean;
     likedSongs?: Array<Song>;
     likedAlbums?: Array<Album>;
@@ -209,6 +214,11 @@ export function SettingsDropdown() {
 
     if (settings.isDynamicColorEnabled && typeof settings.isDynamicColorEnabled !== 'boolean') {
       setErrorMessage('Invalid dynamic color setting')
+      return false
+    }
+
+    if (settings.showTranslatedLyrics && typeof settings.showTranslatedLyrics !== 'boolean') {
+      setErrorMessage('Invalid translated lyrics setting')
       return false
     }
 
@@ -284,6 +294,7 @@ export function SettingsDropdown() {
         const settings = JSON.parse(e.target?.result as string)
         if (settings.theme) setTheme(settings.theme)
         if (typeof settings.audioQuality === 'number') setAudioQuality(settings.audioQuality)
+        if (typeof settings.showTranslatedLyrics === 'boolean') setShowTranslatedLyrics(settings.showTranslatedLyrics)
         if (typeof settings.isDynamicColorEnabled === 'boolean') setDynamicColorEnabled(settings.isDynamicColorEnabled)
         
         if (Array.isArray(settings.likedSongs)) {
@@ -370,6 +381,19 @@ export function SettingsDropdown() {
               <Switch
                 checked={isDynamicColorEnabled}
                 onCheckedChange={setDynamicColorEnabled}
+              />
+            </div>
+          </DropdownMenuGroup>
+
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>Lyrics</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <div className="flex items-center justify-between px-2 py-1.5">
+              <span className="text-sm">Translation</span>
+              <Switch
+                checked={showTranslatedLyrics}
+                onCheckedChange={setShowTranslatedLyrics}
               />
             </div>
           </DropdownMenuGroup>

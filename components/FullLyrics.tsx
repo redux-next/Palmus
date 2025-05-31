@@ -20,9 +20,24 @@ interface FullLyricsProps {
   fps?: number
 }
 
+interface LyricLine {
+  start_time: number
+  end_time: number
+  words: Array<{
+    start_time: number
+    end_time: number
+    word: string
+  }>
+}
+
 interface Artist {
   id: string | number
   name: string
+}
+
+interface DynamicCoverData {
+  videoPlayUrl: string
+  needTransition: boolean
 }
 
 const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
@@ -31,7 +46,9 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
   const currentTime = usePlayerStore((state) => state.currentTime)
   const duration = usePlayerStore((state) => state.duration)
-  const lyrics = usePlayerStore((state) => state.lyrics)
+  const lrc = usePlayerStore((state) => state.lrc)
+  const tlyric = usePlayerStore((state) => state.tlyric)
+  const showTranslatedLyrics = usePlayerStore((state) => state.showTranslatedLyrics)
   const currentLyricIndex = usePlayerStore((state) => state.currentLyricIndex)
   const playNextSong = usePlayerStore((state) => state.playNextSong)
   const playPreviousSong = usePlayerStore((state) => state.playPreviousSong)
@@ -42,6 +59,13 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   const isMuted = usePlayerStore((state) => state.isMuted)
   const setVolume = usePlayerStore((state) => state.setVolume)
   const [showVolumeSlider, setShowVolumeSlider] = useState(false)
+  
+  // Modified dynamic cover states
+  const [dynamicCover, setDynamicCover] = useState<DynamicCoverData | null>(null)
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+  const [isLargeScreen, setIsLargeScreen] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  
   const lyricsContainerRef = useRef<HTMLDivElement>(null)
   const lyricsRefs = useRef<(HTMLDivElement | null)[]>([])
   const lyricHeightsRef = useRef<{ [key: number]: number }>({})
@@ -63,16 +87,28 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
 
   // Memoize expensive calculations
   const getVisibleLyrics = useMemo(() => {
-    if (!lyrics || lyrics.length === 0) return []
+    if (!lrc || lrc.length === 0) return []
 
     const startIndex = Math.max(0, currentLyricIndex - 5)
-    const endIndex = Math.min(lyrics.length, currentLyricIndex + 6)
+    const endIndex = Math.min(lrc.length, currentLyricIndex + 6)
 
-    return lyrics.slice(startIndex, endIndex).map((line, index) => ({
+    return lrc.slice(startIndex, endIndex).map((line: import('@/lib/playerStore').LyricLine, index: number) => ({
       ...line,
       originalIndex: startIndex + index
     }))
-  }, [lyrics, currentLyricIndex])
+  }, [lrc, currentLyricIndex])
+
+  // Helper function to get translated lyric for a given index
+  const getTranslatedLyric = useCallback((index: number): string => {
+    if (!tlyric || tlyric.length === 0) return ''
+    
+    // Find the corresponding translated lyric by index
+    if (index < tlyric.length && tlyric[index]?.words?.[0]?.word) {
+      return tlyric[index].words[0].word
+    }
+    
+    return ''
+  }, [tlyric])
 
   // Calculate line offset with proper spacing
   const calculateLineOffset = useCallback((originalIndex: number) => {
@@ -88,7 +124,7 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
 
     for (let i = start; i < end; i++) {
       const height = lyricHeightsRef.current[i] ||
-        (window.innerWidth < 1024 ? 36 : 48)
+        (window.innerWidth < 1024 ? 48 : 64)
       offset += height + LINE_GAP
     }
 
@@ -115,7 +151,7 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
     const measureHeights = debounce(() => {
       cancelAnimationFrame(animationFrameRef.current)
       animationFrameRef.current = requestAnimationFrame(() => {
-        getVisibleLyrics.forEach((line) => {
+        getVisibleLyrics.forEach((line: LyricLine & { originalIndex: number }) => {
           const element = lyricsRefs.current[line.originalIndex]
           if (element) {
             const height = element.getBoundingClientRect().height
@@ -145,7 +181,7 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   // Reset measurements when lyrics change
   useEffect(() => {
     lyricHeightsRef.current = {}
-  }, [lyrics])
+  }, [lrc])
 
   // Skip animation when rapidly changing lyrics
   const shouldAnimate = useMemo(() => {
@@ -196,13 +232,74 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   }
 
   const visibleLyricsWithStyles = useMemo(() => {
-    return getVisibleLyrics.map(line => ({
+    return getVisibleLyrics.map((line: LyricLine & { originalIndex: number }) => ({
       ...line,
       offset: calculateLineOffset(line.originalIndex),
       opacity: calculateOpacity(line.originalIndex),
       blur: calculateBlur(line.originalIndex),
     }))
   }, [getVisibleLyrics, calculateLineOffset, calculateOpacity, calculateBlur])
+
+  // Check screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024)
+    }
+    
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
+    return () => window.removeEventListener('resize', checkScreenSize)
+  }, [])
+
+  // Fetch dynamic cover
+  useEffect(() => {
+    if (!open || !currentSong?.id || !isLargeScreen) {
+      setDynamicCover(null)
+      setIsVideoLoaded(false)
+      return
+    }
+
+    const fetchDynamicCover = async () => {
+      setIsVideoLoaded(false)
+      try {
+        const response = await fetch(`/api/image/dynamic?id=${currentSong.id}`)
+        const data = await response.json()
+        
+        if (data.code === 200 && data.data?.videoPlayUrl) {
+          setDynamicCover({
+            videoPlayUrl: data.data.videoPlayUrl,
+            needTransition: data.data.needTransition || false
+          })
+        } else {
+          setDynamicCover(null)
+        }
+      } catch (error) {
+        console.error('Failed to fetch dynamic cover:', error)
+        setDynamicCover(null)
+      }
+    }
+
+    fetchDynamicCover()
+  }, [open, currentSong?.id, isLargeScreen])
+
+  // Handle video playback sync with audio
+  useEffect(() => {
+    if (!videoRef.current || !dynamicCover || !isVideoLoaded) return
+
+    if (isPlaying) {
+      videoRef.current.play().catch(e => console.error('Video autoplay failed:', e))
+    } else {
+      videoRef.current.pause()
+    }
+  }, [isPlaying, dynamicCover, isVideoLoaded])
+
+  // Handle video load event
+  const handleVideoLoaded = useCallback(() => {
+    setIsVideoLoaded(true)
+    if (isPlaying && videoRef.current) {
+      videoRef.current.play().catch(e => console.error('Video play failed:', e))
+    }
+  }, [isPlaying])
 
   return (
     <AnimatePresence>
@@ -255,15 +352,39 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
                 </div>
               </div>
 
-              {/* Desktop layout */}
+              {/* Desktop layout with dynamic cover */}
               <div className="hidden lg:flex lg:flex-col items-center lg:space-y-8">
-                <div className="w-full lg:h-full max-h-[32.5rem] max-w-[32.5rem]">
+                <div className="w-full lg:h-full max-h-[32.5rem] max-w-[32.5rem] relative">
+                  {/* Always show static image as base */}
                   <img
                     src={imageUrl || "/placeholder.svg"}
                     alt={currentSong?.name || "Album Art"}
                     className="rounded-2xl shadow-2xl object-cover w-full h-full"
                   />
+                  
+                  {/* Video overlay when loaded */}
+                  {dynamicCover && (
+                    <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                      <video
+                        ref={videoRef}
+                        src={dynamicCover.videoPlayUrl}
+                        loop={dynamicCover.needTransition}
+                        muted
+                        playsInline
+                        preload="auto"
+                        className={`w-full h-full object-cover transition-opacity duration-500 ${
+                          isVideoLoaded ? 'opacity-100' : 'opacity-0'
+                        }`}
+                        onLoadedData={handleVideoLoaded}
+                        onError={() => {
+                          console.error('Video failed to load')
+                          setIsVideoLoaded(false)
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
+                
                 <div className="text-left space-y-2 w-full">
                   <h2 className="text-xl lg:text-xl font-bold text-white">{currentSong?.name || ""}</h2>
                   <p className="text-xl lg:text-xl text-white/70">
@@ -360,8 +481,9 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
               >
                 <AnimatePresence>
                   {visibleLyricsWithStyles.length > 0 ? (
-                    visibleLyricsWithStyles.map((line) => {
-                      const { originalIndex, text, offset, opacity, blur } = line
+                    visibleLyricsWithStyles.map((line: LyricLine & { originalIndex: number; offset: number; opacity: number; blur: number }) => {
+                      const { originalIndex, words, offset, opacity, blur } = line
+                      const text = words?.[0]?.word || ''
                       return (
                         <motion.div
                           key={`${originalIndex}-${text}`}
@@ -383,7 +505,7 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
                             stiffness: 80,
                             damping: 18,
                             mass: 3,
-                            delay: Math.abs(originalIndex - currentLyricIndex) * 0.1
+                            delay: Math.abs(originalIndex - currentLyricIndex + 5) * 0.1
                           } : { duration: 0 }}
                           className="line absolute left-0 right-0 px-4"
                           style={{
@@ -399,7 +521,19 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
                           >
                             {text}
                           </div>
-                          <div className="line-sub"></div>
+                          <div className="line-sub">
+                            {showTranslatedLyrics && getTranslatedLyric(originalIndex) && (
+                              <div
+                                className={`text-lg lg:text-xl font-medium text-left whitespace-pre-wrap break-words max-w-full transition-colors duration-500 mt-1 ${originalIndex === currentLyricIndex
+                                    ? "text-white/80"
+                                    : "text-white/30"
+                                  }`}
+                                style={{ lineHeight: 1.2 }}
+                              >
+                                {getTranslatedLyric(originalIndex)}
+                              </div>
+                            )}
+                          </div>
                         </motion.div>
                       )
                     })

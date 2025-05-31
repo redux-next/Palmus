@@ -94,6 +94,12 @@
   src: url(/assets/sf-pro.woff2) format('woff2');
 }
 
+@font-face {
+  font-family: 'PingFang SC';
+  src: url(/assets/PingFang-Bold) format('ttf');
+  font-weight: bold;
+}
+
 [data-sidebar-collapsed="true"] {
   --sidebar-width: 7rem;
 }
@@ -144,7 +150,11 @@
 }
 
 .full-player {
-  font-family: 'SF-Pro', sans-serif;
+  font-family: 'SF-Pro', 'PingFang SC', system-ui, sans-serif;
+}
+
+.line-sub {
+  font-family: 'PingFang SC', 'SF-Pro', sans-serif;
 }
 
 nextjs-portal {
