@@ -47,6 +47,7 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   const currentTime = usePlayerStore((state) => state.currentTime)
   const duration = usePlayerStore((state) => state.duration)
   const lrc = usePlayerStore((state) => state.lrc)
+  const yrc = usePlayerStore((state) => state.yrc)
   const tlyric = usePlayerStore((state) => state.tlyric)
   const showTranslatedLyrics = usePlayerStore((state) => state.showTranslatedLyrics)
   const currentLyricIndex = usePlayerStore((state) => state.currentLyricIndex)
