@@ -23,7 +23,6 @@
     "framer-motion": "^12.4.0",
     "gsap": "^3.13.0",
     "hls.js": "^1.6.9",
-    "liquid-glass-react": "^1.1.1",
     "lucide-react": "^0.473.0",
     "mesh-gradient.js": "^0.0.5",
     "native-lyrics-tools": "^1.0.3",
