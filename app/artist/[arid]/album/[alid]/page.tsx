@@ -35,6 +35,7 @@ type Song = {
 
 export default function AlbumPage() {
   const params = useParams()
+  const albumId = params?.alid as string
   const [songs, setSongs] = useState<Song[]>([])
   const [album, setAlbum] = useState<Album | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -48,8 +49,10 @@ export default function AlbumPage() {
 
   useEffect(() => {
     const fetchAlbumData = async () => {
+      if (!albumId) return
+      
       try {
-        const response = await fetch(`/api/artist/album?id=${params.alid}`)
+        const response = await fetch(`/api/artist/album?id=${albumId}`)
         const data = await response.json()
         setSongs(data.songs || [])
         if (data.album) {
@@ -72,10 +75,10 @@ export default function AlbumPage() {
       }
     }
 
-    if (params.alid) {
+    if (albumId) {
       void fetchAlbumData()
     }
-  }, [params.alid])
+  }, [albumId])
 
   const handleSongClick = (song: Song) => {
     setCurrentSong({
@@ -94,9 +97,9 @@ export default function AlbumPage() {
   }
 
   const handlePlayAlbum = () => {
-    if (songs.length > 0) {
+    if (songs.length > 0 && albumId) {
       // 設置當前專輯
-      setCurrentAlbum(Number(params.alid), songs.map(song => ({
+      setCurrentAlbum(Number(albumId), songs.map(song => ({
         id: song.id,
         name: song.name,
         artists: song.ar.map(artist => artist.name).join('/'),
@@ -111,13 +114,13 @@ export default function AlbumPage() {
 
   const handleToggleLike = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (!album) return
+    if (!album || !albumId) return
 
-    if (isLikedAlbum(Number(params.alid))) {
-      removeLikedAlbum(Number(params.alid))
+    if (isLikedAlbum(Number(albumId))) {
+      removeLikedAlbum(Number(albumId))
     } else {
       addLikedAlbum({
-        id: Number(params.alid),
+        id: Number(albumId),
         name: album.name,
         artists: [{
           id: album.artist.id,
@@ -203,12 +206,12 @@ export default function AlbumPage() {
               <button
                 onClick={handleToggleLike}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full border ${
-                  isLikedAlbum(Number(params.alid))
+                  albumId && isLikedAlbum(Number(albumId))
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-background hover:bg-accent/50'
                 }`}
               >
-                {isLikedAlbum(Number(params.alid)) ? (
+                {albumId && isLikedAlbum(Number(albumId)) ? (
                   <>
                     <CircleCheck size={20} />
                     <span>In Library</span>

@@ -56,6 +56,7 @@ type TabData<T> = {
 export default function GenrePage() {
   const router = useRouter()
   const params = useParams()
+  const genreId = params?.genreid as string
   const [genre, setGenre] = useState<Genre | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const { setCurrentSong } = usePlayerStore()
@@ -84,7 +85,7 @@ export default function GenrePage() {
   })
 
   const fetchData = async (type: string, cursor: number) => {
-    const response = await fetch(`/api/genre/list?id=${params.genreid}&type=${type}&offset=${cursor}`)
+    const response = await fetch(`/api/genre/list?id=${genreId}&type=${type}&offset=${cursor}`)
     const data = await response.json()
     return data
   }
@@ -178,10 +179,10 @@ export default function GenrePage() {
   useEffect(() => {
     resetState()
 
-    if (params.genreid) {
+    if (genreId) {
       const fetchGenreData = async () => {
         try {
-          const response = await fetch(`/api/genre?id=${params.genreid}`)
+          const response = await fetch(`/api/genre?id=${genreId}`)
           const data = await response.json()
           if (data.code === 200) {
             setGenre(data.data)
@@ -202,7 +203,7 @@ export default function GenrePage() {
     return () => {
       resetState()
     }
-  }, [params.genreid])
+  }, [genreId])
 
   // Infinite scroll: load more data when in view
   useEffect(() => {

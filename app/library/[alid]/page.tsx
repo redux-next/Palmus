@@ -44,6 +44,7 @@ type Song = {
 
 export default function LibraryAlbumPage() {
   const params = useParams()
+  const albumId = params?.alid as string
   const [songs, setSongs] = useState<Song[]>([])
   const [album, setAlbum] = useState<Album | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -56,7 +57,7 @@ export default function LibraryAlbumPage() {
   } = usePlayerStore()
 
   // 獲取真實的專輯ID（移除藝術家ID部分）
-  const realAlbumId = params.alid?.toString().split('_')[1] || params.alid
+  const realAlbumId = albumId?.toString().split('_')[1] || albumId
 
   useEffect(() => {
     const fetchAlbumData = async () => {
@@ -214,12 +215,12 @@ export default function LibraryAlbumPage() {
               <button
                 onClick={handleToggleLike}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full border ${
-                  isLikedAlbum(Number(params.alid))
+                  albumId && isLikedAlbum(Number(albumId))
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-background hover:bg-accent/50'
                 }`}
               >
-                {isLikedAlbum(Number(params.alid)) ? (
+                {albumId && isLikedAlbum(Number(albumId)) ? (
                   <>
                     <CircleCheck size={20} />
                     <span>In Library</span>

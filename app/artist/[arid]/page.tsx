@@ -47,6 +47,7 @@ const getTranslatedType = (type: string) => {
 
 export default function ArtistPage() {
   const params = useParams()
+  const artistId = params?.arid as string
   const [artist, setArtist] = useState<Artist | null>(null)
   const [topSongs, setTopSongs] = useState<Song[]>([])
   const [albums, setAlbums] = useState<Album[]>([])
@@ -78,9 +79,9 @@ export default function ArtistPage() {
     const fetchArtistData = async () => {
       try {
         const [artistResponse, popularResponse, albumsResponse] = await Promise.all([
-          fetch(`/api/artist?id=${params.arid}`),
-          fetch(`/api/artist/popular?id=${params.arid}`),
-          fetch(`/api/artist/album/list?id=${params.arid}`),
+          fetch(`/api/artist?id=${artistId}`),
+          fetch(`/api/artist/popular?id=${artistId}`),
+          fetch(`/api/artist/album/list?id=${artistId}`),
         ])
 
         const artistData = await artistResponse.json()
@@ -107,10 +108,10 @@ export default function ArtistPage() {
       }
     }
 
-    if (params.arid) {
+    if (artistId) {
       void fetchArtistData()
     }
-  }, [params.arid])
+  }, [artistId])
 
   const handleSongClick = (song: Song) => {
     setCurrentSong({
@@ -315,7 +316,7 @@ export default function ArtistPage() {
         <div className="flex justify-between items-center mx-4">
           <h2 className="text-xl font-semibold">Albums</h2>
           <Link
-            href={`/artist/${params.arid}/album`}
+            href={`/artist/${artistId}/album`}
             className="text-sm text-muted-foreground hover:text-primary hover:underline"
           >
             See More
@@ -326,7 +327,7 @@ export default function ArtistPage() {
             {albums.map((album) => (
               <Link
                 key={album.id}
-                href={`/artist/${params.arid}/album/${album.id}`}
+                href={`/artist/${artistId}/album/${album.id}`}
                 className="bg-card text-card-foreground p-4 rounded-2xl shadow border shrink-0 w-[200px] hover:bg-accent/50 transition-colors"
               >
                 <div className="aspect-square">

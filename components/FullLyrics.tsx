@@ -8,6 +8,8 @@ import { Slider } from "@/components/ui/slider"
 import { useState, useCallback, useEffect, useRef, useLayoutEffect, useMemo } from "react"
 import Link from "next/link"
 import React from "react"
+import KaraokeWord from "./KaraokeWord"
+import Hls from "hls.js"
 
 interface AudioPlayerInterface {
   seek: (time: number) => void
@@ -36,8 +38,13 @@ interface Artist {
 }
 
 interface DynamicCoverData {
+  source: "apple-music" | "fallback-api"
   videoPlayUrl: string
-  needTransition: boolean
+  needTransition?: boolean
+  albumId?: string
+  albumName?: string
+  artistName?: string
+  albumArt?: string
 }
 
 const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
@@ -66,6 +73,7 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   const [isLargeScreen, setIsLargeScreen] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const hlsRef = useRef<Hls | null>(null)
   
   const lyricsContainerRef = useRef<HTMLDivElement>(null)
   const lyricsRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -255,6 +263,7 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
   // Fetch dynamic cover
   useEffect(() => {
     if (!open || !currentSong?.id || !isLargeScreen) {
+      console.log('Skipping dynamic cover fetch:', { open, songId: currentSong?.id, isLargeScreen })
       setDynamicCover(null)
       setIsVideoLoaded(false)
       return
@@ -262,16 +271,31 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
 
     const fetchDynamicCover = async () => {
       setIsVideoLoaded(false)
+      console.log('Fetching dynamic cover for song:', currentSong.id, currentSong.album.name)
+      
       try {
-        const response = await fetch(`/api/image/dynamic?id=${currentSong.id}`)
+        const response = await fetch(`/api/image/dynamic?id=${currentSong.id}&name=${encodeURIComponent(currentSong.name)}&artist=${encodeURIComponent(currentSong.artists[0].name)}`)
         const data = await response.json()
         
-        if (data.code === 200 && data.data?.videoPlayUrl) {
+        console.log('Dynamic cover API response:', data)
+        
+        if (data.code === 200 && data.videoPlayUrl) {
+          // Support both new format (direct response) and old format (data.data)
+          const coverData = data.videoPlayUrl ? data : data.data
+          
+          console.log('Setting dynamic cover data:', coverData)
+          
           setDynamicCover({
-            videoPlayUrl: data.data.videoPlayUrl,
-            needTransition: data.data.needTransition || false
+            source: coverData.source || "fallback-api",
+            videoPlayUrl: coverData.videoPlayUrl,
+            needTransition: coverData.needTransition || false,
+            albumId: coverData.albumId,
+            albumName: coverData.albumName,
+            artistName: coverData.artistName,
+            albumArt: coverData.albumArt
           })
         } else {
+          console.log('No video URL found in response')
           setDynamicCover(null)
         }
       } catch (error) {
@@ -283,24 +307,121 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
     fetchDynamicCover()
   }, [open, currentSong?.id, isLargeScreen])
 
-  // Handle video playback sync with audio
+  // Handle video playback sync with audio and HLS support
+  useEffect(() => {
+    if (!videoRef.current || !dynamicCover) return
+
+    const video = videoRef.current
+    
+    console.log('Setting up video with:', {
+      source: dynamicCover.source,
+      videoUrl: dynamicCover.videoPlayUrl,
+      isLoaded: isVideoLoaded,
+      isPlaying: isPlaying
+    })
+    
+    // Clean up existing HLS instance
+    if (hlsRef.current) {
+      hlsRef.current.destroy()
+      hlsRef.current = null
+    }
+
+    // Handle m3u8 streams for Apple Music
+    if (dynamicCover.source === "apple-music" && dynamicCover.videoPlayUrl.includes('.m3u8')) {
+      console.log('Setting up HLS for m3u8 stream')
+      if (Hls.isSupported()) {
+        hlsRef.current = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true,
+          backBufferLength: 90
+        })
+        hlsRef.current.loadSource(dynamicCover.videoPlayUrl)
+        hlsRef.current.attachMedia(video)
+        
+        hlsRef.current.on(Hls.Events.MANIFEST_PARSED, () => {
+          console.log('HLS manifest parsed successfully')
+          setIsVideoLoaded(true)
+          if (isPlaying) {
+            video.play().catch(e => console.error('HLS video autoplay failed:', e))
+          }
+        })
+
+        hlsRef.current.on(Hls.Events.ERROR, (event, data) => {
+          console.error('HLS error:', data)
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                console.log('Fatal network error encountered, try to recover')
+                hlsRef.current?.startLoad()
+                break
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.log('Fatal media error encountered, try to recover')
+                hlsRef.current?.recoverMediaError()
+                break
+              default:
+                console.log('Fatal error, cannot recover')
+                hlsRef.current?.destroy()
+                break
+            }
+          }
+        })
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        // Safari native HLS support
+        console.log('Using Safari native HLS support')
+        video.src = dynamicCover.videoPlayUrl
+        video.addEventListener('loadeddata', () => {
+          console.log('Safari HLS video loaded')
+          setIsVideoLoaded(true)
+        })
+      } else {
+        console.error('HLS not supported in this browser')
+      }
+    } else {
+      // Handle regular MP4 videos for fallback API
+      console.log('Setting up regular video for MP4')
+      video.src = dynamicCover.videoPlayUrl
+      video.addEventListener('loadeddata', () => {
+        console.log('MP4 video loaded')
+        setIsVideoLoaded(true)
+      })
+    }
+
+    return () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy()
+        hlsRef.current = null
+      }
+    }
+  }, [dynamicCover])
+
+  // Separate effect for handling play/pause state
   useEffect(() => {
     if (!videoRef.current || !dynamicCover || !isVideoLoaded) return
 
+    const video = videoRef.current
+    
     if (isPlaying) {
-      videoRef.current.play().catch(e => console.error('Video autoplay failed:', e))
+      video.play().catch(e => console.error('Video play failed:', e))
     } else {
-      videoRef.current.pause()
+      video.pause()
     }
-  }, [isPlaying, dynamicCover, isVideoLoaded])
+  }, [isPlaying, isVideoLoaded, dynamicCover])
 
-  // Handle video load event
+  // Handle video load event (fallback for when loadeddata events don't trigger)
   const handleVideoLoaded = useCallback(() => {
+    console.log('Video loaded via onLoadedData event')
     setIsVideoLoaded(true)
-    if (isPlaying && videoRef.current) {
-      videoRef.current.play().catch(e => console.error('Video play failed:', e))
+  }, [])
+
+  // Cleanup HLS on unmount
+  useEffect(() => {
+    return () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy()
+        hlsRef.current = null
+      }
     }
-  }, [isPlaying])
+  }, [])
 
   return (
     <AnimatePresence>
@@ -368,8 +489,7 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
                     <div className="absolute inset-0 rounded-2xl overflow-hidden">
                       <video
                         ref={videoRef}
-                        src={dynamicCover.videoPlayUrl}
-                        loop={dynamicCover.needTransition}
+                        loop={true}
                         muted
                         playsInline
                         preload="auto"
@@ -520,7 +640,30 @@ const FullLyrics = ({ open, onClose, imageUrl, fps = 30 }: FullLyricsProps) => {
                               }`}
                             style={{ lineHeight: 1.3 }}
                           >
-                            {text}
+                            {/* 優化的 YRC 卡拉OK渲染 */}
+                            {yrc && yrc[originalIndex]?.words && yrc[originalIndex].words.length > 0 ? (
+                              originalIndex === currentLyricIndex ? (
+                                /* 當前行：使用卡拉OK效果 */
+                                yrc[originalIndex].words.map((word, wordIndex) => {
+                                  const isLastWord = wordIndex === yrc[originalIndex].words.length - 1
+                                  return (
+                                    <React.Fragment key={`${originalIndex}-${wordIndex}-${word.word}`}>
+                                      <KaraokeWord
+                                        word={word}
+                                        lineIsActive={true}
+                                      />
+                                      {!isLastWord && ' '}
+                                    </React.Fragment>
+                                  )
+                                })
+                              ) : (
+                                /* 非當前行：顯示完整文字但不使用卡拉OK效果 */
+                                yrc[originalIndex].words.map(word => word.word).join(' ')
+                              )
+                            ) : (
+                              /* 沒有 YRC 數據或數據不完整時使用普通 LRC 文字 */
+                              text
+                            )}
                           </div>
                           <div className="line-sub">
                             {showTranslatedLyrics && getTranslatedLyric(originalIndex) && (

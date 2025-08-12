@@ -24,11 +24,15 @@ export type LyricLine = {
 }
 
 export type YRCLine = {
-  startTime: number
-  endTime: number
+  startTime?: number  // 保持向後兼容
+  endTime?: number    // 保持向後兼容
+  start_time?: number // 新的字段名
+  end_time?: number   // 新的字段名
   words: Array<{
-    startTime: number
-    endTime: number
+    startTime?: number  // 保持向後兼容
+    endTime?: number    // 保持向後兼容
+    start_time: number  // 新的字段名
+    end_time: number    // 新的字段名
     word: string
   }>
 }

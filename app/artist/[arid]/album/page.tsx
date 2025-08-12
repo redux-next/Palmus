@@ -29,6 +29,7 @@ const getTranslatedType = (type: string) => {
 
 export default function AlbumListPage() {
   const params = useParams()
+  const artistId = params?.arid as string
   const [albums, setAlbums] = useState<Album[]>([])
   const [artist, setArtist] = useState<Artist | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -49,17 +50,17 @@ export default function AlbumListPage() {
   }, [isLoading, hasMore])
 
   const fetchAlbums = async () => {
-    if (!params.arid || isLoading) return
+    if (!artistId || isLoading) return
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/artist/album/list?id=${params.arid}&limit=${limit}&offset=${offset}`)
+      const response = await fetch(`/api/artist/album/list?id=${artistId}&limit=${limit}&offset=${offset}`)
       const data = await response.json()
       
       // 確保 data 和必要的屬性存在
       if (data && data.artist && offset === 0) {
         setArtist({
           name: data.artist.name || 'Unknown Artist',
-          id: data.artist.id || params.arid,
+          id: data.artist.id || artistId,
           picUrl: data.artist.picUrl || '',
           albumSize: data.artist.albumSize || 0
         })
@@ -80,7 +81,7 @@ export default function AlbumListPage() {
 
   useEffect(() => {
     void fetchAlbums()
-  }, [params.arid, offset])
+  }, [artistId, offset])
 
   if (!artist) {
     return (
@@ -115,7 +116,7 @@ export default function AlbumListPage() {
             ref={index === albums.length - 1 ? lastAlbumRef : undefined}
             className="bg-card text-card-foreground p-4 rounded-2xl shadow border cursor-pointer hover:bg-accent/50"
           >
-            <Link href={`/artist/${params.arid}/album/${album.id}`}>
+            <Link href={`/artist/${artistId}/album/${album.id}`}>
               <div className="group-hover:shadow-lg transition-shadow duration-300">
                 <div className="relative aspect-square mb-2">
                   <img
