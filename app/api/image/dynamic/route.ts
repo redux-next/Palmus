@@ -9,6 +9,19 @@ interface iTunesSearchResult {
 }
 
 /**
+ * Custom URL encoding for iTunes Search API
+ * Replaces spaces with '+' and encodes all characters except: letters, numbers, periods (.), dashes (-), underscores (_), and asterisks (*)
+ */
+function encodeForItunes(str: string): string {
+    return str.replace(/[^a-zA-Z0-9.\-_*]/g, (char) => {
+        if (char === ' ') {
+            return '+';
+        }
+        return encodeURIComponent(char);
+    });
+}
+
+/**
  * This API route fetches dynamic song artwork.
  * It uses iTunes Search API to quickly find the album ID, then fetches the dynamic video.
  * If the Apple Music API fails or doesn't find the artwork,
@@ -35,7 +48,7 @@ export async function GET(request: NextRequest) {
             console.log(`Attempting to fetch from iTunes Search API with song: "${songName}" (will match against artist: "${artist}" if provided)`);
 
             // Build iTunes API query (only use song name for broader search)
-            const encodedQuery = encodeURIComponent(songName);
+            const encodedQuery = encodeForItunes(songName);
             
             // Call iTunes Search API without limit to get more results
             const itunesResponse = await fetch(
