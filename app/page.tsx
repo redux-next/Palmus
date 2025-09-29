@@ -377,6 +377,7 @@ export default function Home() {
           )}
         </ScrollArea>
       </section>
+      <h3>Developed By GYANAM & KESHAV</h3>
     </div>
   )
 }
